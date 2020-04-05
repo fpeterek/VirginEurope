@@ -5,7 +5,7 @@ import org.fpeterek.virgineurope.orm.Table;
 
 public class AircraftModel extends Table {
 
-  private static String table_name = "aircraft_mode";
+  private static String table_name = "aircraft_model";
 
   private static Attribute createAttribute(String attr) {
     return new Attribute(attr, table_name);

@@ -1,13 +1,27 @@
 package org.fpeterek.virgineurope;
 
 import org.fpeterek.virgineurope.orm.Database;
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Select;
 
 public class Main {
 
   public static void main(String[] args) {
     System.out.println("Hello, World!");
 
-    try {
+    var select = Select
+            .from(VU.operatedFlight)
+            .join(VU.aircraft)
+              .on(VU.operatedFlight.aircraftIdentifier
+                      .eq(VU.aircraft.identifier))
+            .join(VU.aircraftModel)
+              .on(VU.aircraft.modelDesignator
+                      .eq(VU.aircraftModel.designator))
+            .where(VU.aircraft.modelDesignator.eq("CONC"));
+
+    System.out.println(select);
+
+    /*try {
       Database db = new Database();
       var res = db.select(Airport.class);
       res.forEach(System.out::println);
@@ -15,7 +29,7 @@ public class Main {
       System.out.println(e.getMessage());
       e.printStackTrace();
       System.out.println("Zpíčená java kurva jasdffioasdfjop");
-    }
+    }*/
 
   }
 

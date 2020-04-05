@@ -20,7 +20,7 @@ public class Database {
     );
   }
 
-  public <T extends Entity> List<T> select(Class<T> _class) throws SQLException {
+  /*public <T extends Entity> List<T> select(Class<T> _class) throws SQLException {
     var sm = conn.createStatement();
     var res = sm.executeQuery("select * from " + _class.getSimpleName());
 
@@ -31,7 +31,7 @@ public class Database {
     } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
       return null;
     }
-  }
+  }*/
 
   /*public <T extends Entity> List<T> select(Class<T> _class) throws SQLException {
     var sm = conn.createStatement();

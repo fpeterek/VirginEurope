@@ -4,9 +4,29 @@ import org.fpeterek.virgineurope.orm.BooleanExpr;
 import org.fpeterek.virgineurope.orm.Table;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Select {
+
+  public class JoinObject {
+
+    private Select select;
+    private Table table;
+    private JoinType joinType;
+
+    protected JoinObject(Select sel, Table t, JoinType type) {
+      select = sel;
+      table = t;
+      joinType = type;
+    }
+
+    public Select on(BooleanExpr onCond) {
+      select.addJoin(new Join(table, joinType, onCond));
+      return select;
+    }
+
+  }
 
   private enum JoinType {
     Inner("JOIN"), Left("LEFT JOIN"), Right("RIGHT JOIN"), Cartesian("CROSS JOIN");
@@ -36,38 +56,38 @@ public class Select {
   }
 
   Table fromTable;
-  List<Join> joins;
+  List<Join> joins = new ArrayList<>();
   BooleanExpr cond;
 
   private Select() { }
 
-  static Select from(Table table) {
+  public static Select from(Table table) {
     var sel = new Select();
     sel.fromTable = table;
     return sel;
   }
 
-  Select join(Table table, BooleanExpr on) {
-    joins.add(new Join(table, JoinType.Inner, on));
-    return this;
+  private void addJoin(Join j) {
+    joins.add(j);
   }
 
-  Select leftJoin(Table table, BooleanExpr on) {
-    joins.add(new Join(table, JoinType.Left, on));
-    return this;
+  public JoinObject join(Table table) {
+    return new JoinObject(this, table, JoinType.Inner);
   }
 
-  Select rightJoin(Table table, BooleanExpr on) {
-    joins.add(new Join(table, JoinType.Right, on));
-    return this;
+  public JoinObject leftJoin(Table table) {
+    return new JoinObject(this, table, JoinType.Left);
   }
 
-  Select cartesianJoin(Table table, BooleanExpr on) {
-    joins.add(new Join(table, JoinType.Cartesian, on));
-    return this;
+  public JoinObject rightJoin(Table table) {
+    return new JoinObject(this, table, JoinType.Right);
   }
 
-  Select where(BooleanExpr condition) {
+  public JoinObject cartesianJoin(Table table) {
+    return new JoinObject(this, table, JoinType.Cartesian);
+  }
+
+  public Select where(BooleanExpr condition) {
     cond = condition;
     return this;
   }
@@ -87,8 +107,14 @@ public class Select {
       sb.append(" WHERE ").append(cond.toString());
     }
 
+    sb.append(";");
+
     return sb.toString();
 
   }
 
+  @Override
+  public String toString() {
+    return build();
+  }
 }

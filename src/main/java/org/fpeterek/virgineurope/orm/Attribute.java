@@ -5,7 +5,7 @@ public class Attribute {
   public String table;
 
   public String fullName() {
-    return String.format("%s.%s", name, table);
+    return String.format("%s.%s", table, name);
   }
 
   public Attribute(String attrName, String tableName) {
@@ -34,28 +34,32 @@ public class Attribute {
   }
 
   public BooleanExpr eq(String other) {
-    return new BooleanExpr(fullName(), "=", other);
+    return new BooleanExpr(fullName(), "=", quote(other));
   }
 
   public BooleanExpr lt(String other) {
-    return new BooleanExpr(fullName(), "<", other);
+    return new BooleanExpr(fullName(), "<", quote(other));
   }
 
   public BooleanExpr lte(String other) {
-    return new BooleanExpr(fullName(), "<=", other);
+    return new BooleanExpr(fullName(), "<=", quote(other));
   }
 
   public BooleanExpr gt(String other) {
-    return new BooleanExpr(fullName(), ">", other);
+    return new BooleanExpr(fullName(), ">", quote(other));
   }
 
   public BooleanExpr gte(String other) {
-    return new BooleanExpr(fullName(), ">=", other);
+    return new BooleanExpr(fullName(), ">=", quote(other));
   }
 
   public BooleanExpr like(String other) {
-    return new BooleanExpr(fullName(), "LIKE", other);
+    return new BooleanExpr(fullName(), "LIKE", quote(other));
 
+  }
+
+  private String quote(String str) {
+    return String.format("'%s'", str);
   }
 
 
