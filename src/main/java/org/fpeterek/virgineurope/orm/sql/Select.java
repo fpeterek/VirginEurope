@@ -6,6 +6,7 @@ import org.fpeterek.virgineurope.orm.Table;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Select {
 
@@ -58,6 +59,10 @@ public class Select {
   Table fromTable;
   List<Join> joins = new ArrayList<>();
   BooleanExpr cond;
+
+  public List<Table> joinTables() {
+    return joins.stream().map(join -> join.table).collect(Collectors.toList());
+  }
 
   private Select() { }
 

@@ -4,17 +4,17 @@ import org.fpeterek.virgineurope.orm.tables.*;
 
 public class VU {
 
-  public static Aircraft aircraft = new Aircraft();
-  public static AircraftModel aircraftModel = new AircraftModel();
-  public static Airport airport = new Airport();
-  public static Crew crew = new Crew();
-  public static CrewOnFlight crewOnFlight = new CrewOnFlight();
-  public static Flight flight = new Flight();
-  public static OperatedFlight operatedFlight = new OperatedFlight();
-  public static Passenger passenger = new Passenger();
-  public static PassengerOnFlight passengerOnFlight = new PassengerOnFlight();
-  public static Pilot pilot = new Pilot();
-  public static PilotOnFlight pilotOnFlight = new PilotOnFlight();
-  public static Route route = new Route();
+  public static AircraftTable aircraft = new AircraftTable();
+  public static AircraftModelTable aircraftModel = new AircraftModelTable();
+  public static AirportTable airport = new AirportTable();
+  public static CrewTable crew = new CrewTable();
+  public static CrewOnFlightTable crewOnFlight = new CrewOnFlightTable();
+  public static FlightTable flight = new FlightTable();
+  public static OperatedFlightTable operatedFlight = new OperatedFlightTable();
+  public static PassengerTable passenger = new PassengerTable();
+  public static PassengerOnFlightTable passengerOnFlight = new PassengerOnFlightTable();
+  public static PilotTable pilot = new PilotTable();
+  public static PilotOnFlightTable pilotOnFlight = new PilotOnFlightTable();
+  public static RouteTable route = new RouteTable();
 
 }

@@ -3,7 +3,7 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 
-public class Route extends Table {
+public class RouteTable extends Table {
 
   private static String table_name = "pilot_on_flight";
 
@@ -17,7 +17,7 @@ public class Route extends Table {
   public final Attribute origin = createAttribute("origin");
   public final Attribute destination = createAttribute("destination");
 
-  public Route() {
+  public RouteTable() {
     super(table_name);
   }
 

@@ -1,5 +1,7 @@
 package org.fpeterek.virgineurope.orm;
 
+import org.fpeterek.virgineurope.orm.sql.Select;
+
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,6 +20,13 @@ public class Database {
             "fpeterek",
             ""
     );
+  }
+
+  public void execute(Select select) throws SQLException {
+
+    var sm = conn.createStatement();
+    var res = sm.executeQuery(select.build());
+
   }
 
   /*public <T extends Entity> List<T> select(Class<T> _class) throws SQLException {

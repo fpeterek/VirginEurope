@@ -3,7 +3,7 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 
-public class Flight extends Table {
+public class FlightTable extends Table {
 
   private static String table_name = "flight";
 
@@ -17,7 +17,7 @@ public class Flight extends Table {
   public final Attribute aircraftModelDesignator = createAttribute("aircraft_model_designator");
   public final Attribute routeId = createAttribute("route_id");
 
-  public Flight() {
+  public FlightTable() {
     super(table_name);
   }
 

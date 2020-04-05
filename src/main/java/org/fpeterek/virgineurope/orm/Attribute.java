@@ -55,7 +55,6 @@ public class Attribute {
 
   public BooleanExpr like(String other) {
     return new BooleanExpr(fullName(), "LIKE", quote(other));
-
   }
 
   private String quote(String str) {

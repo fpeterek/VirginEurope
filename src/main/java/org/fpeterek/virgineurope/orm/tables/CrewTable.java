@@ -3,7 +3,7 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 
-public class Crew extends Table {
+public class CrewTable extends Table {
 
   private static String table_name = "crew";
 
@@ -17,7 +17,7 @@ public class Crew extends Table {
   public final Attribute role = createAttribute("role");
   public final Attribute seniority = createAttribute("seniority");
 
-  public Crew() {
+  public CrewTable() {
     super(table_name);
   }
 
