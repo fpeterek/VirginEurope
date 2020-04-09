@@ -23,4 +23,9 @@ public class AircraftTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 7;
+  }
+
 }

@@ -21,5 +21,9 @@ public class PassengerTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 5;
+  }
 
 }

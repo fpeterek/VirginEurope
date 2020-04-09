@@ -5,7 +5,7 @@ import org.fpeterek.virgineurope.common.Seniority;
 
 import java.util.List;
 
-public class Crew {
+public class Crew extends Entity {
 
   int id;
   String firstName;
@@ -13,5 +13,15 @@ public class Crew {
   CrewRole role;
   Seniority seniority;
   List<Flight> flights;
+
+  public Crew(int identifier, String fName, String lName, CrewRole crewRole, Seniority sen,
+              List<Flight> crewFlights) {
+    id = identifier;
+    firstName = fName;
+    lastName = lName;
+    role = crewRole;
+    seniority = sen;
+    flights = crewFlights;
+  }
 
 }

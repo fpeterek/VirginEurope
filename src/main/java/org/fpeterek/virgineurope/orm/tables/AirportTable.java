@@ -19,4 +19,9 @@ public class AirportTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 3;
+  }
+
 }

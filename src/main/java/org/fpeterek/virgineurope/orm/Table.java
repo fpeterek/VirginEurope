@@ -1,11 +1,19 @@
 package org.fpeterek.virgineurope.orm;
 
-public class Table {
+import org.fpeterek.virgineurope.orm.entities.Entity;
 
-  public String tableName;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public abstract class Table {
+
+  public final String tableName;
 
   protected Table(String table) {
     tableName = table;
   }
+
+  public abstract int offset();
+  public abstract Entity parseFrom(ResultSet rs, int offset) throws SQLException;
 
 }

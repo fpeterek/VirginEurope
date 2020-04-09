@@ -9,6 +9,20 @@ public enum EtopsCertified {
     cert = str;
   }
 
+  public static EtopsCertified fromString(String str) {
+    String lower = str.toLowerCase();
+    if (lower.equals("yes")) {
+      return Yes;
+    } else if (lower.equals("no")) {
+      return No;
+    } else if (lower.equals("na")) {
+      return NA;
+    }
+
+    throw new IllegalArgumentException("Invalid enum value: " + str);
+
+  }
+
   @Override
   public String toString() {
     return cert;

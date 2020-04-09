@@ -18,4 +18,9 @@ public class CrewOnFlightTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 2;
+  }
+
 }

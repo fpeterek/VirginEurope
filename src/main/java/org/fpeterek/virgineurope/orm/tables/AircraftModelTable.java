@@ -1,7 +1,14 @@
 package org.fpeterek.virgineurope.orm.tables;
 
+import org.fpeterek.virgineurope.common.EtopsCertified;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Aircraft;
+import org.fpeterek.virgineurope.orm.entities.AircraftModel;
+import org.fpeterek.virgineurope.orm.entities.Entity;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AircraftModelTable extends Table {
 
@@ -24,4 +31,25 @@ public class AircraftModelTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 8;
+  }
+
+  @Override
+  public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
+
+    String designator = rs.getString(1 + offset);
+    String manufacturer = rs.getString(2 + offset);
+    String family = rs.getString(3 + offset);
+    String fullType = rs.getString(4 + offset);
+    EtopsCertified certified = EtopsCertified.fromString(rs.getString(5 + offset));
+    int etopsRating = rs.getInt(6 + offset);
+    int range = rs.getInt(7 + offset);
+    int mtow = rs.getInt(8 + offset);
+
+    return new AircraftModel(designator, manufacturer, family, fullType, certified,
+            etopsRating, range, mtow);
+
+  }
 }

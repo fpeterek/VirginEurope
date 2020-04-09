@@ -22,4 +22,9 @@ public class OperatedFlightTable extends Table {
     super(table_name);
   }
 
+  @Override
+  public int offset() {
+    return 6;
+  }
+
 }

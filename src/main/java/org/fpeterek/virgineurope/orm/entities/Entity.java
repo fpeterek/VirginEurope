@@ -1,4 +1,3 @@
 package org.fpeterek.virgineurope.orm.entities;
 
-public class Entity {
-}
+public abstract class Entity { }
