@@ -14,4 +14,18 @@ public enum CrewRole {
     return role;
   }
 
+  public static CrewRole fromString(String str) {
+    String lower = str.toLowerCase();
+
+    if (lower.equals("leader")) {
+      return Leader;
+    } else if (lower.equals("safety")) {
+      return Safety;
+    } else if (lower.equals("attendant")) {
+      return Attendant;
+    }
+    throw new IllegalArgumentException("Invalid enum value: " + str);
+
+  }
+
 }

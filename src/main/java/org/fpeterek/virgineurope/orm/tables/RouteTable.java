@@ -3,6 +3,7 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 import org.fpeterek.virgineurope.orm.entities.Entity;
+import org.fpeterek.virgineurope.orm.entities.Route;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,15 @@ public class RouteTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    int id = rs.getInt(offset + 1);
+    int distance = rs.getInt(offset + 2);
+    int etopsReq = rs.getInt(offset + 3);
+    String orig = rs.getString(offset + 4);
+    String dest = rs.getString(offset + 5);
+
+    return new Route(id, distance, etopsReq, orig, null, dest, null);
+
   }
 
 }

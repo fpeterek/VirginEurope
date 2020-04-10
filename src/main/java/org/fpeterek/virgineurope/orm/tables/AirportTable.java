@@ -2,6 +2,7 @@ package org.fpeterek.virgineurope.orm.tables;
 
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Airport;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 
 import java.sql.ResultSet;
@@ -30,7 +31,13 @@ public class AirportTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    String icao = rs.getString(offset + 1);
+    String iata = rs.getString(offset + 2);
+    String name = rs.getString(offset + 3);
+
+    return new Airport(icao, iata, name);
+
   }
 
 }

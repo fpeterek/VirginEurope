@@ -3,9 +3,12 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 import org.fpeterek.virgineurope.orm.entities.Entity;
+import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
+import org.joda.time.DateTime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OperatedFlightTable extends Table {
 
@@ -33,7 +36,17 @@ public class OperatedFlightTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    int id = rs.getInt(offset + 1);
+    DateTime departure = new DateTime(rs.getTime(offset + 2));
+    DateTime arrival = new DateTime(rs.getTime(offset + 3));
+    String flightNo = rs.getString(offset + 4);
+    String aircraftReg = rs.getString(offset + 5);
+    DateTime date = new DateTime(rs.getDate(offset + 6));
+
+    return new OperatedFlight(id, departure, arrival, flightNo, null, aircraftReg, null, date,
+            new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
   }
 
 }

@@ -3,9 +3,11 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 import org.fpeterek.virgineurope.orm.entities.Entity;
+import org.fpeterek.virgineurope.orm.entities.Pilot;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PilotTable extends Table {
 
@@ -32,7 +34,15 @@ public class PilotTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    int id = rs.getInt(offset + 1);
+    String fname = rs.getString(offset + 2);
+    String lname = rs.getString(offset + 3);
+    String cert = rs.getString(offset + 4);
+    boolean captain = rs.getBoolean(offset + 5);
+
+    return new Pilot(id, fname, lname, cert, captain, new ArrayList<>());
+
   }
 
 }

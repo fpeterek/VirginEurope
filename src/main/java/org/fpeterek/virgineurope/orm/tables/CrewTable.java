@@ -1,11 +1,16 @@
 package org.fpeterek.virgineurope.orm.tables;
 
+import org.fpeterek.virgineurope.common.CrewRole;
+import org.fpeterek.virgineurope.common.Seniority;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Crew;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrewTable extends Table {
 
@@ -32,7 +37,15 @@ public class CrewTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    int id = rs.getInt(offset + 1);
+    String fname = rs.getString(offset + 2);
+    String lname = rs.getString(offset + 3);
+    CrewRole role = CrewRole.fromString(rs.getString(offset + 4));
+    Seniority seniority = Seniority.fromString(rs.getString(offset + 5));
+
+    return new Crew(id, fname, lname, role, seniority, new ArrayList<>());
+
   }
 
 }

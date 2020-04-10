@@ -14,4 +14,20 @@ public enum SeatType {
     return join;
   }
 
+  public static SeatType fromString(String str) {
+
+    String lower = str.toLowerCase();
+
+    if (lower.equals("window")) {
+      return Window;
+    } else if (lower.equals("middle")) {
+      return Middle;
+    } else if (lower.equals("aisle")) {
+      return Aisle;
+    }
+
+    throw new IllegalArgumentException("Invalid enum value: " + str);
+
+  }
+
 }
