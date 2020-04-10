@@ -2,6 +2,10 @@ package org.fpeterek.virgineurope.orm.tables;
 
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Entity;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class AircraftTable extends Table {
 
@@ -28,4 +32,8 @@ public class AircraftTable extends Table {
     return 7;
   }
 
+  @Override
+  public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
+    return null;
+  }
 }
