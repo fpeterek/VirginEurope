@@ -26,4 +26,16 @@ public class Flight extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "Flight{" +
+            "flightId='" + flightId + '\'' +
+            ", departureTime=" + departureTime +
+            ", arrivalTime=" + arrivalTime +
+            ", aircraftModelDesignator='" + aircraftModelDesignator + '\'' +
+            ", aircraftModel=" + aircraftModel +
+            ", routeId=" + routeId +
+            ", route=" + route +
+            '}';
+  }
 }

@@ -22,4 +22,16 @@ public class Route extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "Route{" +
+            "id=" + id +
+            ", distance=" + distance +
+            ", etopsRequirement=" + etopsRequirement +
+            ", originIcao='" + originIcao + '\'' +
+            ", origin=" + origin +
+            ", destinationIcao='" + destinationIcao + '\'' +
+            ", destination=" + destination +
+            '}';
+  }
 }

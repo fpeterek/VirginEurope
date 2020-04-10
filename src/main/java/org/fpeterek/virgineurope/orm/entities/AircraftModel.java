@@ -27,4 +27,17 @@ public class AircraftModel extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "AircraftModel{" +
+            "designator='" + designator + '\'' +
+            ", manufacturer='" + manufacturer + '\'' +
+            ", family='" + family + '\'' +
+            ", fullType='" + fullType + '\'' +
+            ", etopsCertified=" + etopsCertified +
+            ", etopsRating=" + etopsRating +
+            ", rangeNmi=" + rangeNmi +
+            ", mtow=" + mtow +
+            '}';
+  }
 }

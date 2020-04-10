@@ -24,4 +24,15 @@ public class Pilot extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "Pilot{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", certification='" + certification + '\'' +
+            ", isCaptain=" + isCaptain +
+            ", flights=" + flights +
+            '}';
+  }
 }

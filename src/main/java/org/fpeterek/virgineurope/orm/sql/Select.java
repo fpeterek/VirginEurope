@@ -64,6 +64,12 @@ public class Select {
     return joins.stream().map(join -> join.table).collect(Collectors.toList());
   }
 
+  public List<Table> allTables() {
+    List<Table> joins = joinTables();
+    joins.add(0, fromTable);
+    return joins;
+  }
+
   private Select() { }
 
   public static Select from(Table table) {

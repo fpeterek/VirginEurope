@@ -27,4 +27,17 @@ public class Aircraft extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "Aircraft{" +
+            "identifier='" + identifier + '\'' +
+            ", engine='" + engine + '\'' +
+            ", economySeats=" + economySeats +
+            ", businessSeats=" + businessSeats +
+            ", firstSeats=" + firstSeats +
+            ", lastCheck=" + lastCheck +
+            ", modelDesignator='" + modelDesignator + '\'' +
+            ", model=" + model +
+            '}';
+  }
 }

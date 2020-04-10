@@ -24,4 +24,15 @@ public class Crew extends Entity {
     flights = crewFlights;
   }
 
+  @Override
+  public String toString() {
+    return "Crew{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", role=" + role +
+            ", seniority=" + seniority +
+            ", flights=" + flights +
+            '}';
+  }
 }

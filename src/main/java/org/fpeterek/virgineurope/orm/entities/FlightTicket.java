@@ -28,4 +28,17 @@ public class FlightTicket extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "FlightTicket{" +
+            "meal='" + meal + '\'' +
+            ", seat='" + seat + '\'' +
+            ", travelClass=" + travelClass +
+            ", baggageAllowance=" + baggageAllowance +
+            ", operatedId=" + operatedId +
+            ", operatedFlight=" + operatedFlight +
+            ", passengerId=" + passengerId +
+            ", passenger=" + passenger +
+            '}';
+  }
 }

@@ -37,4 +37,20 @@ public class OperatedFlight extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "OperatedFlight{" +
+            "id=" + id +
+            ", actualDeparture=" + actualDeparture +
+            ", actualArrival=" + actualArrival +
+            ", flightId='" + flightId + '\'' +
+            ", flight=" + flight +
+            ", aircraftId='" + aircraftId + '\'' +
+            ", aircraft=" + aircraft +
+            ", date=" + date +
+            ", crew=" + crew +
+            ", tickets=" + tickets +
+            ", pilots=" + pilots +
+            '}';
+  }
 }

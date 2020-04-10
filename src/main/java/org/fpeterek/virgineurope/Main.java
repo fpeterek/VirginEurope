@@ -21,6 +21,18 @@ public class Main {
 
     System.out.println(select);
 
+    try {
+      Database db = new Database();
+      var sel = Select.from(VU.airport);
+      var airports = db.execute(sel).getAirports();
+      System.out.println(sel);
+      System.out.println("Printing airports: ");
+      airports.forEach(System.out::println);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+
     /*try {
       Database db = new Database();
       var res = db.select(Airport.class);
@@ -28,7 +40,6 @@ public class Main {
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
-      System.out.println("Zpíčená java kurva jasdffioasdfjop");
     }*/
 
   }

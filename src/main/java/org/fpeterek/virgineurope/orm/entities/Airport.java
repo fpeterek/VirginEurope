@@ -12,4 +12,12 @@ public class Airport extends Entity {
     this.name = name;
   }
 
+  @Override
+  public String toString() {
+    return "Airport{" +
+            "icao='" + icao + '\'' +
+            ", iata='" + iata + '\'' +
+            ", name='" + name + '\'' +
+            '}';
+  }
 }

@@ -22,10 +22,11 @@ public class Database {
     );
   }
 
-  public void execute(Select select) throws SQLException {
+  public QueryResult execute(Select select) throws SQLException {
 
     var sm = conn.createStatement();
     var res = sm.executeQuery(select.build());
+    return new QueryResult(res, select.allTables());
 
   }
 

@@ -11,16 +11,16 @@ public class QueryResult {
 
   List<Table> includedTables;
 
-  List<Aircraft> aircraft;
-  List<AircraftModel> aircraftModels;
-  List<Airport> airports;
-  List<Crew> crew;
-  List<Flight> flights;
-  List<FlightTicket> tickets;
-  List<OperatedFlight> operatedFlights;
-  List<Passenger> passengers;
-  List<Pilot> pilots;
-  List<Route> routes;
+  List<Aircraft> aircraft              = new ArrayList<>();
+  List<AircraftModel> aircraftModels   = new ArrayList<>();
+  List<Airport> airports               = new ArrayList<>();
+  List<Crew> crew                      = new ArrayList<>();
+  List<Flight> flights                 = new ArrayList<>();
+  List<FlightTicket> tickets           = new ArrayList<>();
+  List<OperatedFlight> operatedFlights = new ArrayList<>();
+  List<Passenger> passengers           = new ArrayList<>();
+  List<Pilot> pilots                   = new ArrayList<>();
+  List<Route> routes                   = new ArrayList<>();
 
   private void addToCorrespondingList(Entity entity, Table table) {
 
@@ -75,43 +75,43 @@ public class QueryResult {
   }
 
   public List<Aircraft> getAircraft() {
-    return new ArrayList<>();
+    return aircraft;
   }
 
   public List<AircraftModel> getAircraftModels() {
-    return new ArrayList<>();
+    return aircraftModels;
   }
 
   public List<Airport> getAirports() {
-    return new ArrayList<>();
+    return airports;
   }
 
   public List<Crew> getCrew() {
-    return new ArrayList<>();
+    return crew;
   }
 
   public List<Flight> getFlights() {
-    return new ArrayList<>();
+    return flights;
   }
 
   public List<FlightTicket> getFlightTickets() {
-    return new ArrayList<>();
+    return tickets;
   }
 
   public List<OperatedFlight> getOperatedFlights() {
-    return new ArrayList<>();
+    return operatedFlights;
   }
 
   public List<Passenger> getPassengers() {
-    return new ArrayList<>();
+    return passengers;
   }
 
   public List<Pilot> getPilots() {
-    return new ArrayList<>();
+    return pilots;
   }
 
   public List<Route> getRoutes() {
-    return new ArrayList<>();
+    return routes;
   }
 
 }

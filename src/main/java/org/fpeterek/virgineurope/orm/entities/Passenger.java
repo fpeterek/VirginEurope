@@ -26,4 +26,15 @@ public class Passenger extends Entity {
 
   }
 
+  @Override
+  public String toString() {
+    return "Passenger{" +
+            "id=" + id +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", preferredMeal='" + preferredMeal + '\'' +
+            ", preferredSeat=" + preferredSeat +
+            ", tickets=" + tickets +
+            '}';
+  }
 }
