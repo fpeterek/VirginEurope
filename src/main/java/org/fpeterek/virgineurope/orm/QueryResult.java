@@ -1,6 +1,7 @@
 package org.fpeterek.virgineurope.orm;
 
 import org.fpeterek.virgineurope.orm.entities.*;
+import org.fpeterek.virgineurope.orm.tables.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,34 +25,34 @@ public class QueryResult {
 
   private void addToCorrespondingList(Entity entity, Table table) {
 
-    if (table == VU.aircraft) {
+    if (table instanceof AircraftTable) {
       aircraft.add((Aircraft)entity);
     }
-    else if (table == VU.aircraftModel) {
+    else if (table instanceof AircraftModelTable) {
       aircraftModels.add((AircraftModel)entity);
     }
-    else if (table == VU.airport) {
+    else if (table instanceof AirportTable) {
       airports.add((Airport)entity);
     }
-    else if (table == VU.crew) {
+    else if (table instanceof CrewTable) {
       crew.add((Crew)entity);
     }
-    else if (table == VU.flight) {
+    else if (table instanceof FlightTable) {
       flights.add((Flight)entity);
     }
-    else if (table == VU.passengerOnFlight) {
+    else if (table instanceof PassengerOnFlightTable) {
       tickets.add((FlightTicket)entity);
     }
-    else if (table == VU.operatedFlight) {
+    else if (table instanceof OperatedFlightTable) {
       operatedFlights.add((OperatedFlight)entity);
     }
-    else if (table == VU.passenger) {
+    else if (table instanceof PassengerTable) {
       passengers.add((Passenger)entity);
     }
-    else if (table == VU.pilot) {
+    else if (table instanceof PilotTable) {
       pilots.add((Pilot)entity);
     }
-    else if (table == VU.route) {
+    else if (table instanceof RouteTable) {
       routes.add((Route)entity);
     }
 
@@ -60,14 +61,24 @@ public class QueryResult {
   public QueryResult(ResultSet res, List<Table> tables) throws SQLException {
 
     includedTables = tables;
+    var entities = new ArrayList<Entity>();
 
     while (res.next()) {
 
       int offset = 0;
+      entities.clear();
 
       for (var table : includedTables) {
-        addToCorrespondingList(table.parseFrom(res, offset), table);
+        Entity entity = table.parseFrom(res, offset);
+        entities.add(entity);
+        addToCorrespondingList(entity, table);
         offset += table.offset();
+      }
+
+      for (Entity entity : entities) {
+        for (Entity e : entities) {
+          entity.add(e);
+        }
       }
 
     }

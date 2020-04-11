@@ -2,6 +2,7 @@ package org.fpeterek.virgineurope.orm.entities;
 
 import org.fpeterek.virgineurope.common.SeatType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Passenger extends Entity {
@@ -24,6 +25,17 @@ public class Passenger extends Entity {
     preferredSeat = prefSeat;
     tickets = flightTickets;
 
+  }
+
+  @Override
+  public void add(Entity entity) {
+    if (!(entity instanceof FlightTicket)) {
+      return;
+    }
+    if (tickets == null) {
+      tickets = new ArrayList<>();
+    }
+    tickets.add((FlightTicket)entity);
   }
 
   @Override

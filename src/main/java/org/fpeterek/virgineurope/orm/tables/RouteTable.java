@@ -10,10 +10,10 @@ import java.sql.SQLException;
 
 public class RouteTable extends Table {
 
-  private static String table_name = "pilot_on_flight";
+  private static String table_name = "route";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute id = createAttribute("route_id");
@@ -24,6 +24,17 @@ public class RouteTable extends Table {
 
   public RouteTable() {
     super(table_name);
+  }
+
+  public RouteTable as(String alias) {
+    return (RouteTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new RouteTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

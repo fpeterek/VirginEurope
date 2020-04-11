@@ -107,12 +107,16 @@ public class Select {
     var sb = new StringBuilder();
     sb.append("SELECT * FROM ").append(fromTable.tableName);
 
-    joins.forEach(join -> {
+    for (Join join : joins) {
       var table = join.table.tableName;
       var type = join.joinType.toString();
       var cond = join.on.toString();
-      sb.append(" ").append(type).append(" ").append(table).append(" ON ").append(cond);
-    });
+      sb.append(" ").append(type).append(" ").append(table);
+      if (join.table.hasAlias()) {
+        sb.append(" ").append(join.table.alias());
+      }
+      sb.append(" ON ").append(cond);
+    }
 
     if (cond != null) {
       sb.append(" WHERE ").append(cond.toString());

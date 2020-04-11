@@ -26,7 +26,9 @@ public class Database {
 
     var sm = conn.createStatement();
     var res = sm.executeQuery(select.build());
-    return new QueryResult(res, select.allTables());
+    var queryResult = new QueryResult(res, select.allTables());
+    res.close();
+    return queryResult;
 
   }
 

@@ -13,8 +13,8 @@ public class PilotTable extends Table {
 
   private static String table_name = "pilot";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute id = createAttribute("pilot_id");
@@ -25,6 +25,17 @@ public class PilotTable extends Table {
 
   public PilotTable() {
     super(table_name);
+  }
+
+  public PilotTable as(String alias) {
+    return (PilotTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new PilotTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

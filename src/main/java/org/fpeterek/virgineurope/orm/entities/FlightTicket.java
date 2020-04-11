@@ -29,6 +29,16 @@ public class FlightTicket extends Entity {
   }
 
   @Override
+  public void add(Entity entity) {
+    if (entity instanceof OperatedFlight) {
+      operatedFlight = (OperatedFlight)entity;
+    }
+    else if (entity instanceof Passenger) {
+      passenger = (Passenger)entity;
+    }
+  }
+
+  @Override
   public String toString() {
     return "FlightTicket{" +
             "meal='" + meal + '\'' +

@@ -12,9 +12,10 @@ public class AirportTable extends Table {
 
   private static String table_name = "airport";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
+
 
   public final Attribute icao = createAttribute("icao");
   public final Attribute iata = createAttribute("iata");
@@ -22,6 +23,17 @@ public class AirportTable extends Table {
 
   public AirportTable() {
     super(table_name);
+  }
+
+  public AirportTable as(String alias) {
+    return (AirportTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new AirportTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

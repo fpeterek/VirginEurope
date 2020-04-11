@@ -27,6 +27,13 @@ public class Flight extends Entity {
   }
 
   @Override
+  public void add(Entity entity) {
+    if (entity instanceof Route) {
+      route = (Route)entity;
+    }
+  }
+
+  @Override
   public String toString() {
     return "Flight{" +
             "flightId='" + flightId + '\'' +

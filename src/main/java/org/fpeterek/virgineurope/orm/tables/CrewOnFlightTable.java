@@ -11,8 +11,8 @@ public class CrewOnFlightTable extends Table {
 
   private static String table_name = "crew_on_flight";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute crew_id = createAttribute("crew_id");
@@ -20,6 +20,17 @@ public class CrewOnFlightTable extends Table {
 
   public CrewOnFlightTable() {
     super(table_name);
+  }
+
+  public CrewOnFlightTable as(String alias) {
+    return (CrewOnFlightTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new CrewOnFlightTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

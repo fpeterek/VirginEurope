@@ -11,8 +11,8 @@ public class PassengerOnFlightTable extends Table {
 
   private static String table_name = "passenger_on_flight";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute meal = createAttribute("meal");
@@ -29,6 +29,17 @@ public class PassengerOnFlightTable extends Table {
   @Override
   public int offset() {
     return 6;
+  }
+
+  public PassengerOnFlightTable as(String alias) {
+    return (PassengerOnFlightTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new PassengerOnFlightTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

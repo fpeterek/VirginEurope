@@ -14,8 +14,8 @@ public class PassengerTable extends Table {
 
   private static String table_name = "passenger";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute id = createAttribute("passenger_id");
@@ -31,6 +31,17 @@ public class PassengerTable extends Table {
   @Override
   public int offset() {
     return 5;
+  }
+
+  public PassengerTable as(String alias) {
+    return (PassengerTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new PassengerTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

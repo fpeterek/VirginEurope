@@ -14,8 +14,8 @@ public class AircraftModelTable extends Table {
 
   private static String table_name = "aircraft_model";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute designator = createAttribute("designator");
@@ -29,6 +29,17 @@ public class AircraftModelTable extends Table {
 
   public AircraftModelTable() {
     super(table_name);
+  }
+
+  public AircraftModelTable as(String alias) {
+    return (AircraftModelTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new AircraftModelTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

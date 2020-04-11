@@ -28,6 +28,13 @@ public class Aircraft extends Entity {
   }
 
   @Override
+  public void add(Entity entity) {
+    if (entity instanceof AircraftModel) {
+      model = (AircraftModel) entity;
+    }
+  }
+
+  @Override
   public String toString() {
     return "Aircraft{" +
             "identifier='" + identifier + '\'' +

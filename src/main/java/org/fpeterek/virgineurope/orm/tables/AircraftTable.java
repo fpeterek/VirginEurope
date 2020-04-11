@@ -13,8 +13,8 @@ public class AircraftTable extends Table {
 
   private static String table_name = "aircraft";
 
-  private static Attribute createAttribute(String attr) {
-    return new Attribute(attr, table_name);
+  private Attribute createAttribute(String attr) {
+    return createAttribute(attr, table_name);
   }
 
   public final Attribute identifier = createAttribute("identifier");
@@ -32,6 +32,17 @@ public class AircraftTable extends Table {
   @Override
   public int offset() {
     return 7;
+  }
+
+  public AircraftTable as(String alias) {
+    return (AircraftTable) super.as(alias);
+  }
+
+  @Override
+  protected Table getAliasedTable(String alias) {
+    var table = new AircraftTable();
+    table.nameAlias = alias;
+    return table;
   }
 
   @Override

@@ -21,6 +21,13 @@ public class Main {
 
     System.out.println(select);
 
+    select = Select
+            .from(VU.route)
+            .join(VU.airport.as("a1")).on(VU.route.origin.eq(VU.airport.as("a1").icao))
+            .join(VU.airport.as("a2")).on(VU.route.destination.eq(VU.airport.as("a2").icao));
+
+    System.out.println(select);
+
     try {
       Database db = new Database();
       var sel = Select.from(VU.airport);
@@ -28,6 +35,17 @@ public class Main {
       System.out.println(sel);
       System.out.println("Printing airports: ");
       airports.forEach(System.out::println);
+
+      sel = Select
+              .from(VU.route)
+              .join(VU.airport.as("a1")).on(VU.route.origin.eq(VU.airport.as("a1").icao))
+              .join(VU.airport.as("a2")).on(VU.route.destination.eq(VU.airport.as("a2").icao));
+
+      var res = db.execute(sel);
+      var routes = res.getRoutes();
+
+      routes.stream().limit(3).forEach(System.out::println);
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();

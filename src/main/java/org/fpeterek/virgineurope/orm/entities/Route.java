@@ -23,6 +23,20 @@ public class Route extends Entity {
   }
 
   @Override
+  public void add(Entity entity) {
+    if (entity instanceof Airport) {
+      var airport = (Airport)entity;
+
+      if (airport.icao.equals(originIcao)) {
+        origin = airport;
+      }
+      else if (airport.icao.equals(destinationIcao)) {
+        destination = airport;
+      }
+    }
+  }
+
+  @Override
   public String toString() {
     return "Route{" +
             "id=" + id +

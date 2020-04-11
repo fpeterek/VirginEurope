@@ -2,6 +2,7 @@ package org.fpeterek.virgineurope.orm.entities;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OperatedFlight extends Entity {
@@ -35,6 +36,43 @@ public class OperatedFlight extends Entity {
     tickets = flightTickets;
     pilots = pilotsOnFlight;
 
+  }
+
+  private void addCrew(Crew crewMember) {
+    if (crew == null) {
+      crew = new ArrayList<>();
+    }
+    crew.add(crewMember);
+  }
+
+  private void addTicket(FlightTicket ticket) {
+    if (tickets == null) {
+      tickets = new ArrayList<>();
+    }
+    tickets.add(ticket);
+  }
+
+  private void addPilot(Pilot pilot) {
+    if (pilots == null) {
+      pilots = new ArrayList<>();
+    }
+    pilots.add(pilot);
+  }
+
+  @Override
+  public void add(Entity entity) {
+    if (entity instanceof Aircraft) {
+      aircraft = (Aircraft)entity;
+    }
+    else if (entity instanceof Crew) {
+      addCrew((Crew)entity);
+    }
+    else if (entity instanceof Pilot) {
+      addPilot((Pilot)entity);
+    }
+    else if (entity instanceof FlightTicket) {
+      addTicket((FlightTicket)entity);
+    }
   }
 
   @Override

@@ -3,6 +3,7 @@ package org.fpeterek.virgineurope.orm.entities;
 import org.fpeterek.virgineurope.common.CrewRole;
 import org.fpeterek.virgineurope.common.Seniority;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Crew extends Entity {
@@ -22,6 +23,17 @@ public class Crew extends Entity {
     role = crewRole;
     seniority = sen;
     flights = crewFlights;
+  }
+
+  @Override
+  public void add(Entity entity) {
+    if (!(entity instanceof Flight)) {
+      return;
+    }
+    if (flights == null) {
+      flights = new ArrayList<>();
+    }
+    flights.add((Flight)entity);
   }
 
   @Override
