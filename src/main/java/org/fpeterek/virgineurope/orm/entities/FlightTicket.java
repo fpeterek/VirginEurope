@@ -2,6 +2,8 @@ package org.fpeterek.virgineurope.orm.entities;
 
 import org.fpeterek.virgineurope.common.TravelClass;
 
+import java.util.Objects;
+
 public class FlightTicket extends Entity {
 
   String meal;
@@ -28,6 +30,20 @@ public class FlightTicket extends Entity {
 
   }
 
+  public String getMeal() { return meal; }
+  public String getSeat() { return seat; }
+  public TravelClass getTravelClass() { return travelClass; }
+  public int getBaggageAllowance() { return baggageAllowance; }
+  public int getOperatedId() { return operatedId; }
+  public OperatedFlight getOperatedFlight() { return operatedFlight; }
+  public int getPassengerId() { return passengerId; }
+  public Passenger getPassenger() { return passenger; }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(operatedId, passengerId);
+  }
+
   @Override
   public void add(Entity entity) {
     if (entity instanceof OperatedFlight) {
@@ -48,7 +64,7 @@ public class FlightTicket extends Entity {
             ", operatedId=" + operatedId +
             ", operatedFlight=" + operatedFlight +
             ", passengerId=" + passengerId +
-            ", passenger=" + passenger +
+            ", passenger='" + passenger.fullName() + '\'' +
             '}';
   }
 }

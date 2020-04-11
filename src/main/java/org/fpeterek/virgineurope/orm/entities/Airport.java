@@ -12,6 +12,10 @@ public class Airport extends Entity {
     this.name = name;
   }
 
+  public String getIcao() { return icao; }
+  public String getIata() { return iata; }
+  public String getName() { return name; }
+
   @Override
   public String toString() {
     return "Airport{" +

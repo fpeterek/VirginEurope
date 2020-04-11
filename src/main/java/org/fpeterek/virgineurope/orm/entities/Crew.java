@@ -25,6 +25,13 @@ public class Crew extends Entity {
     flights = crewFlights;
   }
 
+  public int getId() { return id; }
+  public String getFirstName() { return firstName; }
+  public String getLastName() { return lastName; }
+  public CrewRole getRole() { return role; }
+  public Seniority getSeniority() { return seniority; }
+  public List<Flight> getFlights() { return flights; }
+
   @Override
   public void add(Entity entity) {
     if (!(entity instanceof Flight)) {

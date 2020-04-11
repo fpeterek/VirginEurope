@@ -44,7 +44,20 @@ public class Main {
       var res = db.execute(sel);
       var routes = res.getRoutes();
 
-      routes.stream().limit(3).forEach(System.out::println);
+      routes.forEach(System.out::println);
+
+      sel = Select
+              .from(VU.passenger)
+              .join(VU.passengerOnFlight).on(VU.passengerOnFlight.passengerId.eq(VU.passenger.id))
+              .where(VU.passenger.id.eq("3"));
+
+      System.out.println(sel);
+
+      res = db.execute(sel);
+      var passengers = res.getPassengers();
+      passengers.forEach(pax -> {
+        System.out.println(pax.fullName() + " flights: " + pax.getFlightTickets().size());
+      });
 
     } catch (Exception e) {
       System.out.println(e.getMessage());

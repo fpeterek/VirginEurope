@@ -27,6 +27,17 @@ public class Passenger extends Entity {
 
   }
 
+  public int getId() { return id; }
+  public String getFirstName() { return firstName; }
+  public String getLastName() { return lastName; }
+  public String getPreferredMeal() { return preferredMeal; }
+  public SeatType getPreferredSeat() { return preferredSeat; }
+  public List<FlightTicket> getFlightTickets() { return tickets; }
+
+  public String fullName() {
+    return firstName + " " + lastName;
+  }
+
   @Override
   public void add(Entity entity) {
     if (!(entity instanceof FlightTicket)) {

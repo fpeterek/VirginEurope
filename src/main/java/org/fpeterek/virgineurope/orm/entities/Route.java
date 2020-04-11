@@ -1,6 +1,7 @@
 package org.fpeterek.virgineurope.orm.entities;
 
 public class Route extends Entity {
+
   int id;
   int distance;
   int etopsRequirement;
@@ -21,6 +22,14 @@ public class Route extends Entity {
     destination = dest;
 
   }
+
+  public int getId() { return id; }
+  public int getDistance() { return distance; }
+  public int getEtopsRequirement() { return etopsRequirement; }
+  public String getOriginIcao() { return originIcao; }
+  public Airport getOrigin() { return origin; }
+  public String getDestinationIcao() { return destinationIcao; }
+  public Airport getDestination() { return destination; }
 
   @Override
   public void add(Entity entity) {

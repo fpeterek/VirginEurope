@@ -6,7 +6,9 @@ import org.fpeterek.virgineurope.orm.tables.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class QueryResult {
 
@@ -23,38 +25,99 @@ public class QueryResult {
   List<Pilot> pilots                   = new ArrayList<>();
   List<Route> routes                   = new ArrayList<>();
 
-  private void addToCorrespondingList(Entity entity, Table table) {
+  Map<String, Aircraft> aircraftMap              = new HashMap<>();
+  Map<String, AircraftModel> modelMap            = new HashMap<>();
+  Map<String, Airport> airportMap                = new HashMap<>();
+  Map<Integer, Crew> crewMap                     = new HashMap<>();
+  Map<String, Flight> flightMap                  = new HashMap<>();
+  Map<Integer, FlightTicket> ticketMap           = new HashMap<>();
+  Map<Integer, OperatedFlight> operatedFlightMap = new HashMap<>();
+  Map<Integer, Passenger> passengerMap           = new HashMap<>();
+  Map<Integer, Pilot> pilotMap                   = new HashMap<>();
+  Map<Integer, Route> routeMap                   = new HashMap<>();
+
+  private void mapsToLists() {
+
+    aircraftMap.forEach((k, ac) -> aircraft.add(ac));
+    modelMap.forEach((k, model) -> aircraftModels.add(model));
+    airportMap.forEach((k, airport) -> airports.add(airport));
+    crewMap.forEach((k, cr) -> crew.add(cr));
+    flightMap.forEach((k, fl) -> flights.add(fl));
+    ticketMap.forEach((k, ticket) -> tickets.add(ticket));
+    operatedFlightMap.forEach((k, oper) -> operatedFlights.add(oper));
+    passengerMap.forEach((k, pax) -> passengers.add(pax));
+    pilotMap.forEach((k, pilot) -> pilots.add(pilot));
+    routeMap.forEach((k, route) -> routes.add(route));
+
+    aircraftMap       = null;
+    modelMap          = null;
+    airportMap        = null;
+    crewMap           = null;
+    flightMap         = null;
+    ticketMap         = null;
+    operatedFlightMap = null;
+    passengerMap      = null;
+    pilotMap          = null;
+    routeMap          = null;
+
+  }
+
+  /* Maybe could be generified, but I'm not doing that now */
+  /* TODO: Look for a more generic approach                */
+  private Entity addToCorrespondingMap(Entity entity, Table table) {
 
     if (table instanceof AircraftTable) {
-      aircraft.add((Aircraft)entity);
+      var ac = (Aircraft)entity;
+      var retval = aircraftMap.putIfAbsent(ac.getIdentifier(), ac);
+      return retval == null ? ac : retval;
     }
     else if (table instanceof AircraftModelTable) {
-      aircraftModels.add((AircraftModel)entity);
+      var acModel = (AircraftModel)entity;
+      var retval = modelMap.putIfAbsent(acModel.getDesignator(), acModel);
+      return retval == null ? acModel : retval;
     }
     else if (table instanceof AirportTable) {
-      airports.add((Airport)entity);
+      var ap = (Airport)entity;
+      var retval = airportMap.putIfAbsent(ap.getIcao(), ap);
+      return retval == null ? ap : retval;
     }
     else if (table instanceof CrewTable) {
-      crew.add((Crew)entity);
+      var cr = (Crew)entity;
+      var retval = crewMap.putIfAbsent(cr.getId(), cr);
+      return retval == null ? cr : retval;
     }
     else if (table instanceof FlightTable) {
-      flights.add((Flight)entity);
+      var fl = (Flight)entity;
+      var retval = flightMap.putIfAbsent(fl.getFlightId(), fl);
+      return retval == null ? fl : retval;
     }
     else if (table instanceof PassengerOnFlightTable) {
-      tickets.add((FlightTicket)entity);
+      var tk = (FlightTicket)entity;
+      var retval = ticketMap.putIfAbsent(tk.hashCode(), tk);
+      return retval == null ? tk : retval;
     }
     else if (table instanceof OperatedFlightTable) {
-      operatedFlights.add((OperatedFlight)entity);
+      var of = (OperatedFlight)entity;
+      var retval = operatedFlightMap.putIfAbsent(of.getId(), of);
+      return retval == null ? of : retval;
     }
     else if (table instanceof PassengerTable) {
-      passengers.add((Passenger)entity);
+      var pax = (Passenger)entity;
+      var retval = passengerMap.putIfAbsent(pax.getId(), pax);
+      return retval == null ? pax : retval;
     }
     else if (table instanceof PilotTable) {
-      pilots.add((Pilot)entity);
+      var pl = (Pilot)entity;
+      var retval = pilotMap.putIfAbsent(pl.getId(), pl);
+      return retval == null ? pl : retval;
     }
     else if (table instanceof RouteTable) {
-      routes.add((Route)entity);
+      var rt = (Route)entity;
+      var retval = routeMap.putIfAbsent(rt.getId(), rt);
+      return retval == null ? rt : retval;
     }
+
+    return entity;
 
   }
 
@@ -70,8 +133,13 @@ public class QueryResult {
 
       for (var table : includedTables) {
         Entity entity = table.parseFrom(res, offset);
+        if (entity == null) {
+          continue;
+        }
+
+        entity = addToCorrespondingMap(entity, table);
+
         entities.add(entity);
-        addToCorrespondingList(entity, table);
         offset += table.offset();
       }
 
@@ -82,6 +150,8 @@ public class QueryResult {
       }
 
     }
+
+    mapsToLists();
 
   }
 

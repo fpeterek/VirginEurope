@@ -2,9 +2,9 @@ package org.fpeterek.virgineurope.orm.entities;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
 
 public class Flight extends Entity {
+
   String flightId;
   DateTime departureTime;
   DateTime arrivalTime;
@@ -25,6 +25,14 @@ public class Flight extends Entity {
     this.route = route;
 
   }
+
+  public String getFlightId() { return flightId; }
+  public DateTime getDepartureTime() { return departureTime; }
+  public DateTime getArrivalTime() { return arrivalTime; }
+  public String getModelDesignator() { return aircraftModelDesignator; }
+  public AircraftModel getAircraftModel() { return aircraftModel; }
+  public int getRouteId() { return routeId; }
+  public Route getRoute() { return route; }
 
   @Override
   public void add(Entity entity) {

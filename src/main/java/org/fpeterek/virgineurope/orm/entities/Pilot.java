@@ -9,7 +9,7 @@ public class Pilot extends Entity {
   String firstName;
   String lastName;
   String certification;
-  boolean isCaptain;
+  boolean captain;
 
   List<Flight> flights;
 
@@ -20,10 +20,17 @@ public class Pilot extends Entity {
     firstName = fname;
     lastName = lname;
     certification = cert;
-    isCaptain = captain;
+    this.captain = captain;
     this.flights = flights;
 
   }
+
+  public int getId() { return id; }
+  public String getFirstName() { return firstName; }
+  public String getLastName() { return lastName; }
+  public String getCertification() { return certification; }
+  public boolean isCaptain() { return captain; }
+  public List<Flight> getFlights() { return flights; }
 
   @Override
   public void add(Entity entity) {
@@ -43,7 +50,7 @@ public class Pilot extends Entity {
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
             ", certification='" + certification + '\'' +
-            ", isCaptain=" + isCaptain +
+            ", isCaptain=" + captain +
             ", flights=" + flights +
             '}';
   }

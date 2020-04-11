@@ -38,6 +38,19 @@ public class OperatedFlight extends Entity {
 
   }
 
+  public int getId() { return id; }
+  public DateTime getActualDeparture() { return actualDeparture; }
+  public DateTime getActualArrival() { return actualArrival; }
+  public String getFlightId() { return flightId; }
+  public Flight getFlight() { return flight; }
+  public String getAircraftId() { return aircraftId; }
+  public Aircraft getAircraft() { return aircraft; }
+  public DateTime getDate() { return date; }
+  public List<Crew> getCrew() { return crew; }
+  public List<FlightTicket> getFlightTickets() { return tickets; }
+  public List<Pilot> getPilots() { return pilots; }
+
+
   private void addCrew(Crew crewMember) {
     if (crew == null) {
       crew = new ArrayList<>();

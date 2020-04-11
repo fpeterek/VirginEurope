@@ -27,6 +27,15 @@ public class AircraftModel extends Entity {
 
   }
 
+  public String getDesignator() { return designator; }
+  public String getManufacturer() { return manufacturer; }
+  public String getFamily() { return family; }
+  public String getFullType() { return fullType; }
+  public EtopsCertified isEtopsCertified() { return etopsCertified; }
+  public int getEtopsRating() { return etopsRating; }
+  public int getRange() { return rangeNmi; }
+  public int getMtow() { return mtow; }
+
   @Override
   public String toString() {
     return "AircraftModel{" +

@@ -1,8 +1,10 @@
 package org.fpeterek.virgineurope.orm.tables;
 
+import org.fpeterek.virgineurope.common.TravelClass;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.Table;
 import org.fpeterek.virgineurope.orm.entities.Entity;
+import org.fpeterek.virgineurope.orm.entities.FlightTicket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,7 +46,16 @@ public class PassengerOnFlightTable extends Table {
 
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
-    return null;
+
+    String meal = rs.getString(offset + 1);
+    String seat = rs.getString(offset + 2);
+    String cls = rs.getString(offset + 3);
+    TravelClass travelClass = TravelClass.fromString(cls);
+    int baggage = rs.getInt(offset + 4);
+    int operId = rs.getInt(offset + 5);
+    int paxId = rs.getInt(offset + 6);
+
+    return new FlightTicket(meal, seat, travelClass, baggage, operId, null, paxId, null);
   }
 
 }

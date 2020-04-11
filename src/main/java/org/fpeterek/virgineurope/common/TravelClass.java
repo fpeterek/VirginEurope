@@ -14,4 +14,20 @@ public enum TravelClass {
     return cls;
   }
 
+  public static TravelClass fromString(String str) {
+
+    String lower = str.toLowerCase();
+
+    if (lower.equals("economy")) {
+      return Economy;
+    } else if (lower.equals("business")) {
+      return Business;
+    } else if (lower.equals("first")) {
+      return First;
+    }
+
+    throw new IllegalArgumentException("Invalid enum value: " + str);
+
+  }
+
 }
