@@ -45,4 +45,8 @@ public abstract class Table {
     return attributeArray;
   }
 
+  @Override
+  public String toString() {
+    return hasAlias() ? nameAlias : tableName;
+  }
 }

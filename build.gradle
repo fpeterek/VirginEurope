@@ -35,4 +35,7 @@ jar {
                 'Main-Class': 'org.fpeterek.virgineurope.Main'
         )
     }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

@@ -2,6 +2,7 @@ package org.fpeterek.virgineurope;
 
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Select;
 
 public class Main {
@@ -28,13 +29,19 @@ public class Main {
 
     System.out.println(select);
 
+    var delete = Delete.from(VU.passenger).where(VU.passenger.id.eq("120"));
+    System.out.println(delete);
+
     try {
       Database db = new Database();
       var sel = Select.from(VU.airport);
       var airports = db.execute(sel).getAirports();
       System.out.println(sel);
       System.out.println("Printing airports: ");
-      airports.forEach(System.out::println);
+      airports.stream().limit(3).forEach(System.out::println);
+
+      var delret = db.execute(delete);
+      System.out.println("Deleted " + delret + " values");
 
       sel = Select
               .from(VU.route)
@@ -44,7 +51,7 @@ public class Main {
       var res = db.execute(sel);
       var routes = res.getRoutes();
 
-      routes.forEach(System.out::println);
+      routes.stream().limit(3).forEach(System.out::println);
 
       sel = Select
               .from(VU.passenger)
@@ -63,15 +70,6 @@ public class Main {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
-
-    /*try {
-      Database db = new Database();
-      var res = db.select(Airport.class);
-      res.forEach(System.out::println);
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-    }*/
 
   }
 
