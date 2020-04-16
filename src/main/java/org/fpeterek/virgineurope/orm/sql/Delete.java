@@ -1,7 +1,7 @@
 package org.fpeterek.virgineurope.orm.sql;
 
 import org.fpeterek.virgineurope.orm.BooleanExpr;
-import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Table;
 
 public class Delete extends DMLQuery {
 

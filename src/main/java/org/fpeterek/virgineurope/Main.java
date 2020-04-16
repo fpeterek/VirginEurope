@@ -5,6 +5,7 @@ import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
+import org.fpeterek.virgineurope.orm.sql.Update;
 
 public class Main {
 
@@ -80,12 +81,28 @@ public class Main {
       var delret = db.execute(delete);
       System.out.println("Deleted " + delret + " values");
 
+      delete = Delete.from(VU.passenger).where(VU.passenger.id.eq("120"));
+      db.execute(delete);
+
       insert = Insert.into(VU.passenger)
               .values("120", "Dummy", "Dummaster", "kosher", "aisle");
       System.out.println(insert);
       inret = db.execute(insert);
       System.out.println("Inserted " + inret + " values");
 
+      insert = Insert.into(VU.passenger)
+              .values("1000", "Work", "Please", "default", "aisle");
+      db.execute(insert);
+
+      var update = Update.table(VU.passenger)
+              .set(VU.passenger.lastName, "Peterek")
+              .set(VU.passenger.firstName, "Filip")
+              .set(VU.passenger.preferredSeat, "window")
+              .set(VU.passenger.preferredMeal, "vegetarian")
+              .where(VU.passenger.id.eq("1000"));
+      System.out.println(update);
+      var upret = db.execute(update);
+      System.out.println("Updated " + upret + " values");
 
     } catch (Exception e) {
       System.out.println(e.getMessage());

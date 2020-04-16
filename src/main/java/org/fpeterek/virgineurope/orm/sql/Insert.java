@@ -1,7 +1,7 @@
 package org.fpeterek.virgineurope.orm.sql;
 
 import org.fpeterek.virgineurope.orm.Attribute;
-import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Table;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,9 +1,8 @@
 package org.fpeterek.virgineurope.orm.sql;
 
 import org.fpeterek.virgineurope.orm.BooleanExpr;
-import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Table;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

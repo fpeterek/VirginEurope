@@ -1,7 +1,7 @@
 package org.fpeterek.virgineurope.orm.tables;
 
 import org.fpeterek.virgineurope.orm.Attribute;
-import org.fpeterek.virgineurope.orm.Table;
+import org.fpeterek.virgineurope.orm.entities.Table;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.entities.Pilot;
 
