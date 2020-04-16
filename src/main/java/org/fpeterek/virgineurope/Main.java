@@ -3,6 +3,7 @@ package org.fpeterek.virgineurope;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
 
 public class Main {
@@ -29,8 +30,7 @@ public class Main {
 
     System.out.println(select);
 
-    var delete = Delete.from(VU.passenger).where(VU.passenger.id.eq("120"));
-    System.out.println(delete);
+
 
     try {
       Database db = new Database();
@@ -39,9 +39,6 @@ public class Main {
       System.out.println(sel);
       System.out.println("Printing airports: ");
       airports.stream().limit(3).forEach(System.out::println);
-
-      var delret = db.execute(delete);
-      System.out.println("Deleted " + delret + " values");
 
       sel = Select
               .from(VU.route)
@@ -65,6 +62,30 @@ public class Main {
       passengers.forEach(pax -> {
         System.out.println(pax.fullName() + " flights: " + pax.getFlightTickets().size());
       });
+
+      var insert = Insert.into(VU.passenger)
+              .attributes(VU.passenger.firstName, VU.passenger.lastName, VU.passenger.preferredSeat, VU.passenger.preferredMeal)
+              .values("Dummy", "Dummy", "window", "vegan");
+      System.out.println(insert);
+
+      var inret = db.execute(insert);
+      System.out.println("Inserted " + inret + " values");
+
+      var fnameCond = VU.passenger.firstName.eq("Dummy");
+      var lnameCond = VU.passenger.lastName.eq("Dummy");
+      var nameCond = fnameCond.and(lnameCond);
+
+      var delete = Delete.from(VU.passenger).where(nameCond);
+      System.out.println(delete);
+      var delret = db.execute(delete);
+      System.out.println("Deleted " + delret + " values");
+
+      insert = Insert.into(VU.passenger)
+              .values("120", "Dummy", "Dummaster", "kosher", "aisle");
+      System.out.println(insert);
+      inret = db.execute(insert);
+      System.out.println("Inserted " + inret + " values");
+
 
     } catch (Exception e) {
       System.out.println(e.getMessage());
