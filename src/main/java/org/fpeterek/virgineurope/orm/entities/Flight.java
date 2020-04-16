@@ -38,6 +38,8 @@ public class Flight extends Entity {
   public void add(Entity entity) {
     if (entity instanceof Route) {
       route = (Route)entity;
+    } else if (entity instanceof AircraftModel) {
+      aircraftModel = (AircraftModel)entity;
     }
   }
 

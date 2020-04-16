@@ -85,6 +85,8 @@ public class OperatedFlight extends Entity {
     }
     else if (entity instanceof FlightTicket) {
       addTicket((FlightTicket)entity);
+    } else if (entity instanceof Flight) {
+      flight = (Flight)entity;
     }
   }
 

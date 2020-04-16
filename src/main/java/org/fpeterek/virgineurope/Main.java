@@ -104,6 +104,23 @@ public class Main {
       var upret = db.execute(update);
       System.out.println("Updated " + upret + " values");
 
+
+      System.out.println("-------------- Checking functions described by specification --------------");
+
+      sel = Select.from(VU.operatedFlight)
+              .join(VU.flight).on(VU.operatedFlight.flightId.eq(VU.flight.id))
+              .join(VU.route).on(VU.flight.routeId.eq(VU.route.id))
+              .join(VU.aircraftModel).on(VU.aircraftModel.designator.eq(VU.flight.aircraftModelDesignator))
+              .where(VU.aircraftModel.family.eq("A350").and(
+                      VU.route.origin.eq("LKXB")).and(
+                      VU.operatedFlight.date.eq("2019-12-19")
+              ));
+
+      System.out.println(sel);
+
+      res = db.execute(sel);
+      res.getOperatedFlights().forEach(System.out::println);
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
