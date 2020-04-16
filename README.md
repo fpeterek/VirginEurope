@@ -36,15 +36,14 @@ docker run -ti virgineurope
 
 I intend to provide a `docker-compose.yaml` later on.
 
----
-
-The domain `virgineurope.com` is actually registered by Virgin Enterprises Ltd., and the name might be trademarked,
-so I might get sued for this. Anyway, if someone from Virgin is reading this, feel free to offer me a contract and let's
-start the airline together.
-
-
 ### KXB Airport
 
 Map of KXB:
 
 ![Kobeřice International Airport](/images/kxb.png)
+
+---
+
+The domain `virgineurope.com` is actually registered by Virgin Enterprises Ltd., and the name might be trademarked,
+so I might get sued for this. Anyway, if someone from Virgin is reading this, feel free to offer me a contract and let's
+start the airline together.
