@@ -114,6 +114,7 @@ INSERT INTO aircraft (identifier, engine, economy_seats, business_seats, first_s
 INSERT INTO aircraft (identifier, engine, economy_seats, business_seats, first_seats, last_check, aircraft_model_designator)
     VALUES ('OK-CND', 'Rolls-Royce/Snecma Olympus 593', 0, 128, 0, '2019-12-06', 'CONC');
 
+INSERT INTO passenger VALUES (0, 'DummyPax', 'DummyPax', 'default', 'aisle');
 
 INSERT INTO passenger (first_name, last_name, preferred_meal, preferred_seat)
     VALUES ('Carson', 'Mosley', 'kosher', 'window');
@@ -259,6 +260,13 @@ INSERT INTO pilot (first_name, last_name, certification, is_captain)
     VALUES ('Reese', 'Suarez', 'Concorde', false);
 
 -- Flights
+
+-- Dummy flight and dummy route
+
+INSERT INTO route (route_id, distance, etops_requirement, origin, destination) VALUES (0, 1, 0, 'LKXB', 'LKXB');
+
+INSERT INTO flight (flight_id, departure_time, arrival_time, aircraft_model_designator, route_id)
+VALUES ('VU0000', '01:00:00', '12:00:00', 'CONC', 0);
 
 -- Concorde flights
 

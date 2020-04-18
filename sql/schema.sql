@@ -63,7 +63,7 @@ CREATE TABLE operated_flight (
     actual_departure      time,
     actual_arrival        time,
     flight_id             VARCHAR(6) NOT NULL,
-    aircraft_identifier   VARCHAR(6) NOT NULL,
+    aircraft_identifier   VARCHAR(6),
     date                  DATE NOT NULL
 );
 
