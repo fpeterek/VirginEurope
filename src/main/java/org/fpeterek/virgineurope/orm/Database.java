@@ -1,5 +1,6 @@
 package org.fpeterek.virgineurope.orm;
 
+import org.fpeterek.virgineurope.orm.sql.CustomQuery;
 import org.fpeterek.virgineurope.orm.sql.DMLQuery;
 import org.fpeterek.virgineurope.orm.sql.Select;
 
@@ -23,6 +24,10 @@ public class Database {
     );
   }
 
+  public Database(String url, String user, String password) throws SQLException {
+    conn = DriverManager.getConnection(url, user, password);
+  }
+
   public QueryResult execute(Select select) throws SQLException {
 
     var sm = conn.createStatement();
@@ -35,6 +40,13 @@ public class Database {
 
   public int execute(DMLQuery query) throws SQLException {
     return conn.createStatement().executeUpdate(query.build());
+  }
+
+  public CustomQuery execute(CustomQuery query) throws SQLException {
+    var rs = conn.createStatement().executeQuery(query.query());
+    query.parseResult(rs);
+    rs.close();
+    return query;
   }
 
 }

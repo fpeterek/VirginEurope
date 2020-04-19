@@ -64,7 +64,7 @@ public class FlightTicket extends Entity {
             ", operatedId=" + operatedId +
             ", operatedFlight=" + operatedFlight +
             ", passengerId=" + passengerId +
-            ", passenger='" + passenger.fullName() + '\'' +
+            ", passenger='" + (passenger == null ? "null" : passenger.fullName()) + '\'' +
             '}';
   }
 }

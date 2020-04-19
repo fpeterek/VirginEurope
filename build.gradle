@@ -29,6 +29,10 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "13"
 }
 
+run {
+    standardInput = System.in
+}
+
 jar {
     manifest {
         attributes(
