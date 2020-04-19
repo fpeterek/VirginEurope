@@ -114,6 +114,9 @@ INSERT INTO aircraft (identifier, engine, economy_seats, business_seats, first_s
 INSERT INTO aircraft (identifier, engine, economy_seats, business_seats, first_seats, last_check, aircraft_model_designator)
     VALUES ('OK-CND', 'Rolls-Royce/Snecma Olympus 593', 0, 128, 0, '2019-12-06', 'CONC');
 
+-- Passengers
+
+-- Dummy passenger used to replace deleted passengers
 INSERT INTO passenger VALUES (0, 'DummyPax', 'DummyPax', 'default', 'aisle');
 
 INSERT INTO passenger (first_name, last_name, preferred_meal, preferred_seat)
