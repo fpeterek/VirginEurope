@@ -22,12 +22,152 @@ public class Main {
 
     try {
       Database db = new Database();
-      passengerTest(db);
-
+      // passengerTest(db);
+      // airportSearchTest(db);
+      // fleetManagementTest(db);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
+
+  }
+
+  public static void fleetManagementTest(Database db) throws SQLException {
+
+    System.out.println("\nFunctions 2.1 through 2.7 - Fleet management\n");
+    waitForInput();
+
+    var insert = Insert.into(VU.aircraftModel)
+            .attributes(VU.aircraftModel.designator, VU.aircraftModel.manufacturer, VU.aircraftModel.family,
+                        VU.aircraftModel.fullType, VU.aircraftModel.etopsCertified, VU.aircraftModel.etopsRating,
+                        VU.aircraftModel.rangeNmi, VU.aircraftModel.mtow)
+            .values("B748", "Boeing", "B747", "Boeing 747-8i", "NA", "0", "7730", "987000");
+
+    System.out.println("\nFunction 2.1 - inserting aircraft model into DB");
+
+    System.out.println("\nQuery: " + insert);
+    var res = db.execute(insert);
+    System.out.println("\nInserted " + res + " values");
+
+    System.out.println("\nFunction 2.2 - fetching aircraft models from DB");
+
+    var select = Select.from(VU.aircraftModel);
+
+    System.out.println("\nQuery: " + select + "\n");
+    var acModels = db.execute(select).getAircraftModels();
+    acModels.forEach(System.out::println);
+
+    System.out.println("\nFunction 2.3 - Updating aircraft models");
+
+    var update = Update.table(VU.aircraftModel).set(VU.aircraftModel.fullType, "Kotlin Scala Groovy Whatever")
+            .where(VU.aircraftModel.designator.eq("B748"));
+
+    System.out.println("\nQuery: " + update + "\n");
+    var updated = db.execute(update);
+    System.out.println("\nUpdated " + updated + " values\n");
+
+    System.out.println("Querying db for updated model.");
+    select = Select.from(VU.aircraftModel).where(VU.aircraftModel.designator.eq("B748"));
+    System.out.println("\nQuery: " + select + "\n");
+    db.execute(select).getAircraftModels().forEach(System.out::println);
+
+    waitForInput();
+    System.out.println("Resetting DB by deleting B748 model...");
+    db.execute(Delete.from(VU.aircraftModel).where(VU.aircraftModel.designator.eq("B748")));
+
+    System.out.println("\nFunction 2.4 - Adding aircraft to fleet");
+
+    insert = Insert.into(VU.aircraft)
+            .values("OK-VSB", "Rolls Royce Trent-1000", "250", "70", "0", "2020-04-15", "A35K");
+    System.out.println("\nQuery: " + insert);
+    res = db.execute(insert);
+    System.out.println("\nInserted " + res + " values");
+
+    System.out.println("\nFunction 2.5 - Fetching fleet info from DB");
+
+    System.out.println("\n\nOnly print aircraft from the A320 family so as to avoid printing way too much irrelevant info.");
+
+    select = Select.from(VU.aircraft)
+            .join(VU.aircraftModel).on(VU.aircraftModel.designator.eq(VU.aircraft.modelDesignator))
+            .where(VU.aircraftModel.family.eq("A320"));
+
+    System.out.println("\nQuery: " + select + "\n\n");
+    db.execute(select).getAircraft().forEach(System.out::println);
+
+    System.out.println("\nFunction 2.6 - Updating aircraft\n");
+    waitForInput();
+    update = Update.table(VU.aircraft)
+            .set(VU.aircraft.businessSeats, "120")
+            .set(VU.aircraft.economySeats, "180")
+            .set(VU.aircraft.firstSeats, "9")
+            .set(VU.aircraft.lastCheck, "2020-05-17")
+            .where(VU.aircraft.identifier.eq("OK-VSB"));
+
+    System.out.println("\nQuery: " + update + "\n");
+    updated = db.execute(update);
+    System.out.println("Updated " + updated + " rows\n");
+
+    select = Select.from(VU.aircraft)
+            .where(VU.aircraft.identifier.eq("OK-VSB"));
+    db.execute(select).getAircraft().forEach(System.out::println);
+
+    System.out.println("\nFunction 2.7 - Removing aircraft\n");
+
+    System.out.println("To demonstrate, we will first assign the aircraft onto a flight...\n");
+
+    update = Update.table(VU.operatedFlight).set(VU.operatedFlight.aircraftIdentifier, "OK-VSB")
+            .where(VU.operatedFlight.id.eq("25"));
+    db.execute(update);
+
+    select = Select.from(VU.operatedFlight).where(VU.operatedFlight.aircraftIdentifier.eq("OK-VSB"));
+    db.execute(select).getOperatedFlights().forEach(System.out::println);
+
+    System.out.println("\nNow we delete the aircraft from DB.\n");
+
+    var delete = Delete.from(VU.aircraft).where(VU.aircraft.identifier.eq("OK-VSB"));
+
+    System.out.println("Query: " + delete);
+    var deleted = db.execute(delete);
+    System.out.println("\nDeleted " + deleted + " rows\n");
+
+    System.out.println("ID of aircraft assigned for flight 25 should now be 'null'\n");
+
+    select = Select.from(VU.operatedFlight).where(VU.operatedFlight.id.eq("25"));
+    db.execute(select).getOperatedFlights().forEach(System.out::println);
+
+    waitForInput();
+    System.out.println("Resetting DB to original state...");
+    update = Update.table(VU.operatedFlight).set(VU.operatedFlight.aircraftIdentifier, "OK-XWB")
+            .where(VU.operatedFlight.id.eq("25"));
+    db.execute(update);
+
+
+  }
+
+  public static void airportSearchTest(Database db) throws SQLException {
+
+    System.out.println("\nFunction 3.1 - Airport retrieval\n");
+    waitForInput();
+
+    var select = Select.from(VU.airport).where(VU.airport.iata.eq("DXB"));
+    System.out.println("\n\nQuery: " + select);
+    System.out.println("\nQuery should yield Dubai International Airport\n");
+
+    db.execute(select).getAirports().forEach(System.out::println);
+
+    select = Select.from(VU.airport).where(VU.airport.icao.eq("EDDF"));
+    System.out.println("Query: " + select);
+    System.out.println("\nQuery should yield Frankfurt Airport\n");
+
+    db.execute(select).getAirports().forEach(System.out::println);
+
+    select = Select.from(VU.airport).where(VU.airport.name.like("%London%"));
+    System.out.println("Query: " + select);
+    System.out.println("\nQuery should return all airports with London in their name\n");
+
+    db.execute(select).getAirports().forEach(System.out::println);
+
+    waitForInput();
 
   }
 
