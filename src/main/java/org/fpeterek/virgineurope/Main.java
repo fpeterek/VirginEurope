@@ -1,11 +1,13 @@
 package org.fpeterek.virgineurope;
 
+import kotlin.io.NoSuchFileException;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
 import org.fpeterek.virgineurope.orm.sql.Update;
+import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
 
 import java.sql.SQLException;
 
@@ -29,6 +31,113 @@ public class Main {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
+
+  }
+
+  public static void routeManagementTest(Database db) throws SQLException {
+
+    System.out.println("\nFunctions 4.1 through 4.9 - Fleet management\n");
+
+    System.out.println("Function 4.1 - adding routes\n\n");
+
+    System.out.println("First, we will add two airports (ICN, NRT) to the DB and then create a route between those two airports\n");
+
+    db.execute(Insert.into(VU.airport).values("RKSI", "ICN", "Incheon International Airport"));
+    db.execute(Insert.into(VU.airport).values("RJAA", "NRT", "Narita International Airport"));
+    waitForInput();
+
+    System.out.println("Now, we will create a route between those two airports.\n");
+
+    // INSERT INTO route (distance, etops_requirement, origin, destination) VALUES (400, 0, 'LKXB', 'EDDF');
+
+    var insert = Insert.into(VU.route)
+            .attributes(VU.route.distance, VU.route.etopsRequirement, VU.route.origin, VU.route.destination)
+            .values("500", "0", "RKSI", "RJAA");
+
+    System.out.println("Query: " + insert + "\n");
+
+    var inserted = db.execute(insert);
+    System.out.println("Inserted " + inserted + " values");
+    waitForInput();
+
+    System.out.println("Function 4.2 - printing routes. \n");
+
+    System.out.println("Print three routes...\n");
+
+    var select = Select.from(VU.route);
+    var routes = db.execute(select).getRoutes();
+    routes.stream().limit(3).forEach(System.out::println);
+
+    System.out.println("\n\nFunction 4.3 - editing routes");
+    var update = Update.table(VU.route).set(VU.route.distance, "750").set(VU.route.etopsRequirement, "60")
+            .where(VU.route.origin.eq("RKSI"));
+    System.out.println("\nQuery: " + update);
+    var updated = db.execute(update);
+    System.out.println("\nUpdated " + updated + " values\n");
+
+    System.out.println("\nFetching updated row from db...\n");
+
+    db.execute(Select.from(VU.route).where(VU.route.origin.eq("RKSI"))).getRoutes().forEach(System.out::println);
+    waitForInput();
+
+    System.out.println("\nFunction 4.4 - adding flights\n\n");
+
+    System.out.println("\nCreating flight on the newly created route...\n");
+
+    var routeId = db.execute(Select.from(VU.route).where(VU.route.origin.eq("RKSI"))).getRoutes().get(0).getId();
+    insert = Insert.into(VU.flight).values("VU0999", "12:00:00", "13:00:00", "BCS3", String.valueOf(routeId));
+
+    System.out.println("Query: " + insert);
+    inserted = db.execute(insert);
+    System.out.println("\nInserted " + inserted + " rows\n\n");
+
+    waitForInput();
+
+    System.out.println("\nFunction 4.5 - printing flights\n\n");
+
+    select = Select.from(VU.flight).join(VU.route).on(VU.route.id.eq(VU.flight.routeId))
+            .where(VU.flight.aircraftModelDesignator.eq("CONC"));
+
+    System.out.println("Query: " + select + "\n");
+    db.execute(select).getFlights().forEach(System.out::println);
+
+    System.out.println("\nFunction 4.5 - passenger counts per class on flight\n\n");
+
+    var res = (PaxPerClassQuery)db.execute(new PaxPerClassQuery("VU0139"));
+    System.out.println("Total number of economy passengers on flight VU139: " + res.getEconomyPassengers());
+    System.out.println("Total number of business passengers on flight VU139: " + res.getBusinessPassengers());
+    System.out.println("Total number of first passengers on flight VU139: " + res.getFirstPassengers());
+
+    waitForInput();
+
+    System.out.println("\nFunction 4.6 - editing flights\n\n");
+
+    update = Update.table(VU.flight)
+            .set(VU.flight.aircraftModelDesignator, "CONC")
+            .where(VU.flight.id.eq("VU0999"));
+
+    System.out.println("Query: " + update + "\n");
+    updated = db.execute(update);
+    System.out.println("Updated " + updated + " rows\n.");
+
+    db.execute(Select.from(VU.flight).where(VU.flight.id.eq("VU0999"))).getFlights().forEach(System.out::println);
+
+    waitForInput();
+    System.out.println("\nFunction 4.7 - removing flights\n\n");
+    var delete = Delete.from(VU.flight).where(VU.flight.id.eq("VU0999"));
+    System.out.println("Query: " + delete);
+    var deleted = db.execute(delete);
+    System.out.println("Deleted " + delete + " values.\n");
+
+    waitForInput();
+
+    System.out.println("Function 4.8 - searching by destination");
+
+
+
+    System.out.println("Resetting db into original state...");
+    db.execute(Delete.from(VU.route).where(VU.route.origin.eq("RKSI")));
+    db.execute(Delete.from(VU.airport).where(VU.airport.iata.eq("ICN").or(VU.airport.iata.eq("NRT"))));
 
   }
 
