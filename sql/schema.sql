@@ -142,7 +142,7 @@ ALTER TABLE flight
 
 ALTER TABLE operated_flight
     ADD CONSTRAINT operated_flight_aircraft_fk FOREIGN KEY ( aircraft_identifier )
-        REFERENCES aircraft ( identifier );
+        REFERENCES aircraft ( identifier ) ON DELETE SET NULL;
 
 ALTER TABLE operated_flight
     ADD CONSTRAINT operated_flight_flight_fk FOREIGN KEY ( flight_id )

@@ -1,12 +1,12 @@
 package org.fpeterek.virgineurope;
 
-import kotlin.io.NoSuchFileException;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
 import org.fpeterek.virgineurope.orm.sql.Update;
+import org.fpeterek.virgineurope.orm.sql.custom.FlightSearchQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
 
 import java.sql.SQLException;
@@ -23,10 +23,11 @@ public class Main {
   public static void main(String[] args) {
 
     try {
-      Database db = new Database();
-      // passengerTest(db);
-      // airportSearchTest(db);
-      // fleetManagementTest(db);
+      var db = new Database();
+      passengerTest(db);
+      airportSearchTest(db);
+      fleetManagementTest(db);
+      routeManagementTest(db);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
@@ -47,8 +48,6 @@ public class Main {
     waitForInput();
 
     System.out.println("Now, we will create a route between those two airports.\n");
-
-    // INSERT INTO route (distance, etops_requirement, origin, destination) VALUES (400, 0, 'LKXB', 'EDDF');
 
     var insert = Insert.into(VU.route)
             .attributes(VU.route.distance, VU.route.etopsRequirement, VU.route.origin, VU.route.destination)
@@ -103,10 +102,10 @@ public class Main {
 
     System.out.println("\nFunction 4.5 - passenger counts per class on flight\n\n");
 
-    var res = (PaxPerClassQuery)db.execute(new PaxPerClassQuery("VU0139"));
-    System.out.println("Total number of economy passengers on flight VU139: " + res.getEconomyPassengers());
-    System.out.println("Total number of business passengers on flight VU139: " + res.getBusinessPassengers());
-    System.out.println("Total number of first passengers on flight VU139: " + res.getFirstPassengers());
+    var res = (PaxPerClassQuery)db.execute(new PaxPerClassQuery("VU0141"));
+    System.out.println("Total number of economy passengers across all flights VU141: " + res.getEconomyPassengers());
+    System.out.println("Total number of business passengers across all flights VU141: " + res.getBusinessPassengers());
+    System.out.println("Total number of first passengers across all flights VU141: " + res.getFirstPassengers());
 
     waitForInput();
 
@@ -127,15 +126,40 @@ public class Main {
     var delete = Delete.from(VU.flight).where(VU.flight.id.eq("VU0999"));
     System.out.println("Query: " + delete);
     var deleted = db.execute(delete);
-    System.out.println("Deleted " + delete + " values.\n");
+    System.out.println("Deleted " + deleted + " values.\n");
 
     waitForInput();
 
-    System.out.println("Function 4.8 - searching by destination");
+    System.out.println("\nFunction 4.8 - searching by destination\n\n");
+    System.out.println("Searching for flights between Kobeřice and Dubai. Should yield multiple single segment flights\n");
 
+    var flights = db.execute(new FlightSearchQuery("LKXB", "OMDB"));
+    System.out.println(flights);
 
+    System.out.println("\nSearching for flights between Singapore and Dubai. Should yield multiple two segment flights\n");
+    System.out.println("First flight: SIN-KXB, Second flight: KXB-DXB (same flights as above)\n");
 
-    System.out.println("Resetting db into original state...");
+    flights = db.execute(new FlightSearchQuery("WSSS", "OMDB"));
+    System.out.println(flights);
+
+    System.out.println("\nFunction 4.8 - searching by Aircraft Type\n\n");
+    System.out.println("Let's say we want to fly an A320 and we don't care whether it's and A320 or an A321.");
+    System.out.println("Output is limited to 4 flights at most so as not to clutter stdout too much.\n\n");
+
+    select = Select.from(VU.flight)
+            .join(VU.aircraftModel)
+            .on(VU.aircraftModel.designator.eq(VU.flight.aircraftModelDesignator))
+            .where(VU.aircraftModel.family.eq("A320"));
+
+    System.out.println("Query: " + select + "\n");
+
+    var a320flights = db.execute(select).getFlights();
+
+    a320flights.stream().limit(4).forEach(System.out::println);
+
+    waitForInput();
+
+    System.out.println("\n\nResetting db into original state...");
     db.execute(Delete.from(VU.route).where(VU.route.origin.eq("RKSI")));
     db.execute(Delete.from(VU.airport).where(VU.airport.iata.eq("ICN").or(VU.airport.iata.eq("NRT"))));
 

@@ -95,6 +95,9 @@ $$;
 
 -- Function 5.4 - flight cancellation
 
+-- This function differs from the specification a bit
+-- Mainly because PL/pgSQL doesn't support Table variables
+-- and I needed to change it up a bit
 CREATE OR REPLACE FUNCTION cancelFlight(int) RETURNS boolean
 LANGUAGE plpgsql
 AS $$
@@ -367,6 +370,14 @@ $$;
 
 -- Function 1.4 - account deactivation
 
+-- I've only now realized this won't really work as there could be more than
+-- one passenger who decides to delete their account on the same flight
+-- if that were to happen, setting two passenger_ids to 0 would break
+-- database integrity
+-- Solutions: introduce a different primary key (not one composed of multiple FKs)
+-- or create 650 dummy passengers so we are able to fill an entire A380 with dummies
+-- I don' have time to fix it now, however, I can fix it later
+
 CREATE OR REPLACE FUNCTION delete_passenger_trigger_fun() RETURNS trigger LANGUAGE plpgsql AS
 $$
 BEGIN
@@ -380,6 +391,11 @@ FOR EACH ROW EXECUTE PROCEDURE delete_passenger_trigger_fun();
 
 -- Function 2.7 - removing aircraft from fleet
 
+-- I'm using ON DELETE SET NULL here, so this trigger isn't really necessary
+-- If, however, by any chance, ON DELETE SET NULL is prohibited (just like ON DELETE CASCADE),
+-- I can use this trigger instead
+
+/*
 CREATE OR REPLACE FUNCTION delete_aircraft_trigger_fun() RETURNS trigger LANGUAGE plpgsql AS
 $$
 BEGIN
@@ -390,6 +406,7 @@ $$;
 
 CREATE TRIGGER delete_aircraft_trigger BEFORE DELETE ON aircraft
 FOR EACH ROW EXECUTE PROCEDURE delete_aircraft_trigger_fun();
+*/
 
 
 -- Function 4.7 -- even if we do decide to remove a flight, we still want to keep
