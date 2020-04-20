@@ -1,0 +1,75 @@
+----------------------------------------------------------------
+-                                                              -
+-               Letecká společnost Virgin Europe               -
+-                                                              - 
+-                                     Filip Peterek, PET0342   -
+----------------------------------------------------------------
+
+Testy ještě nejsou úplně dokončené, ale kód už snad nijak radikálně upravovat nebudu.
+
+Historie změn je případně dostupná na Githubu: https://github.com/fpeterek/VirginEurope
+
+
+Program postupně projde všechny momentálně implementované testy. Občas se zastaví a čeká na stisk
+klávesy <Enter> (aby bylo možné manuálně zkontrolovat DB). Na konci resetuje všechny změny
+a zanechá DB ve stejném stavu, v jakém byla před spuštěním testu.
+
+
+-----------------------------------
+-                                 -
+-      Softwarové závislosti      -
+-                                 -
+-----------------------------------
+
+JDK13 (Používám OpenJDK, ale s Oracle JDK by to mělo fungovat taky)
+
+nebo
+
+Docker (Pokud chcete buildit v Dockeru. Není to třeba, ale Docker si zajistí správné JDK.)
+
+-------------------------------------
+-                                   -
+-       Build pomocí Gradle         -
+-                                   -
+-------------------------------------
+
+Linux:
+
+./gradlew build
+
+
+Windows:
+
+gradlew.bat build
+
+
+Na Linuxu je třeba použít Shell skript, na Windowsu Batch skript
+
+
+Spuštění:
+
+java -jar ./build/libs/VirginEurope-1.0.jar
+
+Případně pomocí Gradle:
+
+./gradlew run
+
+
+--------------------------------
+-                              -
+-     Build pomocí Dockeru     -
+-                              -
+--------------------------------
+
+Není třeba buildit v Dockeru, Docker si ale JDK zajistí sám. Počet příkazů je naprosto stejný (tedy 2).
+
+Build:
+
+docker build -t virgineurope .
+
+Run:
+
+docker run -ti virgineurope
+
+
+
