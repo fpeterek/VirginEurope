@@ -19,7 +19,7 @@ public class PassengerOnFlightTable extends Table {
 
   public final Attribute meal = createAttribute("meal");
   public final Attribute seat = createAttribute("seat");
-  public final Attribute travelClass = createAttribute("travel_class");
+  public final Attribute travelClass = createAttribute("class");
   public final Attribute baggageAllowance = createAttribute("baggage_allowance");
   public final Attribute operatedId = createAttribute("operated_id");
   public final Attribute passengerId = createAttribute("passenger_id");

@@ -102,9 +102,19 @@ public class Select {
     return this;
   }
 
+  private String selectAttrs() {
+    var sb = new StringBuilder();
+
+    allTables().forEach(t ->
+            t.attributes().forEach(attr -> sb.append(attr.fullName()).append(", "))
+    );
+
+    return sb.deleteCharAt(sb.length()-2).toString();
+  }
+
   public String build() {
     var sb = new StringBuilder();
-    sb.append("SELECT * FROM ").append(fromTable.tableName);
+    sb.append("SELECT ").append(selectAttrs()).append("FROM ").append(fromTable.tableName);
 
     for (Join join : joins) {
       var table = join.table.tableName;
