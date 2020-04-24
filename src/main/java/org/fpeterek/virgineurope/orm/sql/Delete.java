@@ -1,6 +1,7 @@
 package org.fpeterek.virgineurope.orm.sql;
 
 import org.fpeterek.virgineurope.orm.BooleanExpr;
+import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
 public class Delete extends DMLQuery {
@@ -18,6 +19,11 @@ public class Delete extends DMLQuery {
 
   public Delete where(BooleanExpr cond) {
     condition = cond;
+    return this;
+  }
+
+  public Delete row(Entity entity) {
+    entity.formDelete(this);
     return this;
   }
 

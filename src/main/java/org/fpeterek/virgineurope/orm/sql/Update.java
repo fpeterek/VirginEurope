@@ -3,6 +3,7 @@ package org.fpeterek.virgineurope.orm.sql;
 import kotlin.Pair;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.BooleanExpr;
+import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
 import java.util.*;
@@ -30,6 +31,11 @@ public class Update extends DMLQuery {
 
   public Update where(BooleanExpr condition) {
     cond = condition;
+    return this;
+  }
+
+  public Update row(Entity entity) {
+    entity.formUpdate(this);
     return this;
   }
 

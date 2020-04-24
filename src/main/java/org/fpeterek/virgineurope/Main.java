@@ -327,14 +327,17 @@ public class Main {
 
     System.out.println("\n\nFunction 8.1: Booking a flight");
     System.out.println("\n\nInserting myself onto three flights...");
-    insert = Insert.into(VU.flightTicket)
+    insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
+        VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
             .values("vegetarian", "13A", "business",  "32", "1", String.valueOf(peterekId));
     System.out.println("\n\nQuery: " + insert);
     db.execute(insert);
-    insert = Insert.into(VU.flightTicket)
+    insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
+        VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
             .values("vegetarian", "10C", "business",  "32", "13", String.valueOf(peterekId));
     db.execute(insert);
-    insert = Insert.into(VU.flightTicket)
+    insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
+        VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
             .values("vegetarian", "3A", "business",  "32", "17", String.valueOf(peterekId));
     db.execute(insert);
 

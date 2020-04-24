@@ -22,11 +22,11 @@ public class PaxPerClassQuery extends CustomQuery {
 
     var sb = new StringBuilder();
 
-    sb.append("SELECT pof.class, COUNT(pof.passenger_id) ")
+    sb.append("SELECT ft.class, COUNT(ft.passenger_id) ")
       .append("FROM operated_flight ")
-      .append("JOIN passenger_on_flight pof ON operated_flight.operated_id = pof.operated_id ")
+      .append("JOIN flight_ticket ft ON operated_flight.operated_id = ft.operated_id ")
       .append("WHERE flight_id='").append(flight).append("' ")
-      .append("GROUP BY pof.class ")
+      .append("GROUP BY ft.class ")
       .append("ORDER BY class;");
 
     select = sb.toString();

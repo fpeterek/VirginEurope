@@ -1,6 +1,7 @@
 package org.fpeterek.virgineurope.orm.sql;
 
 import org.fpeterek.virgineurope.orm.Attribute;
+import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
 import java.util.Arrays;
@@ -49,6 +50,11 @@ public class Insert extends DMLQuery {
 
   public static Insert into(Table table) {
     return new Insert(table);
+  }
+
+  public Insert row(Entity entity) {
+    entity.formInsert(this);
+    return this;
   }
 
   public AttributeList attributes(Attribute... attrs) {
