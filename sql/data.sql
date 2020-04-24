@@ -428,13 +428,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (21, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '2A', 'business', 32, 1, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '2D', 'business', 32, 1, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '5A', 'business', 32, 1, 4);
 
 -- Concorde flight 2
@@ -460,13 +460,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (24, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '3A', 'business', 32, 2, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '6D', 'business', 32, 2, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '12A', 'business', 32, 2, 8);
 
 -- Concorde flight 3
@@ -492,13 +492,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (24, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '2D', 'business', 32, 3, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '7C', 'business', 32, 3, 6);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '14A', 'business', 32, 3, 7);
 
 -- Concorde flight 4
@@ -524,13 +524,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (24, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '3A', 'business', 32, 4, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '6D', 'business', 32, 4, 9);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '12A', 'business', 32, 4, 10);
 
 -- Frankfurt flights (A220)
@@ -555,13 +555,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (8, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '2A', 'business', 32, 5, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '17D', 'economy', 18, 5, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '16A', 'economy', 18, 5, 4);
 
 -- FRA - KXB flight 2
@@ -584,13 +584,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (10, 6);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1D', 'business', 32, 6, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '12D', 'economy', 18, 6, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '13A', 'economy', 18, 6, 9);
 
 -- Prague flights (A220)
@@ -615,13 +615,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (8, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '12A', 'economy', 18, 7, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '12D', 'economy', 18, 7, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '15A', 'economy', 18, 7, 4);
 
 -- PRG - KXB flight 2
@@ -644,13 +644,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (10, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1D', 'business', 32, 8, 6);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '12D', 'economy', 18, 8, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '13A', 'economy', 18, 8, 10);
 
 -- Gatwick flights (A320)
@@ -675,13 +675,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (2, 9);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1D', 'business', 32, 9, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '2F', 'business', 32, 9, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '20A', 'economy', 18, 9, 3);
 
 -- LGW - KXB flight 2
@@ -704,13 +704,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (4, 10);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '2C', 'business', 32, 10, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3D', 'business', 32, 10, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '4C', 'business', 32, 10, 9);
 
 -- KXB - LGW flight 3
@@ -733,13 +733,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (4, 11);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '12C', 'economy', 18, 11, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '13D', 'economy', 18, 11, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '14C', 'economy', 18, 11, 10);
 
 -- LGW - KXB flight 4
@@ -762,13 +762,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (6, 12);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '2C', 'business', 32, 12, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '10F', 'economy', 18, 12, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '18A', 'economy', 18, 12, 9);
 
 -- Heathrow flights (A321)
@@ -793,13 +793,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (4, 13);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '12C', 'economy', 18, 13, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '20D', 'economy', 18, 13, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '14C', 'economy', 18, 13, 9);
 
 -- LHR - KXB flight 2
@@ -822,13 +822,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (6, 14);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '3C', 'business', 32, 14, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '1F', 'business', 32, 14, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '15E', 'economy', 18, 14, 10);
 
 -- KXB - LHR flight 3
@@ -851,13 +851,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (6, 15);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '17B', 'economy', 18, 15, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '13E', 'economy', 18, 15, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '6C', 'business', 32, 15, 6);
 
 -- LHR - KXB flight 4
@@ -880,13 +880,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (4, 16);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '12C', 'economy', 18, 16, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '4D', 'business', 32, 16, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '14C', 'economy', 18, 16, 7);
 
 -- New York flights (A321)
@@ -911,13 +911,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (4, 17);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1A', 'business', 32, 17, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '4F', 'business', 32, 17, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '8A', 'business', 32, 17, 7);
 
 -- JFK - KXB flight 2
@@ -940,13 +940,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (6, 18);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '1F', 'business', 32, 18, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '5A', 'business', 32, 18, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '7F', 'business', 32, 18, 6);
 
 -- Heathrow flights (A330)
@@ -971,13 +971,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (12, 19);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1F', 'business', 32, 19, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '15A', 'economy', 18, 19, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '30F', 'economy', 18, 19, 7);
 
 -- LHR - KXB flight 2
@@ -1000,13 +1000,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (14, 20);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1F', 'business', 32, 20, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1A', 'business', 18, 20, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '30F', 'economy', 18, 20, 9);
 
 -- Dubai flights (A330)
@@ -1031,13 +1031,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (14, 21);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '1F', 'business', 32, 21, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '15A', 'economy', 18, 21, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '30F', 'economy', 18, 21, 7);
 
 -- KXB - DXB flight 2
@@ -1060,13 +1060,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (12, 22);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '2F', 'business', 32, 22, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3A', 'business', 32, 22, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '22F', 'economy', 18, 22, 9);
 
 -- Los Angeles flights (A330)
@@ -1091,13 +1091,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (14, 23);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '2F', 'business', 32, 23, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '21A', 'economy', 18, 23, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '29F', 'economy', 18, 23, 5);
 
 -- LAX - KXB flight 2
@@ -1120,13 +1120,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (12, 24);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '2F', 'business', 32, 24, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '3A', 'business', 32, 24, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '7C', 'business', 32, 24, 6);
 
 -- Singapore flights (A350)
@@ -1151,13 +1151,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 25);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3F', 'business', 32, 25, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '16A', 'economy', 18, 25, 7);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '29F', 'economy', 18, 25, 10);
 
 -- SIN - KXB flight 2
@@ -1180,13 +1180,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 26);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '2F', 'business', 32, 26, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3A', 'business', 32, 26, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '7C', 'business', 32, 26, 8);
 
 -- KXB - SIN flight 3
@@ -1209,13 +1209,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 27);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3F', 'business', 32, 27, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '26A', 'economy', 18, 27, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '29F', 'economy', 18, 27, 6);
 
 -- SIN - KXB flight 4
@@ -1238,13 +1238,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 28);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '2F', 'business', 32, 28, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '8A', 'business', 32, 28, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '22C', 'economy', 18, 28, 5);
 
 -- KXB - SIN flight 5
@@ -1267,13 +1267,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 29);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3F', 'business', 32, 29, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '27A', 'economy', 18, 29, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '33F', 'economy', 18, 29, 6);
 
 -- SIN - KXB flight 6
@@ -1296,13 +1296,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 30);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '4F', 'business', 32, 30, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '3A', 'business', 32, 30, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('kosher', '25C', 'economy', 18, 30, 10);
 
 -- Los Angeles flights (A350)
@@ -1327,13 +1327,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 31);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '7F', 'business', 32, 31, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '23A', 'economy', 18, 31, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '31F', 'economy', 18, 31, 10);
 
 -- LAX - KXB flight 2
@@ -1356,13 +1356,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 32);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '2F', 'business', 32, 32, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '8A', 'business', 32, 32, 6);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '12C', 'business', 32, 32, 8);
 
 -- Dubai flights (A350)
@@ -1387,13 +1387,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 33);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '4F', 'business', 32, 33, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '25A', 'economy', 18, 33, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '32F', 'economy', 18, 33, 7);
 
 -- DXB - KXB flight 2
@@ -1416,13 +1416,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 34);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '2F', 'business', 32, 34, 2);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '8A', 'business', 32, 34, 4);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '21C', 'economy', 18, 34, 9);
 
 -- KXB - DXB flight 3
@@ -1445,13 +1445,13 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (18, 35);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '4A', 'business', 32, 35, 3);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('default', '25D', 'economy', 18, 35, 5);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '32C', 'economy', 18, 35, 6);
 
 -- DXB - KXB flight 4
@@ -1474,11 +1474,11 @@ INSERT INTO pilot_on_flight (pilot_id, operated_id)
 INSERT INTO pilot_on_flight (pilot_id, operated_id)
     VALUES (16, 36);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('halal', '1A', 'business', 32, 36, 1);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegan', '8C', 'business', 32, 36, 8);
 
-INSERT INTO passenger_on_flight (meal, seat, class, baggage_allowance, operated_id, passenger_id)
+INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '21B', 'economy', 18, 36, 10);

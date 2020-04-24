@@ -8,14 +8,15 @@ import org.fpeterek.virgineurope.orm.entities.FlightTicket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class PassengerOnFlightTable extends Table {
+public class FlightTicketTable extends Table {
 
-  private static String table_name = "passenger_on_flight";
+  private static String table_name = "flight_ticket";
 
   private Attribute createAttribute(String attr) {
     return createAttribute(attr, table_name);
   }
 
+  public final Attribute ticketId = createAttribute("ticket_id");
   public final Attribute meal = createAttribute("meal");
   public final Attribute seat = createAttribute("seat");
   public final Attribute travelClass = createAttribute("class");
@@ -23,22 +24,22 @@ public class PassengerOnFlightTable extends Table {
   public final Attribute operatedId = createAttribute("operated_id");
   public final Attribute passengerId = createAttribute("passenger_id");
 
-  public PassengerOnFlightTable() {
+  public FlightTicketTable() {
     super(table_name);
   }
 
   @Override
   public int offset() {
-    return 6;
+    return 7;
   }
 
-  public PassengerOnFlightTable as(String alias) {
-    return (PassengerOnFlightTable) super.as(alias);
+  public FlightTicketTable as(String alias) {
+    return (FlightTicketTable) super.as(alias);
   }
 
   @Override
   protected Table getAliasedTable(String alias) {
-    var table = new PassengerOnFlightTable();
+    var table = new FlightTicketTable();
     table.nameAlias = alias;
     return table;
   }
@@ -46,15 +47,16 @@ public class PassengerOnFlightTable extends Table {
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
 
-    String meal = rs.getString(offset + 1);
-    String seat = rs.getString(offset + 2);
-    String cls = rs.getString(offset + 3);
+    int id = rs.getInt(offset + 1);
+    String meal = rs.getString(offset + 2);
+    String seat = rs.getString(offset + 3);
+    String cls = rs.getString(offset + 4);
     TravelClass travelClass = TravelClass.fromString(cls);
-    int baggage = rs.getInt(offset + 4);
-    int operId = rs.getInt(offset + 5);
-    int paxId = rs.getInt(offset + 6);
+    int baggage = rs.getInt(offset + 5);
+    int operId = rs.getInt(offset + 6);
+    int paxId = rs.getInt(offset + 7);
 
-    return new FlightTicket(meal, seat, travelClass, baggage, operId, null, paxId, null);
+    return new FlightTicket(id, meal, seat, travelClass, baggage, operId, null, paxId, null);
   }
 
 }

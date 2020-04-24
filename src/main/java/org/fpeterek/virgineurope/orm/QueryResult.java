@@ -91,9 +91,9 @@ public class QueryResult {
       var retval = flightMap.putIfAbsent(fl.getFlightId(), fl);
       return retval == null ? fl : retval;
     }
-    else if (table instanceof PassengerOnFlightTable) {
+    else if (table instanceof FlightTicketTable) {
       var tk = (FlightTicket)entity;
-      var retval = ticketMap.putIfAbsent(tk.hashCode(), tk);
+      var retval = ticketMap.putIfAbsent(tk.getTicketId(), tk);
       return retval == null ? tk : retval;
     }
     else if (table instanceof OperatedFlightTable) {

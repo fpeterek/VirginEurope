@@ -327,21 +327,21 @@ public class Main {
 
     System.out.println("\n\nFunction 8.1: Booking a flight");
     System.out.println("\n\nInserting myself onto three flights...");
-    insert = Insert.into(VU.passengerOnFlight)
+    insert = Insert.into(VU.flightTicket)
             .values("vegetarian", "13A", "business",  "32", "1", String.valueOf(peterekId));
     System.out.println("\n\nQuery: " + insert);
     db.execute(insert);
-    insert = Insert.into(VU.passengerOnFlight)
+    insert = Insert.into(VU.flightTicket)
             .values("vegetarian", "10C", "business",  "32", "13", String.valueOf(peterekId));
     db.execute(insert);
-    insert = Insert.into(VU.passengerOnFlight)
+    insert = Insert.into(VU.flightTicket)
             .values("vegetarian", "3A", "business",  "32", "17", String.valueOf(peterekId));
     db.execute(insert);
 
     System.out.println("\n\nFunction 1.2 - fetching info about myself");
 
-    select = Select.from(VU.passengerOnFlight)
-            .join(VU.passenger).on(VU.passenger.id.eq(VU.passengerOnFlight.passengerId))
+    select = Select.from(VU.flightTicket)
+            .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
             .where(VU.passenger.lastName.eq("Peterek"));
     res = db.execute(select);
     var peterek = res.getPassengers().get(0);
@@ -360,16 +360,16 @@ public class Main {
     var updated = db.execute(update);
     System.out.println("\nUpdated " + updated + " rows");
 
-    update = Update.table(VU.passengerOnFlight).set(VU.passengerOnFlight.baggageAllowance, "64")
-            .where(VU.passengerOnFlight.passengerId.eq(String.valueOf(peterekId)));
+    update = Update.table(VU.flightTicket).set(VU.flightTicket.baggageAllowance, "64")
+            .where(VU.flightTicket.passengerId.eq(String.valueOf(peterekId)));
     System.out.println("\n\nQuery: " + insert);
     updated = db.execute(update);
     System.out.println("\nUpdated " + updated + " rows");
 
     System.out.println("\nFetching updated data...");
 
-    select = Select.from(VU.passengerOnFlight)
-            .join(VU.passenger).on(VU.passenger.id.eq(VU.passengerOnFlight.passengerId))
+    select = Select.from(VU.flightTicket)
+            .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
             .where(VU.passenger.lastName.eq("Peterek"));
     res = db.execute(select);
     peterek = res.getPassengers().get(0);
@@ -383,10 +383,10 @@ public class Main {
     System.out.println("Functions 1.4 and 8.4 - Cancelling flights and deleting my account");
     waitForInput();
 
-    var delete = Delete.from(VU.passengerOnFlight)
+    var delete = Delete.from(VU.flightTicket)
             .where(
-                    VU.passengerOnFlight.passengerId.eq(String.valueOf(peterekId)).and(
-                            VU.passengerOnFlight.operatedId.eq("13"))
+                    VU.flightTicket.passengerId.eq(String.valueOf(peterekId)).and(
+                            VU.flightTicket.operatedId.eq("13"))
             );
 
     System.out.println("\n\nQuery: " + delete);
@@ -394,8 +394,8 @@ public class Main {
     System.out.println("\nDeleted " + deleted + " rows");
 
     System.out.println("\nFetching my own flights again: ");
-    select = Select.from(VU.passengerOnFlight)
-            .join(VU.passenger).on(VU.passenger.id.eq(VU.passengerOnFlight.passengerId))
+    select = Select.from(VU.flightTicket)
+            .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
             .where(VU.passenger.lastName.eq("Peterek"));
     res = db.execute(select);
     flights = res.getFlightTickets();
@@ -412,7 +412,7 @@ public class Main {
     // anonymous people.
     // I should fix this if I find the time to do so.
     System.out.println("\n\nThere should now be two flights with a dummy...");
-    select = Select.from(VU.passengerOnFlight).where(VU.passengerOnFlight.passengerId.eq("0"));
+    select = Select.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq("0"));
     res = db.execute(select);
     flights = res.getFlightTickets();
     flights.forEach(System.out::println);
@@ -420,7 +420,7 @@ public class Main {
     waitForInput();
     System.out.println("Resetting database before moving onto another test...");
 
-    var del = Delete.from(VU.passengerOnFlight).where(VU.passengerOnFlight.passengerId.eq("0"));
+    var del = Delete.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq("0"));
     db.execute(del);
 
   }

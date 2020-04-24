@@ -1,11 +1,11 @@
 
 -- Function 4.5
 
-SELECT operated_flight.flight_id, pof.class, COUNT(pof.passenger_id)
+SELECT operated_flight.flight_id, ft.class, COUNT(ft.passenger_id)
 FROM operated_flight
-JOIN passenger_on_flight pof on operated_flight.operated_id = pof.operated_id
+JOIN flight_ticket ft on operated_flight.operated_id = ft.operated_id
 WHERE flight_id = $flightId
-GROUP BY flight_id, pof.class
+GROUP BY flight_id, ft.class
 ORDER BY flight_id, class;
 
 -- Function 4.9
@@ -141,14 +141,14 @@ BEGIN
 
     -- Fetch number of passengers in each class
 
-    SELECT COALESCE(COUNT(1), 0) INTO pax_in_business FROM passenger_on_flight
-    WHERE operated_id = oper_id AND passenger_on_flight.class= 'business';
+    SELECT COALESCE(COUNT(1), 0) INTO pax_in_business FROM flight_ticket
+    WHERE operated_id = oper_id AND flight_ticket.class= 'business';
 
-    SELECT COALESCE(COUNT(1), 0) INTO pax_in_first FROM passenger_on_flight
-    WHERE operated_id = oper_id AND passenger_on_flight.class= 'first';
+    SELECT COALESCE(COUNT(1), 0) INTO pax_in_first FROM flight_ticket
+    WHERE operated_id = oper_id AND flight_ticket.class= 'first';
 
-    SELECT COALESCE(COUNT(1), 0) INTO pax_in_economy FROM passenger_on_flight
-    WHERE operated_id = oper_id AND passenger_on_flight.class= 'economy';
+    SELECT COALESCE(COUNT(1), 0) INTO pax_in_economy FROM flight_ticket
+    WHERE operated_id = oper_id AND flight_ticket.class= 'economy';
 
     RAISE INFO 'Total passengers on cancelled flight per class: %, %, %', pax_in_economy, pax_in_business, pax_in_first;
 
@@ -181,17 +181,17 @@ BEGIN
 
         -- Calculate empty seats
 
-        SELECT COALESCE(COUNT(1), 0) INTO taken_eco_seats FROM passenger_on_flight
-        JOIN operated_flight ON passenger_on_flight.operated_id = operated_flight.operated_id
-        WHERE operated_flight.operated_id = fl.operated_id AND passenger_on_flight.class = 'economy';
+        SELECT COALESCE(COUNT(1), 0) INTO taken_eco_seats FROM flight_ticket
+        JOIN operated_flight ON flight_ticket.operated_id = operated_flight.operated_id
+        WHERE operated_flight.operated_id = fl.operated_id AND flight_ticket.class = 'economy';
 
-        SELECT COALESCE(COUNT(1), 0) INTO taken_bus_seats FROM passenger_on_flight
-        JOIN operated_flight ON passenger_on_flight.operated_id = operated_flight.operated_id
-        WHERE operated_flight.operated_id = fl.operated_id AND passenger_on_flight.class = 'business';
+        SELECT COALESCE(COUNT(1), 0) INTO taken_bus_seats FROM flight_ticket
+        JOIN operated_flight ON flight_ticket.operated_id = operated_flight.operated_id
+        WHERE operated_flight.operated_id = fl.operated_id AND flight_ticket.class = 'business';
 
-        SELECT COALESCE(COUNT(1), 0) INTO taken_fst_seats FROM passenger_on_flight
-        JOIN operated_flight ON passenger_on_flight.operated_id = operated_flight.operated_id
-        WHERE operated_flight.operated_id = fl.operated_id AND passenger_on_flight.class = 'first';
+        SELECT COALESCE(COUNT(1), 0) INTO taken_fst_seats FROM flight_ticket
+        JOIN operated_flight ON flight_ticket.operated_id = operated_flight.operated_id
+        WHERE operated_flight.operated_id = fl.operated_id AND flight_ticket.class = 'first';
 
         RAISE INFO 'Taken seats on flight per class: %, %, %', taken_eco_seats, taken_bus_seats, taken_fst_seats;
 
@@ -204,29 +204,29 @@ BEGIN
         -- First, calculate how many passengers we will be moving
 
         SELECT coalesce(count(passenger_id), 0) INTO moved_eco_pax
-        FROM passenger_on_flight
+        FROM flight_ticket
         WHERE class='economy' AND
-              passenger_on_flight.operated_id=oper_id AND
+              flight_ticket.operated_id=oper_id AND
               passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                  SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                  SELECT newfl.passenger_id FROM flight_ticket newfl
                   WHERE newfl.operated_id=fl.operated_id
               );
 
         SELECT coalesce(count(passenger_id), 0) INTO moved_bus_pax
-        FROM passenger_on_flight
+        FROM flight_ticket
         WHERE class='business' AND
-              passenger_on_flight.operated_id=oper_id AND
+              flight_ticket.operated_id=oper_id AND
               passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                  SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                  SELECT newfl.passenger_id FROM flight_ticket newfl
                   WHERE newfl.operated_id=fl.operated_id
               );
 
         SELECT coalesce(count(passenger_id), 0) INTO moved_fst_pax
-        FROM passenger_on_flight
+        FROM flight_ticket
         WHERE class='first' AND
-              passenger_on_flight.operated_id=oper_id AND
+              flight_ticket.operated_id=oper_id AND
               passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                  SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                  SELECT newfl.passenger_id FROM flight_ticket newfl
                   WHERE newfl.operated_id=fl.operated_id
               );
 
@@ -241,42 +241,42 @@ BEGIN
         -- Now move the passengers from their old flight onto the new one
 
         -- We also want to reset the seat as we don't want multiple passengers to fight over one seat
-        UPDATE passenger_on_flight SET operated_id=fl.operated_id, seat=''
+        UPDATE flight_ticket SET operated_id=fl.operated_id, seat=''
         WHERE operated_id=oper_id AND passenger_id IN (
             SELECT passenger_id
-            FROM passenger_on_flight
+            FROM flight_ticket
             WHERE class='economy' AND
-                  passenger_on_flight.operated_id=oper_id AND
+                  flight_ticket.operated_id=oper_id AND
                   passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                      SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                      SELECT newfl.passenger_id FROM flight_ticket newfl
                       WHERE newfl.operated_id=fl.operated_id
                   )
             ORDER BY passenger_id LIMIT empty_eco_seats
         );
 
         -- We also want to reset the seat as we don't want multiple passengers to fight over one seat
-        UPDATE passenger_on_flight SET operated_id=fl.operated_id, seat=''
+        UPDATE flight_ticket SET operated_id=fl.operated_id, seat=''
         WHERE operated_id=oper_id AND passenger_id IN (
             SELECT passenger_id
-            FROM passenger_on_flight
+            FROM flight_ticket
             WHERE class='business' AND
-                  passenger_on_flight.operated_id=oper_id AND
+                  flight_ticket.operated_id=oper_id AND
                   passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                      SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                      SELECT newfl.passenger_id FROM flight_ticket newfl
                       WHERE newfl.operated_id=fl.operated_id
                   )
             ORDER BY passenger_id LIMIT empty_bus_seats
         );
 
         -- We also want to reset the seat as we don't want multiple passengers to fight over one seat
-        UPDATE passenger_on_flight SET operated_id=fl.operated_id, seat=''
+        UPDATE flight_ticket SET operated_id=fl.operated_id, seat=''
         WHERE operated_id=oper_id AND passenger_id IN (
             SELECT passenger_id
-            FROM passenger_on_flight
+            FROM flight_ticket
             WHERE class='first' AND
-                  passenger_on_flight.operated_id=oper_id AND
+                  flight_ticket.operated_id=oper_id AND
                   passenger_id NOT IN ( -- We shouldn't put a passenger on the same flight twice, though
-                      SELECT newfl.passenger_id FROM passenger_on_flight newfl
+                      SELECT newfl.passenger_id FROM flight_ticket newfl
                       WHERE newfl.operated_id=fl.operated_id
                   )
             ORDER BY passenger_id LIMIT empty_fst_seats
@@ -381,7 +381,7 @@ $$;
 CREATE OR REPLACE FUNCTION delete_passenger_trigger_fun() RETURNS trigger LANGUAGE plpgsql AS
 $$
 BEGIN
-    UPDATE passenger_on_flight SET passenger_id=0 WHERE passenger_id=old.passenger_id;
+    UPDATE flight_ticket SET passenger_id=0 WHERE passenger_id=old.passenger_id;
     RETURN old;
 END;
 $$;

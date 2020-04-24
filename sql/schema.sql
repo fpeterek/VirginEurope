@@ -80,7 +80,8 @@ CREATE TABLE passenger (
 
 ALTER TABLE passenger ADD constraint passenger_pk PRIMARY KEY (passenger_id);
 
-CREATE TABLE passenger_on_flight (
+CREATE TABLE flight_ticket (
+    ticket_id           SERIAL NOT NULL,
     meal                VARCHAR(60),
     seat                VARCHAR(60),
     class               VARCHAR(60) NOT NULL CHECK (class in ('economy', 'business', 'first')),
@@ -89,7 +90,7 @@ CREATE TABLE passenger_on_flight (
     passenger_id        INTEGER NOT NULL
 );
 
-ALTER TABLE passenger_on_flight ADD constraint passenger_on_flight_pk PRIMARY KEY (operated_id, passenger_id);
+ALTER TABLE flight_ticket ADD constraint flight_ticket_pk PRIMARY KEY (ticket_id);
 
 
 CREATE TABLE pilot (
@@ -148,12 +149,12 @@ ALTER TABLE operated_flight
     ADD CONSTRAINT operated_flight_flight_fk FOREIGN KEY ( flight_id )
         REFERENCES flight ( flight_id );
 
-ALTER TABLE passenger_on_flight
-    ADD CONSTRAINT passenger_on_flight_operated_flight_fk FOREIGN KEY ( operated_id )
+ALTER TABLE flight_ticket
+    ADD CONSTRAINT flight_ticket_operated_flight_fk FOREIGN KEY ( operated_id )
         REFERENCES operated_flight ( operated_id );
 
-ALTER TABLE passenger_on_flight
-    ADD CONSTRAINT passenger_on_flight_passenger_fk FOREIGN KEY ( passenger_id )
+ALTER TABLE flight_ticket
+    ADD CONSTRAINT flight_ticket_passenger_fk FOREIGN KEY ( passenger_id )
         REFERENCES passenger ( passenger_id );
 
 ALTER TABLE pilot_on_flight

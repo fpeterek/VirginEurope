@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class FlightTicket extends Entity {
 
+  int ticketId;
   String meal;
   String seat;
   TravelClass travelClass;
@@ -21,9 +22,10 @@ public class FlightTicket extends Entity {
   int passengerId;
   Passenger passenger;
 
-  public FlightTicket(String meal, String seat, TravelClass cls, int allowance,
+  public FlightTicket(int id, String meal, String seat, TravelClass cls, int allowance,
                       int opId, OperatedFlight opFlight, int paxId, Passenger pax) {
 
+    ticketId = id;
     this.meal = meal;
     this.seat = seat;
     travelClass = cls;
@@ -35,6 +37,7 @@ public class FlightTicket extends Entity {
 
   }
 
+  public int getTicketId() { return ticketId; }
   public String getMeal() { return meal; }
   public String getSeat() { return seat; }
   public TravelClass getTravelClass() { return travelClass; }
@@ -45,9 +48,7 @@ public class FlightTicket extends Entity {
   public Passenger getPassenger() { return passenger; }
 
   private BooleanExpr dbMatchCond() {
-    var flCond = VU.passengerOnFlight.operatedId.eq(String.valueOf(operatedId));
-    var paxCond = VU.passengerOnFlight.passengerId.eq(String.valueOf(passengerId));
-    return flCond.or(paxCond);
+    return VU.flightTicket.ticketId.eq(String.valueOf(ticketId));
   }
 
   @Override
@@ -58,27 +59,27 @@ public class FlightTicket extends Entity {
   @Override
   public void formUpdate(Update query) {
     query
-        .set(VU.passengerOnFlight.passengerId, String.valueOf(passengerId))
-        .set(VU.passengerOnFlight.operatedId, String.valueOf(operatedId))
-        .set(VU.passengerOnFlight.baggageAllowance, String.valueOf(baggageAllowance))
-        .set(VU.passengerOnFlight.meal, meal)
-        .set(VU.passengerOnFlight.seat, seat)
-        .set(VU.passengerOnFlight.travelClass, travelClass.dbValue())
+        .set(VU.flightTicket.passengerId, String.valueOf(passengerId))
+        .set(VU.flightTicket.operatedId, String.valueOf(operatedId))
+        .set(VU.flightTicket.baggageAllowance, String.valueOf(baggageAllowance))
+        .set(VU.flightTicket.meal, meal)
+        .set(VU.flightTicket.seat, seat)
+        .set(VU.flightTicket.travelClass, travelClass.dbValue())
         .where(dbMatchCond());
   }
 
   @Override
   public void formInsert(Insert query) {
-    query.attributes(VU.passengerOnFlight.passengerId, VU.passengerOnFlight.operatedId,
-        VU.passengerOnFlight.baggageAllowance, VU.passengerOnFlight.meal, VU.passengerOnFlight.seat,
-        VU.passengerOnFlight.travelClass)
+    query.attributes(VU.flightTicket.passengerId, VU.flightTicket.operatedId,
+        VU.flightTicket.baggageAllowance, VU.flightTicket.meal, VU.flightTicket.seat,
+        VU.flightTicket.travelClass)
         .values(String.valueOf(passengerId), String.valueOf(operatedId), String.valueOf(baggageAllowance),
             meal, seat, travelClass.dbValue());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(operatedId, passengerId);
+    return ticketId;
   }
 
   @Override

@@ -12,7 +12,7 @@ public class VU {
   public static FlightTable flight = new FlightTable();
   public static OperatedFlightTable operatedFlight = new OperatedFlightTable();
   public static PassengerTable passenger = new PassengerTable();
-  public static PassengerOnFlightTable passengerOnFlight = new PassengerOnFlightTable();
+  public static FlightTicketTable flightTicket = new FlightTicketTable();
   public static PilotTable pilot = new PilotTable();
   public static PilotOnFlightTable pilotOnFlight = new PilotOnFlightTable();
   public static RouteTable route = new RouteTable();
