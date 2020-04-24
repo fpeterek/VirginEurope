@@ -1,5 +1,9 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 import org.joda.time.DateTime;
 
 public class Aircraft extends Entity {
@@ -25,6 +29,34 @@ public class Aircraft extends Entity {
     modelDesignator = designator;
     model = aircraftModel;
 
+  }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.aircraft.identifier.eq(identifier));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.aircraft.engine, engine)
+        .set(VU.aircraft.lastCheck, lastCheck.toString("YYYY-MM-DD"))
+        .set(VU.aircraft.firstSeats, String.valueOf(firstSeats))
+        .set(VU.aircraft.businessSeats, String.valueOf(businessSeats))
+        .set(VU.aircraft.modelDesignator, modelDesignator)
+        .set(VU.aircraft.economySeats, String.valueOf(economySeats))
+        .where(VU.aircraft.identifier.eq(identifier));
+
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.aircraft.identifier, VU.aircraft.engine, VU.aircraft.lastCheck,
+            VU.aircraft.modelDesignator, VU.aircraft.economySeats, VU.aircraft.businessSeats,
+            VU.aircraft.firstSeats)
+          .values(identifier, engine, lastCheck.toString("YYYY-MM-DD"),
+                  modelDesignator, String.valueOf(economySeats), String.valueOf(businessSeats),
+                  String.valueOf(firstSeats));
   }
 
   public String getIdentifier() { return identifier; }

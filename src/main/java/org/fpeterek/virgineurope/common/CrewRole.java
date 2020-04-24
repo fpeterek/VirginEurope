@@ -28,4 +28,8 @@ public enum CrewRole {
 
   }
 
+  public String dbValue() {
+    return role.toLowerCase();
+  }
+
 }

@@ -28,4 +28,8 @@ public enum Seniority {
 
   }
 
+  public String dbValue() {
+    return seniority.toLowerCase();
+  }
+
 }

@@ -3,15 +3,15 @@ package org.fpeterek.virgineurope.common;
 public enum SeatType {
   Window("Window"), Middle("Middle"), Aisle("Aisle");
 
-  private String join;
+  private final String seat;
 
   SeatType(String str) {
-    join = str;
+    seat = str;
   }
 
   @Override
   public String toString() {
-    return join;
+    return seat;
   }
 
   public static SeatType fromString(String str) {
@@ -28,6 +28,10 @@ public enum SeatType {
 
     throw new IllegalArgumentException("Invalid enum value: " + str);
 
+  }
+
+  public String dbValue() {
+    return seat.toLowerCase();
   }
 
 }

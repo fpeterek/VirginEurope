@@ -27,4 +27,15 @@ public enum EtopsCertified {
   public String toString() {
     return cert;
   }
+
+  public String dbValue() {
+    String lower = cert.toLowerCase();
+    if (lower.equals("yes")) {
+      return "yes";
+    } else if (lower.equals("na")) {
+      return "NA";
+    }
+    return "no";
+  }
+
 }

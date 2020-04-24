@@ -30,4 +30,8 @@ public enum TravelClass {
 
   }
 
+  public String dbValue() {
+    return cls.toLowerCase();
+  }
+
 }

@@ -3,7 +3,6 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.common.CrewRole;
 import org.fpeterek.virgineurope.common.Seniority;
 import org.fpeterek.virgineurope.orm.Attribute;
-import org.fpeterek.virgineurope.orm.entities.Table;
 import org.fpeterek.virgineurope.orm.entities.Crew;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 

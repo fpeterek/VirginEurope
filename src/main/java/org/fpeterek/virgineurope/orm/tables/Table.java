@@ -1,6 +1,7 @@
-package org.fpeterek.virgineurope.orm.entities;
+package org.fpeterek.virgineurope.orm.tables;
 
 import org.fpeterek.virgineurope.orm.Attribute;
+import org.fpeterek.virgineurope.orm.entities.Entity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

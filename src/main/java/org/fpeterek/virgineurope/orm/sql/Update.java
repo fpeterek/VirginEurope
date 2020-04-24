@@ -3,7 +3,7 @@ package org.fpeterek.virgineurope.orm.sql;
 import kotlin.Pair;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.BooleanExpr;
-import org.fpeterek.virgineurope.orm.entities.Table;
+import org.fpeterek.virgineurope.orm.tables.Table;
 
 import java.util.*;
 import java.util.stream.Collectors;

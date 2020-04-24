@@ -2,6 +2,10 @@ package org.fpeterek.virgineurope.orm.entities;
 
 import org.fpeterek.virgineurope.common.CrewRole;
 import org.fpeterek.virgineurope.common.Seniority;
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +45,28 @@ public class Crew extends Entity {
       flights = new ArrayList<>();
     }
     flights.add((Flight)entity);
+  }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.crew.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.crew.firstName, firstName)
+        .set(VU.crew.lastName, lastName)
+        .set(VU.crew.role, role.dbValue())
+        .set(VU.crew.seniority, seniority.dbValue())
+        .where(VU.crew.id.eq(String.valueOf(id)));
+
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.crew.firstName, VU.crew.lastName, VU.crew.role, VU.crew.seniority)
+        .values(firstName, lastName, role.dbValue(), seniority.dbValue());
   }
 
   @Override
