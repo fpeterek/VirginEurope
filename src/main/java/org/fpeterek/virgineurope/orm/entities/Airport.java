@@ -29,9 +29,9 @@ public class Airport extends Entity {
   @Override
   public void formUpdate(Update query) {
     query
-            .set(VU.airport.name, name)
-            .set(VU.airport.iata, iata)
-            .where(VU.airport.icao.eq(icao));
+        .set(VU.airport.name, name)
+        .set(VU.airport.iata, iata)
+        .where(VU.airport.icao.eq(icao));
   }
 
   @Override

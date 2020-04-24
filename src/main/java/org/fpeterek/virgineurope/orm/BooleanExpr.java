@@ -1,27 +1,71 @@
 package org.fpeterek.virgineurope.orm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BooleanExpr {
 
   public final String left;
   public final String right;
   public final String operator;
+  public final List<String> parameters = new ArrayList<>();
 
-  BooleanExpr(String l, String r, String op) {
+  BooleanExpr(String l, String op, String r) {
     left = l;
     right = r;
     operator = op;
   }
 
+  BooleanExpr(String l, String op, String r, boolean addToParams) {
+    left = l;
+    right = "?";
+    operator = op;
+    if (addToParams) {
+      parameters.add(r);
+    }
+  }
+
+  private void mergeParams(BooleanExpr other) {
+    parameters.addAll(other.parameters);
+  }
+
+  private BooleanExpr mergeWith(String op, BooleanExpr other) {
+    var res = new BooleanExpr(toParametrizedString(), op, other.toParametrizedString());
+    res.mergeParams(this);
+    res.mergeParams(other);
+    return res;
+  }
+
   public BooleanExpr and(BooleanExpr other) {
-    return new BooleanExpr(toString(), "AND", other.toString());
+    return mergeWith("AND", other);
   }
 
   public BooleanExpr or(BooleanExpr other) {
-    return new BooleanExpr(toString(), "OR", other.toString());
+    return mergeWith("OR", other);
   }
 
   @Override
   public String toString() {
-    return String.format("%s %s %s", left, right, operator);
+    return toFormattedString();
   }
+
+  public String toParametrizedString() {
+    return String.format("(%s %s %s)", left, operator, right);
+  }
+
+  public String toFormattedString() {
+
+    var parametrized = toParametrizedString();
+
+    for (String param : parameters) {
+      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    }
+
+    return parametrized;
+  }
+
+  private String quote(String str) {
+    return String.format("'%s'", str);
+  }
+
 }

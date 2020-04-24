@@ -4,14 +4,17 @@ import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Insert extends DMLQuery {
 
-  private static List<String> quoteVals(String[] vals) {
-    return Arrays.stream(vals).map(val -> "'" + val + "'").collect(Collectors.toList());
+  private static List<String> quoteVals(List<String> vals) {
+    return vals.stream().map(val -> "'" + val + "'").collect(Collectors.toList());
   }
 
   public static class AttributeList {
@@ -32,7 +35,7 @@ public class Insert extends DMLQuery {
         );
       }
 
-      origInsert.values = quoteVals(args);
+      origInsert.values = Arrays.asList(args);
       origInsert.attributes = attrs;
 
       return origInsert;
@@ -69,9 +72,19 @@ public class Insert extends DMLQuery {
       );
     }
 
-    values = quoteVals(args);
+    values = Arrays.asList(args);
 
     return this;
+  }
+
+  @Override
+  public PreparedStatement prepare(Connection connection) throws SQLException {
+    var statement = connection.prepareStatement(build());
+    int counter = 1;
+    for (String param : values) {
+      Util.addToStatement(counter++, statement, param);
+    }
+    return statement;
   }
 
   @Override
@@ -92,12 +105,27 @@ public class Insert extends DMLQuery {
     if (values != null && !values.isEmpty()) {
       sb.append(" VALUES ");
       sb.append("(");
-      sb.append(String.join(",", values));
+      sb.append(
+        String.join(",", values.stream().map(str -> "?").collect(Collectors.toList()))
+      );
+      // sb.append(String.join(",", values));
       sb.append(")");
     }
 
     sb.append(";");
 
     return sb.toString();
+  }
+
+  @Override
+  public String toFormattedString() {
+
+    var parametrized = build();
+
+    for (String param : quoteVals(values)) {
+      parametrized = parametrized.replaceFirst("\\?", param);
+    }
+
+    return parametrized;
   }
 }

@@ -30,8 +30,8 @@ public class Database {
 
   public QueryResult execute(Select select) throws SQLException {
 
-    var sm = conn.createStatement();
-    var res = sm.executeQuery(select.build());
+    var sm = select.prepare(conn);
+    var res = sm.executeQuery();
     var queryResult = new QueryResult(res, select.allTables());
     res.close();
     return queryResult;
@@ -39,7 +39,7 @@ public class Database {
   }
 
   public int execute(DMLQuery query) throws SQLException {
-    return conn.createStatement().executeUpdate(query.build());
+    return query.prepare(conn).executeUpdate();
   }
 
   public CustomQuery execute(CustomQuery query) throws SQLException {

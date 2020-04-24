@@ -3,6 +3,9 @@ package org.fpeterek.virgineurope.orm.sql;
 import org.fpeterek.virgineurope.orm.BooleanExpr;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,6 +115,18 @@ public class Select {
     return sb.deleteCharAt(sb.length()-2).toString();
   }
 
+  public PreparedStatement prepare(Connection connection) throws SQLException {
+    var statement = connection.prepareStatement(build());
+    int counter = 1;
+
+    if (cond == null) { return statement; }
+
+    for (String param : cond.parameters) {
+      Util.addToStatement(counter++, statement, param);
+    }
+    return statement;
+  }
+
   public String build() {
     var sb = new StringBuilder();
     sb.append("SELECT ").append(selectAttrs()).append("FROM ").append(fromTable.tableName);
@@ -128,7 +143,7 @@ public class Select {
     }
 
     if (cond != null) {
-      sb.append(" WHERE ").append(cond.toString());
+      sb.append(" WHERE ").append(cond.toParametrizedString());
     }
 
     sb.append(";");
@@ -137,8 +152,25 @@ public class Select {
 
   }
 
+  public String toFormattedString() {
+
+    var parametrized = build();
+
+    if (cond == null) { return parametrized; }
+
+    for (String param : cond.parameters) {
+      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    }
+
+    return parametrized;
+  }
+
+  private static String quote(String str) {
+    return "'" + str + "'";
+  }
+
   @Override
   public String toString() {
-    return build();
+    return toFormattedString();
   }
 }

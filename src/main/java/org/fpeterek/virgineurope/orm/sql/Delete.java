@@ -4,6 +4,10 @@ import org.fpeterek.virgineurope.orm.BooleanExpr;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.tables.Table;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class Delete extends DMLQuery {
 
   Table fromTable = null;
@@ -28,16 +32,47 @@ public class Delete extends DMLQuery {
   }
 
   @Override
+  public PreparedStatement prepare(Connection connection) throws SQLException {
+    var statement = connection.prepareStatement(build());
+    int counter = 1;
+
+    if (condition == null) { return statement; }
+
+    for (String param : condition.parameters) {
+      Util.addToStatement(counter++, statement, param);
+    }
+    return statement;
+  }
+
+  @Override
   public String build() {
 
     var sb = new StringBuilder();
     sb.append("DELETE FROM ").append(fromTable);
 
     if (condition != null) {
-      sb.append(" WHERE ").append(condition);
+      sb.append(" WHERE ").append(condition.toParametrizedString());
     }
 
     return sb.append(';').toString();
+  }
+
+  @Override
+  public String toFormattedString() {
+
+    var parametrized = build();
+
+    if (condition == null) { return parametrized; }
+
+    for (String param : condition.parameters) {
+      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    }
+
+    return parametrized;
+  }
+
+  private static String quote(String arg) {
+    return "'" + arg + "'";
   }
 
 }

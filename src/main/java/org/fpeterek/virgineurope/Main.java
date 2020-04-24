@@ -22,6 +22,8 @@ public class Main {
 
   public static void main(String[] args) {
 
+    builderTest();
+
     try {
       var db = new Database();
       passengerTest(db);
@@ -33,6 +35,49 @@ public class Main {
       e.printStackTrace();
     }
 
+  }
+
+  public static void builderTest() {
+    var sel = Select.from(VU.flight).join(VU.route).on(VU.route.id.eq(VU.flight.routeId))
+        .where(VU.route.origin.eq("LKXB").and(VU.route.etopsRequirement.eq(0)));
+
+    System.out.println(sel.build());
+    System.out.println("\n");
+    System.out.println(sel);
+
+    System.out.println("\n");
+
+    var update = Update.table(VU.flight).set(VU.flight.departureTime, "04:20:00")
+        .set(VU.flight.aircraftModelDesignator, "CONC")
+        .set(VU.flight.id, "VU0666")
+        .where(VU.flight.id.eq("VU1234"));
+
+    System.out.println(update.build());
+    System.out.println("\n");
+    System.out.println(update);
+
+    System.out.println("\n");
+
+
+    var insert = Insert.into(VU.airport)
+        .attributes(VU.airport.icao, VU.airport.iata, VU.airport.name)
+        .values("LKMT", "OSR", "Letiště Leoše Janáčka, Ostrava");
+
+    System.out.println(insert.build());
+    System.out.println("\n");
+    System.out.println(insert);
+
+    System.out.println("\n");
+
+    var delete = Delete.from(VU.flight)
+        .where(VU.flight.aircraftModelDesignator.eq("CONC")
+            .and(VU.flight.departureTime.eq("09:00:00")));
+
+    System.out.println(delete.build());
+    System.out.println("\n");
+    System.out.println(delete);
+
+    System.out.println("\n");
   }
 
   public static void routeManagementTest(Database db) throws SQLException {
