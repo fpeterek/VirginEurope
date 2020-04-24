@@ -1,5 +1,9 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 import org.joda.time.DateTime;
 
 
@@ -33,6 +37,30 @@ public class Flight extends Entity {
   public AircraftModel getAircraftModel() { return aircraftModel; }
   public int getRouteId() { return routeId; }
   public Route getRoute() { return route; }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.flight.id.eq(String.valueOf(flightId)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.flight.routeId, String.valueOf(routeId))
+        .set(VU.flight.aircraftModelDesignator, aircraftModelDesignator)
+        .set(VU.flight.arrivalTime, arrivalTime.toString("HH:mm:ss"))
+        .set(VU.flight.departureTime, departureTime.toString("HH:mm:ss"))
+        .where(VU.flight.id.eq(flightId));
+
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.flight.id, VU.flight.routeId, VU.flight.aircraftModelDesignator, VU.flight.arrivalTime,
+        VU.flight.departureTime)
+        .values(flightId, String.valueOf(routeId), aircraftModelDesignator, arrivalTime.toString("HH:mm:ss"),
+            departureTime.toString("HH:mm:ss"));
+  }
 
   @Override
   public void add(Entity entity) {

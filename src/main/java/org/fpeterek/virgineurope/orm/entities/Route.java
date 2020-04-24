@@ -1,5 +1,10 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
+
 public class Route extends Entity {
 
   int id;
@@ -30,6 +35,27 @@ public class Route extends Entity {
   public Airport getOrigin() { return origin; }
   public String getDestinationIcao() { return destinationIcao; }
   public Airport getDestination() { return destination; }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.route.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.route.origin, originIcao)
+        .set(VU.route.destination, destinationIcao)
+        .set(VU.route.etopsRequirement, String.valueOf(etopsRequirement))
+        .set(VU.route.distance, String.valueOf(distance))
+        .where(VU.route.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.route.origin, VU.route.destination, VU.route.etopsRequirement, VU.route.distance)
+        .values(originIcao, destinationIcao, String.valueOf(etopsRequirement), String.valueOf(distance));
+  }
 
   @Override
   public void add(Entity entity) {

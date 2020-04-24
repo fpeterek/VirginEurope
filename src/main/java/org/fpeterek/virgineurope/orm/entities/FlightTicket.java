@@ -1,6 +1,11 @@
 package org.fpeterek.virgineurope.orm.entities;
 
 import org.fpeterek.virgineurope.common.TravelClass;
+import org.fpeterek.virgineurope.orm.BooleanExpr;
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 
 import java.util.Objects;
 
@@ -38,6 +43,38 @@ public class FlightTicket extends Entity {
   public OperatedFlight getOperatedFlight() { return operatedFlight; }
   public int getPassengerId() { return passengerId; }
   public Passenger getPassenger() { return passenger; }
+
+  private BooleanExpr dbMatchCond() {
+    var flCond = VU.passengerOnFlight.operatedId.eq(String.valueOf(operatedId));
+    var paxCond = VU.passengerOnFlight.passengerId.eq(String.valueOf(passengerId));
+    return flCond.or(paxCond);
+  }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(dbMatchCond());
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.passengerOnFlight.passengerId, String.valueOf(passengerId))
+        .set(VU.passengerOnFlight.operatedId, String.valueOf(operatedId))
+        .set(VU.passengerOnFlight.baggageAllowance, String.valueOf(baggageAllowance))
+        .set(VU.passengerOnFlight.meal, meal)
+        .set(VU.passengerOnFlight.seat, seat)
+        .set(VU.passengerOnFlight.travelClass, travelClass.dbValue())
+        .where(dbMatchCond());
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.passengerOnFlight.passengerId, VU.passengerOnFlight.operatedId,
+        VU.passengerOnFlight.baggageAllowance, VU.passengerOnFlight.meal, VU.passengerOnFlight.seat,
+        VU.passengerOnFlight.travelClass)
+        .values(String.valueOf(passengerId), String.valueOf(operatedId), String.valueOf(baggageAllowance),
+            meal, seat, travelClass.dbValue());
+  }
 
   @Override
   public int hashCode() {

@@ -1,5 +1,9 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -70,6 +74,41 @@ public class OperatedFlight extends Entity {
       pilots = new ArrayList<>();
     }
     pilots.add(pilot);
+  }
+
+  private String formatTime(DateTime time) {
+    if (time == null) {
+      return null;
+    }
+    return time.toString("HH:mm:ss");
+  }
+
+  private String formattedDate() {
+    return date.toString("YYYY-MM-DD");
+  }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.operatedFlight.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.operatedFlight.aircraftIdentifier, aircraftId)
+        .set(VU.operatedFlight.actualArrival, formatTime(actualArrival))
+        .set(VU.operatedFlight.actualDeparture, formatTime(actualDeparture))
+        .set(VU.operatedFlight.date, formattedDate())
+        .set(VU.operatedFlight.flightId, flightId)
+
+        .where(VU.operatedFlight.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.actualArrival,
+        VU.operatedFlight.actualDeparture, VU.operatedFlight.date, VU.operatedFlight.flightId)
+        .values(aircraftId, formatTime(actualArrival), formatTime(actualDeparture), formattedDate(), flightId);
   }
 
   @Override

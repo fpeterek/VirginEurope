@@ -1,6 +1,10 @@
 package org.fpeterek.virgineurope.orm.entities;
 
 import org.fpeterek.virgineurope.common.SeatType;
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,27 @@ public class Passenger extends Entity {
 
   public String fullName() {
     return firstName + " " + lastName;
+  }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.passenger.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.passenger.firstName, firstName)
+        .set(VU.passenger.lastName, lastName)
+        .set(VU.passenger.preferredMeal, preferredMeal)
+        .set(VU.passenger.preferredSeat, preferredSeat.dbValue())
+        .where(VU.passenger.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.passenger.firstName, VU.passenger.lastName, VU.passenger.preferredMeal, VU.passenger.preferredSeat)
+        .values(firstName, lastName, preferredMeal, preferredSeat.dbValue());
   }
 
   @Override

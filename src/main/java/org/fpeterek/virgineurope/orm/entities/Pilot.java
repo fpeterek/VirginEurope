@@ -1,5 +1,10 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.sql.Delete;
+import org.fpeterek.virgineurope.orm.sql.Insert;
+import org.fpeterek.virgineurope.orm.sql.Update;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +36,27 @@ public class Pilot extends Entity {
   public String getCertification() { return certification; }
   public boolean isCaptain() { return captain; }
   public List<Flight> getFlights() { return flights; }
+
+  @Override
+  public void formDelete(Delete query) {
+    query.where(VU.pilot.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formUpdate(Update query) {
+    query
+        .set(VU.pilot.firstName, firstName)
+        .set(VU.pilot.lastName, lastName)
+        .set(VU.pilot.certification, certification)
+        .set(VU.pilot.isCaptain, String.valueOf(captain))
+        .where(VU.pilot.id.eq(String.valueOf(id)));
+  }
+
+  @Override
+  public void formInsert(Insert query) {
+    query.attributes(VU.pilot.firstName, VU.pilot.lastName, VU.pilot.certification, VU.pilot.isCaptain)
+        .values(firstName, lastName, certification, String.valueOf(captain));
+  }
 
   @Override
   public void add(Entity entity) {
