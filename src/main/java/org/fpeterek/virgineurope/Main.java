@@ -1,14 +1,12 @@
 package org.fpeterek.virgineurope;
 
 import org.fpeterek.virgineurope.common.CrewRole;
+import org.fpeterek.virgineurope.common.SeatType;
 import org.fpeterek.virgineurope.common.Seniority;
 import org.fpeterek.virgineurope.common.TravelClass;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
-import org.fpeterek.virgineurope.orm.entities.Crew;
-import org.fpeterek.virgineurope.orm.entities.FlightTicket;
-import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
-import org.fpeterek.virgineurope.orm.entities.Pilot;
+import org.fpeterek.virgineurope.orm.entities.*;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
@@ -37,16 +35,112 @@ public class Main {
 
     try {
       var db = new Database();
-      //passengerTest(db);
-      //airportSearchTest(db);
-      //fleetManagementTest(db);
-      //routeManagementTest(db);
-      //flightManagementTest(db);
+      passengerTest(db);
+      airportSearchTest(db);
+      fleetManagementTest(db);
+      routeManagementTest(db);
+      flightManagementTest(db);
       employeeManagementTest(db);
+      flightTicketManagementTest(db);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
+
+  }
+
+  public static void flightTicketManagementTest(Database db) throws SQLException {
+
+    System.out.println("\nFunctions 8.1 through 8.4 - Flight Ticket management\n\n");
+
+    var me = new Passenger(0, "Filip", "Peterek",
+        "vegetarian", SeatType.Window, null);
+    db.execute(Insert.into(VU.passenger).row(me));
+    me = db.execute(Select.from(VU.passenger).where(VU.passenger.lastName.eq("Peterek")))
+        .getPassengers().get(0);
+
+    System.out.println("Function 6.1 - purchasing tickets\n");
+
+    var ticket = new FlightTicket(0, "vegan", "5A", TravelClass.Business,
+        32, 1, null, me.getId(), me);
+
+    var insert = Insert.into(VU.flightTicket).row(ticket);
+    System.out.println("Query: " + ticket + "\n");
+    System.out.println("Inserted " + db.execute(insert) + " values");
+
+
+    ticket.setOperatedId(3);
+    ticket.setTravelClass(TravelClass.Economy);
+    ticket.setMeal("vegetarian");
+    insert = Insert.into(VU.flightTicket).row(ticket);
+    db.execute(insert);
+
+    ticket.setOperatedId(5);
+    ticket.setTravelClass(TravelClass.Business);
+    ticket.setSeat("3C");
+    insert = Insert.into(VU.flightTicket).row(ticket);
+    db.execute(insert);
+
+    System.out.println("Function 6.2 - printing tickets\n");
+
+    System.out.println("Printing my flights...");
+
+    var select = Select.from(VU.flightTicket)
+        .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
+        .where(VU.passenger.lastName.eq("Peterek"));
+
+    System.out.println("Query: " + select + "\n");
+
+    db.execute(select).getFlightTickets().forEach(System.out::println);
+
+    waitForInput();
+
+    System.out.println("Function 6.3 - updating tickets\n");
+
+    select = Select.from(VU.flightTicket)
+        .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
+        .where(VU.passenger.lastName.eq("Peterek")
+            .and(VU.flightTicket.travelClass.eq("economy")));
+
+    ticket = db.execute(select).getFlightTickets().get(0);
+
+    System.out.println("I don't necessarily fit in economy seats, so let's upgrade my flight" +
+        ", and change my meal while I'm at it.\n");
+
+    ticket.setTravelClass(TravelClass.Business);
+    ticket.setBaggageAllowance(64);
+    ticket.setMeal("halal");
+
+    var update = Update.table(VU.flightTicket).row(ticket);
+    System.out.println("Query: " + update + "\n");
+    System.out.println("Updated " + db.execute(update) + " rows.\n");
+
+    System.out.println("If we fetch my flights again, I should only ever fly business. " +
+        "I should also have halal meal set on one of my flights.\n");
+
+    select = Select.from(VU.flightTicket)
+        .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
+        .where(VU.passenger.lastName.eq("Peterek"));
+    db.execute(select).getFlightTickets().forEach(System.out::println);
+
+    waitForInput();
+
+    System.out.println("Function 6.4 - deleting tickets\n");
+
+    System.out.println("Let's delete the ticket updated in the previous step...\n");
+
+    var delete = Delete.from(VU.flightTicket).row(ticket);
+    System.out.println("Query: " + delete);
+    System.out.println("\nDeleted " + db.execute(delete) + " values. \n");
+
+    System.out.println("Number of tickets I currently hold: "
+        + db.execute(select).getFlightTickets().size());
+
+    waitForInput();
+
+    System.out.println("Resetting DB to previous state...");
+    db.execute(Delete.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq(me.getId())));
+    db.execute(Delete.from(VU.passenger).row(me));
 
   }
 
