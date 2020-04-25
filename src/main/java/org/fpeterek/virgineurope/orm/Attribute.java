@@ -61,6 +61,11 @@ public class Attribute {
     return new BooleanExpr(fullName(), "LIKE", other, true);
   }
 
+  public BooleanExpr ilike(String other) {
+    return new BooleanExpr(fullName(), "ILIKE", other, true);
+  }
+
+
   /* Integer overloads */
 
   public BooleanExpr eq(int other) {

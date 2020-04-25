@@ -25,6 +25,10 @@ public class Util {
     return !isNullOrBlank(str) && str.matches("[0-2][0-9]:[0-5][0-9]:[0-5][0-9]");
   }
 
+  public static boolean isBool(String str) {
+    return !isNullOrBlank(str) && (str.equals("true") || str.equals("false"));
+  }
+
   /* Postgres will raise an exception if I tried setString on a numeric value  */
   /* Also Java doesn't really offer a reasonable way to check whether a string */
   /* is a number and I refuse to use exceptions as control flow                */
@@ -39,6 +43,8 @@ public class Util {
       stmt.setDate(index, Date.valueOf(value));
     } else if (isTime(value)) {
       stmt.setTime(index, Time.valueOf(value));
+    } else if (isBool(value)) {
+      stmt.setBoolean(index, value.equals("true"));
     } else {
       stmt.setString(index, value);
     }

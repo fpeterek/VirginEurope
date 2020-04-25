@@ -1,10 +1,14 @@
 package org.fpeterek.virgineurope;
 
+import org.fpeterek.virgineurope.common.CrewRole;
+import org.fpeterek.virgineurope.common.Seniority;
 import org.fpeterek.virgineurope.common.TravelClass;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.entities.Crew;
 import org.fpeterek.virgineurope.orm.entities.FlightTicket;
 import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
+import org.fpeterek.virgineurope.orm.entities.Pilot;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
@@ -16,7 +20,6 @@ import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
-import java.nio.channels.SeekableByteChannel;
 import java.sql.SQLException;
 
 import static kotlin.io.ConsoleKt.readLine;
@@ -30,7 +33,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    builderTest();
+    // builderTest();
 
     try {
       var db = new Database();
@@ -38,12 +41,90 @@ public class Main {
       //airportSearchTest(db);
       //fleetManagementTest(db);
       //routeManagementTest(db);
-      flightManagementTest(db);
+      //flightManagementTest(db);
+      employeeManagementTest(db);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
 
+  }
+
+  public static void employeeManagementTest(Database db) throws SQLException {
+
+    System.out.println("\nFunctions 6.1 through 6.4 - Employee management\n\n");
+
+    System.out.println("Function 6.1 - adding employees\n");
+
+    var pilot = new Pilot(0, "Solr", "Elasticsearch", "A350", false, null);
+    var insert = Insert.into(VU.pilot).row(pilot);
+    System.out.println("Query: " + insert + "\n");
+    System.out.println("Inserted " + db.execute(insert) + " rows.\n");
+
+    var fa = new Crew(0, "MariaDB", "HBase", CrewRole.Attendant, Seniority.Senior, null);
+    insert = Insert.into(VU.crew).row(fa);
+    System.out.println("Query: " + insert + "\n");
+    System.out.println("Inserted " + db.execute(insert) + " rows.\n");
+
+    System.out.println("Function 6.2 - accessing employee data\n");
+    var select = Select.from(VU.pilot)
+        .where(VU.pilot.lastName.eq("Elasticsearch"));
+    System.out.println("Query: " + select + "\n");
+    pilot = db.execute(select).getPilots().get(0);
+    System.out.println(pilot);
+
+    select = Select.from(VU.crew)
+        .where(VU.crew.lastName.eq("HBase"));
+    System.out.println("\nQuery: " + select + "\n");
+    fa = db.execute(select).getCrew().get(0);
+    System.out.println(fa);
+
+    waitForInput();
+
+    System.out.println("\nFunction 6.3 - updating employee data\n");
+
+    System.out.println("Let's say our pilot got a promotion and changed their name to Elastic");
+    System.out.println("Our flight attendant switched to using Postgres");
+
+    pilot.setLastName("Elastic");
+    pilot.setCaptain(true);
+    fa.setFirstName("PostgreSQL");
+
+    var update = Update.table(VU.pilot).row(pilot);
+    System.out.println("Updated " + db.execute(update) + " rows \n");
+    update = Update.table(VU.crew).row(fa);
+    System.out.println("Updated " + db.execute(update) + " rows \n");
+
+    System.out.println("Printing updated values...\n");
+
+    db.execute(Select.from(VU.pilot).where(VU.pilot.lastName.eq("Elastic")))
+        .getPilots().forEach(System.out::println);
+    db.execute(Select.from(VU.crew).where(VU.crew.lastName.eq("HBase")))
+        .getCrew().forEach(System.out::println);
+
+    waitForInput();
+
+    System.out.println("\nFunction 6.4 - deleting employee data\n");
+
+    var delete = Delete.from(VU.pilot).row(pilot);
+    System.out.println("Query: " + delete);
+    var deleted = db.execute(delete);
+    System.out.println("\nDeleted " + deleted + " values.");
+
+    delete = Delete.from(VU.crew).row(fa);
+    System.out.println("Query: " + delete);
+    deleted = db.execute(delete);
+    System.out.println("\nDeleted " + deleted + " values.");
+
+    var esCount = db.execute(Select.from(VU.pilot).where(VU.pilot.lastName.eq("Elastic")))
+        .getPilots().size();
+    var hbaseCount = db.execute(Select.from(VU.crew).where(VU.crew.lastName.eq("HBase")))
+        .getCrew().size();
+
+    System.out.println("Number of pilots whose last name is Elastic: " + esCount);
+    System.out.println("Number of flight attendants whose last name is HBase: " + hbaseCount);
+
+    waitForInput();
   }
 
   public static void flightManagementTest(Database db) throws SQLException {
@@ -554,7 +635,7 @@ public class Main {
 
     db.execute(select).getAirports().forEach(System.out::println);
 
-    select = Select.from(VU.airport).where(VU.airport.name.like("%London%"));
+    select = Select.from(VU.airport).where(VU.airport.name.ilike("%london%"));
     System.out.println("Query: " + select);
     System.out.println("\nQuery should return all airports with London in their name\n");
 
