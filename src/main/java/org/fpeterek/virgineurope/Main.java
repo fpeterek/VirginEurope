@@ -478,7 +478,10 @@ public class Main {
 
     System.out.println("First, we will add two airports (ICN, NRT) to the DB and then create a route between those two airports\n");
 
-    db.execute(Insert.into(VU.airport).values("RKSI", "ICN", "Incheon International Airport"));
+    var seoul = new Airport("RKSI", "ICN", "Incheon International Airport");
+
+    // Either way is fine
+    db.execute(Insert.into(VU.airport).row(seoul));
     db.execute(Insert.into(VU.airport).values("RJAA", "NRT", "Narita International Airport"));
     waitForInput();
 
@@ -844,11 +847,6 @@ public class Main {
     deleted = db.execute(delete);
     System.out.println("\nDeleted " + deleted + " rows");
 
-    // I've only now realised this won't work as you could eventually need to put two dummies onto the same flight.
-    // which would break the database's integrity.
-    // Though I guess we could also just create 600 dummies and say at most there would an entire A380 filled with
-    // anonymous people.
-    // I should fix this if I find the time to do so.
     System.out.println("\n\nThere should now be two flights with a dummy...");
     select = Select.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq("0"));
     res = db.execute(select);
