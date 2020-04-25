@@ -47,6 +47,13 @@ public class FlightTicket extends Entity {
   public int getPassengerId() { return passengerId; }
   public Passenger getPassenger() { return passenger; }
 
+  public void setMeal(String newMeal) { meal = newMeal; }
+  public void setSeat(String newSeat) { seat = newSeat; }
+  public void setBaggageAllowance(int allowance) { baggageAllowance = allowance; }
+  public void setOperatedId(int newFlight) { operatedId = newFlight; }
+  public void setTravelClass(TravelClass cls) { travelClass = cls; }
+  public void setPassengerId(int newPax) { passengerId = newPax; }
+
   private BooleanExpr dbMatchCond() {
     return VU.flightTicket.ticketId.eq(String.valueOf(ticketId));
   }

@@ -1,5 +1,7 @@
 package org.fpeterek.virgineurope.orm.entities;
 
+import org.fpeterek.virgineurope.common.CrewRole;
+import org.fpeterek.virgineurope.common.Seniority;
 import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
@@ -36,6 +38,11 @@ public class Pilot extends Entity {
   public String getCertification() { return certification; }
   public boolean isCaptain() { return captain; }
   public List<Flight> getFlights() { return flights; }
+
+  public void setFirstName(String name) { firstName = name; }
+  public void setLastName(String name) { lastName = name; }
+  public void setCertification(String cert) { certification = cert; }
+  public void setCaptain(boolean isCaptain) { captain = isCaptain; }
 
   @Override
   public void formDelete(Delete query) {

@@ -28,6 +28,12 @@ public class Route extends Entity {
 
   }
 
+  private static void checkVal(int val, String valname) {
+    if (val < 0) {
+      throw new IllegalArgumentException(valname + " cannot be less than zero. ");
+    }
+  }
+
   public int getId() { return id; }
   public int getDistance() { return distance; }
   public int getEtopsRequirement() { return etopsRequirement; }
@@ -35,6 +41,16 @@ public class Route extends Entity {
   public Airport getOrigin() { return origin; }
   public String getDestinationIcao() { return destinationIcao; }
   public Airport getDestination() { return destination; }
+
+  public void setDistance(int dist) {
+    checkVal(dist, "Distance");
+    distance = dist;
+  }
+
+  public void setEtopsRequirement(int requirement) {
+    checkVal(requirement, "ETOPS requirement");
+    etopsRequirement = requirement;
+  }
 
   @Override
   public void formDelete(Delete query) {

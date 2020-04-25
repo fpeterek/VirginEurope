@@ -59,6 +59,12 @@ public class Aircraft extends Entity {
                   String.valueOf(firstSeats));
   }
 
+  private static void checkSeatCount(int count) {
+    if (count < 0) {
+      throw new IllegalArgumentException("Number of seats cannot be less than zero. ");
+    }
+  }
+
   public String getIdentifier() { return identifier; }
   public String getEngine() { return engine; }
   public int getEconomySeats() { return economySeats; }
@@ -66,6 +72,23 @@ public class Aircraft extends Entity {
   public int getFirstSeats() { return firstSeats; }
   public DateTime getLastCheck() { return lastCheck; }
   public String getModelDesignator() { return modelDesignator; }
+
+  public void setEconomySeats(int newVal) {
+    checkSeatCount(newVal);
+    economySeats = newVal;
+  }
+
+  public void setBusinessSeats(int newVal) {
+    checkSeatCount(newVal);
+    businessSeats = newVal;
+  }
+
+  public void setFirstSeats(int newVal) {
+    checkSeatCount(newVal);
+    firstSeats = newVal;
+  }
+
+  public void setLastCheck(DateTime date) { lastCheck = date; }
 
   @Override
   public void add(Entity entity) {

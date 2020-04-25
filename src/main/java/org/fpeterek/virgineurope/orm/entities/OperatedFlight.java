@@ -54,6 +54,10 @@ public class OperatedFlight extends Entity {
   public List<FlightTicket> getFlightTickets() { return tickets; }
   public List<Pilot> getPilots() { return pilots; }
 
+  public void setActualDeparture(DateTime time) { actualDeparture = time; }
+  public void setActualArrival(DateTime time) { actualArrival = time; }
+  public void setAircraftId(String id) { aircraftId = id; }
+  public void setDate(DateTime newDate) { date = newDate; }
 
   private void addCrew(Crew crewMember) {
     if (crew == null) {
@@ -104,11 +108,33 @@ public class OperatedFlight extends Entity {
         .where(VU.operatedFlight.id.eq(String.valueOf(id)));
   }
 
-  @Override
-  public void formInsert(Insert query) {
+  private void insertNoTime(Insert query) {
+    query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.date, VU.operatedFlight.flightId)
+        .values(aircraftId, formattedDate(), flightId);
+  }
+
+  private void insertNoArrival(Insert query) {
+    query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.actualDeparture, VU.operatedFlight.date,
+        VU.operatedFlight.flightId)
+        .values(aircraftId, formatTime(actualDeparture), formattedDate(), flightId);
+  }
+
+  private void insertWithTime(Insert query) {
     query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.actualArrival,
         VU.operatedFlight.actualDeparture, VU.operatedFlight.date, VU.operatedFlight.flightId)
         .values(aircraftId, formatTime(actualArrival), formatTime(actualDeparture), formattedDate(), flightId);
+  }
+
+  /* Time can be null, this helps us avoid problems with nulls */
+  @Override
+  public void formInsert(Insert query) {
+    if (actualDeparture != null && actualArrival != null) {
+      insertWithTime(query);
+    } else if (actualDeparture != null) {
+      insertNoArrival(query);
+    } else {
+      insertNoTime(query);
+    }
   }
 
   @Override

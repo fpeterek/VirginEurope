@@ -38,9 +38,12 @@ public class Passenger extends Entity {
   public SeatType getPreferredSeat() { return preferredSeat; }
   public List<FlightTicket> getFlightTickets() { return tickets; }
 
-  public String fullName() {
-    return firstName + " " + lastName;
-  }
+  public String fullName() { return firstName + " " + lastName; }
+
+  public void setFirstName(String name) { firstName = name; }
+  public void setLastName(String name) { lastName = name; }
+  public void setPreferredMeal(String meal) { preferredMeal = meal; }
+  public void setPreferredSeat(SeatType seat) { preferredSeat = seat; }
 
   @Override
   public void formDelete(Delete query) {

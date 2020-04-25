@@ -38,6 +38,10 @@ public class Flight extends Entity {
   public int getRouteId() { return routeId; }
   public Route getRoute() { return route; }
 
+  public void setDepartureTime(DateTime time) { departureTime = time; }
+  public void setArrivalTime(DateTime time) { arrivalTime = time; }
+  public void setModelDesignator(String designator) { aircraftModelDesignator = designator; }
+
   @Override
   public void formDelete(Delete query) {
     query.where(VU.flight.id.eq(String.valueOf(flightId)));

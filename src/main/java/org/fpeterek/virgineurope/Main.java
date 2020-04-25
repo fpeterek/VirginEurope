@@ -2,12 +2,16 @@ package org.fpeterek.virgineurope;
 
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
 import org.fpeterek.virgineurope.orm.sql.Update;
 import org.fpeterek.virgineurope.orm.sql.custom.FlightSearchQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.sql.SQLException;
 
@@ -26,14 +30,66 @@ public class Main {
 
     try {
       var db = new Database();
-      passengerTest(db);
-      airportSearchTest(db);
-      fleetManagementTest(db);
-      routeManagementTest(db);
+      //passengerTest(db);
+      //airportSearchTest(db);
+      //fleetManagementTest(db);
+      //routeManagementTest(db);
+      flightManagementTest(db);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
     }
+
+  }
+
+  public static void flightManagementTest(Database db) throws SQLException {
+
+    System.out.println("\nFunctions 5.1 through 5.4 and 7.1 through 7.4 - Flight management, assigning crew\n");
+
+    System.out.println("Function 5.1 - Creating operated flights\n\n");
+
+    var of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWB", null,
+        DateTime.parse("2020-05-18", DateTimeFormat.forPattern("YYYY-MM-DD")), null, null, null);
+
+    var insert = Insert.into(VU.operatedFlight).row(of);
+
+    System.out.println("Query: " + insert.toFormattedString());
+    var inserted = db.execute(insert);
+    System.out.println("\nInserted: " + inserted + " queries\n\n");
+
+    System.out.println("Function 5.2 - Listing operated flights\n\n");
+
+    System.out.println("We will only fetch the newly inserted flight to avoid cluttering stdout.\n");
+
+    var sel = Select.from(VU.operatedFlight).where(VU.operatedFlight.aircraftIdentifier.eq("OK-XWB").and(
+        VU.operatedFlight.date.eq("2020-05-18")).and(VU.operatedFlight.flightId.eq("VU0139")));
+
+    System.out.println(sel.build() + "\n");
+    System.out.println(sel.toFormattedString() + "\n");
+
+    var fl = db.execute(sel).getOperatedFlights().get(0);
+
+    System.out.println(fl + "\n");
+
+    System.out.println("Function 5.3 - Editing operated flights\n\n");
+
+    // Time doesn't matter here
+    fl.setDate(new DateTime(2020, 6, 20, 0, 0));
+    // Dates don't matter here, only time does
+    fl.setActualDeparture(new DateTime(2000, 1, 1, 13, 20, 0));
+    fl.setActualArrival(new DateTime(2000, 1, 1, 14, 50, 30));
+
+    var update = Update.table(VU.operatedFlight).row(fl);
+
+    System.out.println("Update query: " + update.toFormattedString() + "\n");
+    var updated = db.execute(update);
+    System.out.println("Updated " + updated + " rows");
+
+    fl = db.execute(sel).getOperatedFlights().get(0);
+
+    System.out.println("\nFlight refetched from DB:\n" + fl);
+
+
 
   }
 

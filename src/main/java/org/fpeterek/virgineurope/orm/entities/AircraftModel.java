@@ -31,6 +31,12 @@ public class AircraftModel extends Entity {
 
   }
 
+  private static void checkVal(int val, String valname) {
+    if (val < 0) {
+      throw new IllegalArgumentException(valname + " cannot be lower than zero.");
+    }
+  }
+
   public String getDesignator() { return designator; }
   public String getManufacturer() { return manufacturer; }
   public String getFamily() { return family; }
@@ -39,6 +45,25 @@ public class AircraftModel extends Entity {
   public int getEtopsRating() { return etopsRating; }
   public int getRange() { return rangeNmi; }
   public int getMtow() { return mtow; }
+
+  public void setEtopsCertified(EtopsCertified certified) {
+    etopsCertified = certified;
+  }
+
+  public void setEtopsRating(int newRating) {
+    checkVal(newRating, "ETOPS rating");
+    etopsRating = newRating;
+  }
+
+  public void setRange(int newRange) {
+    checkVal(newRange, "Range");
+    rangeNmi = newRange;
+  }
+
+  public void setMtow(int newMtow) {
+    checkVal(newMtow, "Maximum take-off weight");
+    mtow = newMtow;
+  }
 
   @Override
   public void formDelete(Delete query) {
