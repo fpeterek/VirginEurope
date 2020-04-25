@@ -16,7 +16,7 @@ JOIN aircraft_model ON
 flight.aircraft_model_designator = aircraft_model.designator WHERE
 aircraft_model.family=$family AND route.origin=$origin AND operated_flight.date=$date
 
--- Function 7.1 - Assing pilots on flight
+-- Function 7.1 - Assign pilots on flight
 
 CREATE OR REPLACE FUNCTION AssignPilots(int) RETURNS boolean
 LANGUAGE plpgsql
@@ -377,6 +377,8 @@ $$;
 -- Solutions: introduce a different primary key (not one composed of multiple FKs)
 -- or create 650 dummy passengers so we are able to fill an entire A380 with dummies
 -- I don' have time to fix it now, however, I can fix it later
+
+-- Update: DB Schema has been updated due to the aforementioned reason
 
 CREATE OR REPLACE FUNCTION delete_passenger_trigger_fun() RETURNS trigger LANGUAGE plpgsql AS
 $$
