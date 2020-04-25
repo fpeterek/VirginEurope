@@ -27,6 +27,8 @@ public class FlightSearchQuery extends CustomQuery {
   }
 
   public FlightSearchQuery(String orig, String dest) {
+
+    // Validate airport codes to prevent SQL Injection
     if (!IcaoValidator.isValid(orig) || !IcaoValidator.isValid(dest)) {
       throw new IllegalArgumentException("Invalid icao code");
     }

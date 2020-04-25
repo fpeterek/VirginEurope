@@ -88,7 +88,7 @@ public class OperatedFlight extends Entity {
   }
 
   private String formattedDate() {
-    return date.toString("YYYY-MM-DD");
+    return date.toString("yyyy-MM-dd");
   }
 
   @Override

@@ -16,6 +16,7 @@ public class PaxPerClassQuery extends CustomQuery {
 
   public PaxPerClassQuery(String flight) {
 
+    // Validate flight number to prevent SQL Injection
     if (!FlightNumberValidator.isValid(flight)) {
       throw new IllegalArgumentException("Invalid flight number: '" + flight + "'");
     }

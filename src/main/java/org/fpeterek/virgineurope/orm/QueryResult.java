@@ -134,6 +134,7 @@ public class QueryResult {
       for (var table : includedTables) {
         Entity entity = table.parseFrom(res, offset);
         if (entity == null) {
+          offset += table.offset();
           continue;
         }
 

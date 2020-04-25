@@ -45,6 +45,8 @@ public class PilotTable extends Table {
   @Override
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
 
+    System.out.println(rs.getString(offset + 5));
+
     int id = rs.getInt(offset + 1);
     String fname = rs.getString(offset + 2);
     String lname = rs.getString(offset + 3);

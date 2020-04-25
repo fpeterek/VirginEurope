@@ -14,8 +14,8 @@ public class PilotOnFlightTable extends Table {
     return createAttribute(attr, table_name);
   }
 
-  public final Attribute crew_id = createAttribute("pilot_id");
-  public final Attribute flight_id = createAttribute("flight_id");
+  public final Attribute pilotId = createAttribute("pilot_id");
+  public final Attribute operatedId = createAttribute("operated_id");
 
   public PilotOnFlightTable() {
     super(table_name);

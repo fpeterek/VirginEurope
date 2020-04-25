@@ -1,18 +1,22 @@
 package org.fpeterek.virgineurope;
 
+import org.fpeterek.virgineurope.common.TravelClass;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
+import org.fpeterek.virgineurope.orm.entities.FlightTicket;
 import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Select;
 import org.fpeterek.virgineurope.orm.sql.Update;
+import org.fpeterek.virgineurope.orm.sql.custom.AssignPilotsQuery;
+import org.fpeterek.virgineurope.orm.sql.custom.CancelFlightQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.FlightSearchQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
+import java.nio.channels.SeekableByteChannel;
 import java.sql.SQLException;
 
 import static kotlin.io.ConsoleKt.readLine;
@@ -49,7 +53,9 @@ public class Main {
     System.out.println("Function 5.1 - Creating operated flights\n\n");
 
     var of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWB", null,
-        DateTime.parse("2020-05-18", DateTimeFormat.forPattern("YYYY-MM-DD")), null, null, null);
+        DateTime.parse("2020-05-18", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+
+    System.out.println(DateTime.parse("2020-05-18", DateTimeFormat.forPattern("yyyy-MM-dd")));
 
     var insert = Insert.into(VU.operatedFlight).row(of);
 
@@ -71,6 +77,7 @@ public class Main {
 
     System.out.println(fl + "\n");
 
+    waitForInput();
     System.out.println("Function 5.3 - Editing operated flights\n\n");
 
     // Time doesn't matter here
@@ -85,11 +92,163 @@ public class Main {
     var updated = db.execute(update);
     System.out.println("Updated " + updated + " rows");
 
-    fl = db.execute(sel).getOperatedFlights().get(0);
+    fl = db.execute(Select.from(VU.operatedFlight).where(VU.operatedFlight.id.eq(fl.getId()))).getOperatedFlights().get(0);
 
     System.out.println("\nFlight refetched from DB:\n" + fl);
 
+    waitForInput();
 
+    System.out.println("Function 5.4 - Cancelling flights\n\n");
+
+    System.out.println("Before deleting a flight from DB, we must first rebook passengers.\n");
+
+    System.out.println("Setting up db...");
+
+    System.out.println("Creating flights...");
+    of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWC", null,
+        DateTime.parse("2020-06-21", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+    db.execute(Insert.into(VU.operatedFlight).row(of));
+    of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWD", null,
+        DateTime.parse("2020-06-22", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+    db.execute(Insert.into(VU.operatedFlight).row(of));
+
+    System.out.println("Adding passengers...");
+
+    var ticket = new FlightTicket(0, "default", "5A", TravelClass.Business, 64, fl.getId(), null, 1, null);
+    db.execute(Insert.into(VU.flightTicket).row(ticket));
+    ticket.setPassengerId(2);
+    db.execute(Insert.into(VU.flightTicket).row(ticket));
+    ticket.setPassengerId(3);
+    db.execute(Insert.into(VU.flightTicket).row(ticket));
+    ticket.setOperatedId(fl.getId()+1);
+    db.execute(Insert.into(VU.flightTicket).row(ticket));
+
+    System.out.println("Passengers on cancelled flight: \n");
+    db.execute(Select.from(VU.flightTicket).where(VU.flightTicket.operatedId.eq(fl.getId()))).getFlightTickets()
+    .forEach(System.out::println);
+
+    System.out.println();
+    waitForInput();
+
+    System.out.println("\n\nThere should now be three passengers on the cancelled flight. Two of these should get " +
+        "rebooked onto the next flight. The third passenger should actually already own a ticket for the second flight" +
+        ", causing this passenger to be rebooked on the third flight, not on the second flight. \n");
+
+    System.out.println("Cancelling flight...");
+    var cancelResult = (CancelFlightQuery)db.execute(new CancelFlightQuery(fl.getId()));
+    System.out.println(cancelResult);
+
+    System.out.println("\nThe flight can now be safely deleted from DB");
+    var delete = Delete.from(VU.operatedFlight).row(fl);
+    System.out.println("Query: " + delete);
+    var deleted = db.execute(delete);
+
+    System.out.println("\nDeleted " + deleted + " values.\n");
+
+    System.out.println("Let's check if the passengers have been properly rebooked...\n");
+    System.out.println("Second flight (should have 3 passengers):");
+    db.execute(Select.from(VU.flightTicket).where(VU.flightTicket.operatedId.eq(fl.getId()+1))).getFlightTickets()
+        .forEach(System.out::println);
+
+    System.out.println("Third flight (should have 1 passenger):");
+    db.execute(Select.from(VU.flightTicket).where(VU.flightTicket.operatedId.eq(fl.getId()+2))).getFlightTickets()
+        .forEach(System.out::println);
+
+    System.out.println("\n\nFunction 7.1 - assigning pilots and crew\n\n");
+    fl = db.execute(Select.from(VU.operatedFlight).where(VU.operatedFlight.id.eq(fl.getId()+1))).getOperatedFlights().get(0);
+
+    System.out.println("To assign pilots automatically, we can use the 'AssignPilots' stored function.\n");
+    System.out.println("We will assign pilots on the second newly created flight (the flight on which the majority of the" +
+        "passengers was rebooked).");
+    System.out.println("If we try to fetch pilots from DB, we'll see there are no pilots assigned for this flight:");
+    db.execute(Select.from(VU.pilotOnFlight).join(VU.pilot).on(VU.pilotOnFlight.pilotId.eq(VU.pilot.id))
+        .where(VU.pilotOnFlight.operatedId.eq(fl.getId()))).getPilots()
+        .forEach(System.out::println);
+
+    System.out.println("\nNow, let's try calling AssignPilots().\n");
+    waitForInput();
+    var res = (AssignPilotsQuery)db.execute(new AssignPilotsQuery(fl.getId()));
+    System.out.println(res);
+
+    System.out.println("\nAnd fetch pilots again:");
+
+    System.out.println(Select.from(VU.pilotOnFlight).join(VU.pilot).on(VU.pilotOnFlight.pilotId.eq(VU.pilot.id))
+        .where(VU.pilotOnFlight.operatedId.eq(fl.getId())));
+
+    db.execute(Select.from(VU.pilotOnFlight).join(VU.pilot).on(VU.pilotOnFlight.pilotId.eq(VU.pilot.id))
+        .where(VU.pilotOnFlight.operatedId.eq(fl.getId()))).getPilots()
+        .forEach(System.out::println);
+
+    System.out.println("\nIf everything went right, there should now be two pilots assigned for this flight " +
+        "(it's a 5 hour flight on an A35K, so there should only be two pilots.)");
+
+    waitForInput();
+
+    System.out.println("\n\nCrew can be assigned manually...\n");
+    insert = Insert.into(VU.crewOnFlight).attributes(VU.crewOnFlight.crewId, VU.crewOnFlight.operatedId)
+        .values(String.valueOf(1), String.valueOf(fl.getId()));
+
+    System.out.println(insert);
+    inserted = db.execute(insert);
+    System.out.println("Inserted " + inserted + " values");
+
+    waitForInput();
+
+    System.out.println("\n\nFunction 7.2 - printing pilots and crew\n\n");
+
+    System.out.println("Pilots have already been printed when testing the AssignPilots function.");
+    System.out.println("Flight attendants can be printed in much the same way.\n");
+
+    db.execute(Select.from(VU.crewOnFlight).join(VU.crew).on(VU.crewOnFlight.crewId.eq(VU.crew.id))
+        .where(VU.crewOnFlight.operatedId.eq(fl.getId()))).getCrew()
+        .forEach(System.out::println);
+
+    System.out.println("\n\nFunction 7.3 - Replacing crew\n\n");
+    System.out.println("Replacing FAs or pilots just means executing an update on either the pilot_on_flight or " +
+        "crew_on_flight table.");
+
+    update = Update.table(VU.crewOnFlight).set(VU.crewOnFlight.crewId, String.valueOf(2))
+        .where(VU.crewOnFlight.crewId.eq(1).and(VU.crewOnFlight.operatedId.eq(fl.getId())));
+    System.out.println("\nQuery: " + update + "\n");
+    updated = db.execute(update);
+    System.out.println("Updated " + updated + " rows.\n");
+    System.out.println("Printing...\n");
+
+    db.execute(Select.from(VU.crewOnFlight).join(VU.crew).on(VU.crewOnFlight.crewId.eq(VU.crew.id))
+        .where(VU.crewOnFlight.operatedId.eq(fl.getId()))).getCrew()
+        .forEach(System.out::println);
+
+    waitForInput();
+
+    System.out.println("\n\nFunction 7.4 - Removing crew from flights\n\n");
+
+    delete = Delete.from(VU.pilotOnFlight).where(VU.pilotOnFlight.operatedId.eq(fl.getId()));
+    System.out.println("Query: " + delete + "\n");
+    deleted = db.execute(delete);
+    System.out.println("Deleted " + deleted + " rows.");
+    System.out.println("Pilots on operated flight number \" +  fl.getId() + \" (there should be none): " );
+
+    db.execute(Select.from(VU.pilotOnFlight).join(VU.pilot).on(VU.pilotOnFlight.pilotId.eq(VU.pilot.id))
+        .where(VU.pilotOnFlight.operatedId.eq(fl.getId()))).getPilots()
+        .forEach(System.out::println);
+
+    delete = Delete.from(VU.crewOnFlight).where(VU.crewOnFlight.operatedId.eq(fl.getId()));
+    System.out.println("Query: " + delete + "\n");
+    deleted = db.execute(delete);
+    System.out.println("Deleted " + deleted + " rows.");
+    System.out.println("Crew on operated flight number " +  fl.getId() + " (there should be none): ");
+
+    db.execute(Select.from(VU.pilotOnFlight).join(VU.pilot).on(VU.pilotOnFlight.pilotId.eq(VU.pilot.id))
+        .where(VU.pilotOnFlight.operatedId.eq(fl.getId()))).getPilots()
+        .forEach(System.out::println);
+
+    waitForInput();
+    System.out.println("Resetting DB to original state...");
+    db.execute(Delete.from(VU.flightTicket).where(VU.flightTicket.operatedId.gte(fl.getId())));
+    db.execute(Delete.from(VU.crewOnFlight).where(VU.crewOnFlight.operatedId.gte(fl.getId())));
+    db.execute(Delete.from(VU.pilotOnFlight).where(VU.pilotOnFlight.operatedId.gte(fl.getId())));
+
+    db.execute(Delete.from(VU.operatedFlight).where(VU.operatedFlight.id.gte(fl.getId())));
 
   }
 
