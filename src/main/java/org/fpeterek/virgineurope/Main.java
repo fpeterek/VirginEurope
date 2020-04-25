@@ -31,7 +31,7 @@ public class Main {
 
   public static void main(String[] args) {
 
-    // builderTest();
+    builderTest();
 
     try {
       var db = new Database();

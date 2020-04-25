@@ -4,6 +4,8 @@ import org.fpeterek.virgineurope.orm.sql.CustomQuery;
 import org.fpeterek.virgineurope.validators.IcaoValidator;
 import org.yaml.snakeyaml.Yaml;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +14,9 @@ import java.util.Map;
 
 public class FlightSearchQuery extends CustomQuery {
 
-  String query;
+  private final String query;
+  private final String origin;
+  private final String destination;
 
   private List<String> firstFlight;
   private List<String> secondFlight;
@@ -28,11 +32,21 @@ public class FlightSearchQuery extends CustomQuery {
 
   public FlightSearchQuery(String orig, String dest) {
 
-    // Validate airport codes to prevent SQL Injection
     if (!IcaoValidator.isValid(orig) || !IcaoValidator.isValid(dest)) {
       throw new IllegalArgumentException("Invalid icao code");
     }
-    query = "SELECT FindFlights(" + quote(orig) + ", " + quote(dest) + ");";
+
+    origin = orig;
+    destination = dest;
+    query = "SELECT FindFlights(?, ?);";
+  }
+
+  @Override
+  public PreparedStatement prepare(Connection connection) throws SQLException {
+    var sm = connection.prepareStatement(query);
+    sm.setString(1, origin);
+    sm.setString(2, destination);
+    return sm;
   }
 
   @Override
