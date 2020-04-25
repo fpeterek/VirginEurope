@@ -4,7 +4,7 @@ package org.fpeterek.virgineurope.util
 // Java cannot stream over Strings
 fun isNumeric(str: String?) = !str.isNullOrEmpty() && str.all { it.isDigit() }
 
-// Incorrect checks, but I don't care, for now it's good enough
+// Incorrect checks, but I don't care, it's good enough for now
 // Might fix later
 
 fun isDate(str: String?) =

@@ -9,6 +9,22 @@ import java.sql.Time;
 
 public class Util {
 
+  public static boolean isNullOrBlank(String str) {
+    return (str == null || str.isBlank());
+  }
+
+  public static boolean isNumeric(String str) {
+    return !isNullOrBlank(str) && str.chars().allMatch(Character::isDigit);
+  }
+
+  public static boolean isDate(String str) {
+    return !isNullOrBlank(str) && str.matches("[0-9]{4}-[0-1][0-9]-[0-3][0-9]");
+  }
+
+  public static boolean isTime(String str) {
+    return !isNullOrBlank(str) && str.matches("[0-2][0-9]:[0-5][0-9]:[0-5][0-9]");
+  }
+
   /* Postgres will raise an exception if I tried setString on a numeric value  */
   /* Also Java doesn't really offer a reasonable way to check whether a string */
   /* is a number and I refuse to use exceptions as control flow                */
@@ -17,11 +33,11 @@ public class Util {
   /* It could be done in a better way in other languages, and with some effort */
   /* probably in Java, too, but I don't have that much time                    */
   static void addToStatement(int index, PreparedStatement stmt, String value) throws SQLException {
-    if (UtilKt.isNumeric(value)) {
+    if (isNumeric(value)) {
       stmt.setInt(index, Integer.parseInt(value));
-    } else if (UtilKt.isDate(value)) {
+    } else if (isDate(value)) {
       stmt.setDate(index, Date.valueOf(value));
-    } else if (UtilKt.isTime(value)) {
+    } else if (isTime(value)) {
       stmt.setTime(index, Time.valueOf(value));
     } else {
       stmt.setString(index, value);
