@@ -1,9 +1,6 @@
 package org.fpeterek.virgineurope;
 
-import org.fpeterek.virgineurope.common.CrewRole;
-import org.fpeterek.virgineurope.common.SeatType;
-import org.fpeterek.virgineurope.common.Seniority;
-import org.fpeterek.virgineurope.common.TravelClass;
+import org.fpeterek.virgineurope.common.*;
 import org.fpeterek.virgineurope.orm.Database;
 import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.entities.*;
@@ -20,6 +17,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
+import java.nio.channels.SeekableByteChannel;
 import java.sql.SQLException;
 
 import static kotlin.io.ConsoleKt.readLine;
@@ -558,9 +556,12 @@ public class Main {
 
     System.out.println("\nFunction 4.6 - editing flights\n\n");
 
-    update = Update.table(VU.flight)
-            .set(VU.flight.aircraftModelDesignator, "CONC")
-            .where(VU.flight.id.eq("VU0999"));
+    var fl = db.execute(Select.from(VU.flight).where(VU.flight.id.eq("VU0999")))
+        .getFlights().get(0);
+
+    fl.setModelDesignator("CONC");
+
+    update = Update.table(VU.flight).row(fl);
 
     System.out.println("Query: " + update + "\n");
     updated = db.execute(update);
@@ -570,7 +571,7 @@ public class Main {
 
     waitForInput();
     System.out.println("\nFunction 4.7 - removing flights\n\n");
-    var delete = Delete.from(VU.flight).where(VU.flight.id.eq("VU0999"));
+    var delete = Delete.from(VU.flight).row(fl);
     System.out.println("Query: " + delete);
     var deleted = db.execute(delete);
     System.out.println("Deleted " + deleted + " values.\n");
@@ -617,11 +618,10 @@ public class Main {
     System.out.println("\nFunctions 2.1 through 2.7 - Fleet management\n");
     waitForInput();
 
-    var insert = Insert.into(VU.aircraftModel)
-            .attributes(VU.aircraftModel.designator, VU.aircraftModel.manufacturer, VU.aircraftModel.family,
-                        VU.aircraftModel.fullType, VU.aircraftModel.etopsCertified, VU.aircraftModel.etopsRating,
-                        VU.aircraftModel.rangeNmi, VU.aircraftModel.mtow)
-            .values("B748", "Boeing", "B747", "Boeing 747-8i", "NA", 0, 7730, 987000);
+    var b747 = new AircraftModel("B748", "Boeing", "B747", "Boeing 747",
+        EtopsCertified.NA, 0, 7730, 987000);
+
+    var insert = Insert.into(VU.aircraftModel).row(b747);
 
     System.out.println("\nFunction 2.1 - inserting aircraft model into DB");
 
@@ -639,8 +639,11 @@ public class Main {
 
     System.out.println("\nFunction 2.3 - Updating aircraft models");
 
-    var update = Update.table(VU.aircraftModel).set(VU.aircraftModel.fullType, "Kotlin Scala Groovy Whatever")
-            .where(VU.aircraftModel.designator.eq("B748"));
+    // Full type cannot be changed using methods because we don't expect to change the type
+    // of the aircraft, that's why I'm updating it manually
+    var update = Update.table(VU.aircraftModel)
+        .set(VU.aircraftModel.fullType, "Kotlin Scala Groovy Whatever")
+        .where(VU.aircraftModel.designator.eq("B748"));
 
     System.out.println("\nQuery: " + update + "\n");
     var updated = db.execute(update);
@@ -657,9 +660,11 @@ public class Main {
 
     System.out.println("\nFunction 2.4 - Adding aircraft to fleet");
 
-    insert = Insert.into(VU.aircraft)
-            .values("OK-VSB", "Rolls Royce Trent-1000", 250, 70, 0,
-                new LocalDate(2020, 4, 15), "A35K");
+    var okvsb = new Aircraft("OK-VSB", "Rolls Royce Trent-1000",
+        250, 70, 0,
+        new LocalDate(2020, 4, 15), "A35K", null);
+
+    insert = Insert.into(VU.aircraft).row(okvsb);
     System.out.println("\nQuery: " + insert);
     res = db.execute(insert);
     System.out.println("\nInserted " + res + " values");
@@ -677,12 +682,18 @@ public class Main {
 
     System.out.println("\nFunction 2.6 - Updating aircraft\n");
     waitForInput();
-    update = Update.table(VU.aircraft)
-            .set(VU.aircraft.businessSeats, 120)
-            .set(VU.aircraft.economySeats, 180)
-            .set(VU.aircraft.firstSeats, 9)
-            .set(VU.aircraft.lastCheck, new LocalDate(2020, 5, 17))
-            .where(VU.aircraft.identifier.eq("OK-VSB"));
+
+    // Probably isn't necessary, as the Aircraft entity doesn't have auto generated
+    // attributes. It doesn't hurt to test the Select once more, though
+    okvsb = db.execute(Select.from(VU.aircraft).where(VU.aircraft.identifier.eq("OK-VSB")))
+        .getAircraft().get(0);
+
+    okvsb.setBusinessSeats(120);
+    okvsb.setEconomySeats(180);
+    okvsb.setFirstSeats(9);
+    okvsb.setLastCheck(new LocalDate(2020, 5, 17));
+
+    update = Update.table(VU.aircraft).row(okvsb);
 
     System.out.println("\nQuery: " + update + "\n");
     updated = db.execute(update);
@@ -705,7 +716,7 @@ public class Main {
 
     System.out.println("\nNow we delete the aircraft from DB.\n");
 
-    var delete = Delete.from(VU.aircraft).where(VU.aircraft.identifier.eq("OK-VSB"));
+    var delete = Delete.from(VU.aircraft).row(okvsb);
 
     System.out.println("Query: " + delete);
     var deleted = db.execute(delete);
@@ -757,11 +768,11 @@ public class Main {
     System.out.println("Functions 1.1 through 1.4 and 8.1 through 8.4 - Passenger account management");
     waitForInput();
 
+    var peterek = new Passenger(0, "Filip", "Peterek", "vegetarian",
+        SeatType.Window, null);
+
     System.out.println("\n\nFunction 1.1: Creating a passenger account");
-    var insert = Insert
-            .into(VU.passenger)
-            .attributes(VU.passenger.firstName, VU.passenger.lastName, VU.passenger.preferredMeal, VU.passenger.preferredSeat)
-            .values("Filip", "Peterek", "vegetarian", "window");
+    var insert = Insert.into(VU.passenger).row(peterek);
 
     System.out.println("\n\nQuery: " + insert);
 
@@ -795,7 +806,7 @@ public class Main {
             .join(VU.passenger).on(VU.passenger.id.eq(VU.flightTicket.passengerId))
             .where(VU.passenger.lastName.eq("Peterek"));
     res = db.execute(select);
-    var peterek = res.getPassengers().get(0);
+    peterek = res.getPassengers().get(0);
     System.out.println(peterek);
 
     System.out.println("\n\nFunction 8.2 - Listing my own tickets");
@@ -855,7 +866,7 @@ public class Main {
     flights = res.getFlightTickets();
     flights.forEach(System.out::println);
 
-    delete = Delete.from(VU.passenger).where(VU.passenger.lastName.eq("Peterek"));
+    delete = Delete.from(VU.passenger).row(peterek);
     System.out.println("\n\nQuery: " + delete);
     deleted = db.execute(delete);
     System.out.println("\nDeleted " + deleted + " rows");
