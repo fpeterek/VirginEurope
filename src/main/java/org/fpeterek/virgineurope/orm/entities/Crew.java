@@ -55,7 +55,7 @@ public class Crew extends Entity {
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.crew.id.eq(String.valueOf(id)));
+    query.where(VU.crew.id.eq(id));
   }
 
   @Override
@@ -65,7 +65,7 @@ public class Crew extends Entity {
         .set(VU.crew.lastName, lastName)
         .set(VU.crew.role, role.dbValue())
         .set(VU.crew.seniority, seniority.dbValue())
-        .where(VU.crew.id.eq(String.valueOf(id)));
+        .where(VU.crew.id.eq(id));
 
   }
 

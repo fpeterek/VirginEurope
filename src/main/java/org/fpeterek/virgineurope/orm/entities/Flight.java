@@ -4,20 +4,20 @@ import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Update;
-import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 
 public class Flight extends Entity {
 
   String flightId;
-  DateTime departureTime;
-  DateTime arrivalTime;
+  LocalTime departureTime;
+  LocalTime arrivalTime;
   String aircraftModelDesignator;
   AircraftModel aircraftModel;
   int routeId;
   Route route;
 
-  public Flight(String id, DateTime departure, DateTime arrival, String modelDesignator,
+  public Flight(String id, LocalTime departure, LocalTime arrival, String modelDesignator,
                 AircraftModel model, int routeIdentifier, Route route) {
 
     flightId = id;
@@ -31,29 +31,29 @@ public class Flight extends Entity {
   }
 
   public String getFlightId() { return flightId; }
-  public DateTime getDepartureTime() { return departureTime; }
-  public DateTime getArrivalTime() { return arrivalTime; }
+  public LocalTime getDepartureTime() { return departureTime; }
+  public LocalTime getArrivalTime() { return arrivalTime; }
   public String getModelDesignator() { return aircraftModelDesignator; }
   public AircraftModel getAircraftModel() { return aircraftModel; }
   public int getRouteId() { return routeId; }
   public Route getRoute() { return route; }
 
-  public void setDepartureTime(DateTime time) { departureTime = time; }
-  public void setArrivalTime(DateTime time) { arrivalTime = time; }
+  public void setDepartureTime(LocalTime time) { departureTime = time; }
+  public void setArrivalTime(LocalTime time) { arrivalTime = time; }
   public void setModelDesignator(String designator) { aircraftModelDesignator = designator; }
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.flight.id.eq(String.valueOf(flightId)));
+    query.where(VU.flight.id.eq(flightId));
   }
 
   @Override
   public void formUpdate(Update query) {
     query
-        .set(VU.flight.routeId, String.valueOf(routeId))
+        .set(VU.flight.routeId, routeId)
         .set(VU.flight.aircraftModelDesignator, aircraftModelDesignator)
-        .set(VU.flight.arrivalTime, arrivalTime.toString("HH:mm:ss"))
-        .set(VU.flight.departureTime, departureTime.toString("HH:mm:ss"))
+        .set(VU.flight.arrivalTime, arrivalTime)
+        .set(VU.flight.departureTime, departureTime)
         .where(VU.flight.id.eq(flightId));
 
   }
@@ -62,8 +62,7 @@ public class Flight extends Entity {
   public void formInsert(Insert query) {
     query.attributes(VU.flight.id, VU.flight.routeId, VU.flight.aircraftModelDesignator, VU.flight.arrivalTime,
         VU.flight.departureTime)
-        .values(flightId, String.valueOf(routeId), aircraftModelDesignator, arrivalTime.toString("HH:mm:ss"),
-            departureTime.toString("HH:mm:ss"));
+        .values(flightId, routeId, aircraftModelDesignator, arrivalTime, departureTime);
   }
 
   @Override

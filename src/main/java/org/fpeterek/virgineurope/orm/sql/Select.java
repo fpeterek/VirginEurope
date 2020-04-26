@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 
 public class Select {
 
-  public class JoinObject {
+  public static class JoinObject {
 
-    private Select select;
-    private Table table;
-    private JoinType joinType;
+    private final Select select;
+    private final Table table;
+    private final JoinType joinType;
 
     protected JoinObject(Select sel, Table t, JoinType type) {
       select = sel;
@@ -34,7 +34,7 @@ public class Select {
   private enum JoinType {
     Inner("JOIN"), Left("LEFT JOIN"), Right("RIGHT JOIN"), Cartesian("CROSS JOIN");
 
-    private String join;
+    private final String join;
 
     JoinType(String str) {
       join = str;
@@ -46,7 +46,7 @@ public class Select {
     }
   }
 
-  private class Join {
+  private static class Join {
     public final Table table;
     public final JoinType joinType;
     public final BooleanExpr on;
@@ -121,7 +121,7 @@ public class Select {
 
     if (cond == null) { return statement; }
 
-    for (String param : cond.parameters) {
+    for (Object param : cond.parameters) {
       Util.addToStatement(counter++, statement, param);
     }
     return statement;
@@ -158,15 +158,11 @@ public class Select {
 
     if (cond == null) { return parametrized; }
 
-    for (String param : cond.parameters) {
-      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    for (Object param : cond.parameters) {
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param));
     }
 
     return parametrized;
-  }
-
-  private static String quote(String str) {
-    return "'" + str + "'";
   }
 
   @Override

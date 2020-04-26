@@ -75,11 +75,11 @@ public class AircraftModel extends Entity {
     query
             .set(VU.aircraftModel.fullType, fullType)
             .set(VU.aircraftModel.etopsCertified, etopsCertified.dbValue())
-            .set(VU.aircraftModel.etopsRating, String.valueOf(etopsRating))
+            .set(VU.aircraftModel.etopsRating, etopsRating)
             .set(VU.aircraftModel.family, family)
             .set(VU.aircraftModel.manufacturer, manufacturer)
-            .set(VU.aircraftModel.rangeNmi, String.valueOf(rangeNmi))
-            .set(VU.aircraftModel.mtow, String.valueOf(mtow))
+            .set(VU.aircraftModel.rangeNmi, rangeNmi)
+            .set(VU.aircraftModel.mtow, mtow)
             .where(VU.aircraftModel.designator.eq(designator));
 
   }
@@ -91,8 +91,7 @@ public class AircraftModel extends Entity {
             VU.aircraftModel.family, VU.aircraftModel.manufacturer,
             VU.aircraftModel.rangeNmi, VU.aircraftModel.mtow)
             .values(designator, fullType, etopsCertified.dbValue(),
-                    String.valueOf(etopsRating), family, manufacturer,
-                    String.valueOf(rangeNmi), String.valueOf(mtow));
+                    etopsRating, family, manufacturer, rangeNmi, mtow);
   }
 
   @Override

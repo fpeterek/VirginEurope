@@ -54,7 +54,7 @@ public class Route extends Entity {
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.route.id.eq(String.valueOf(id)));
+    query.where(VU.route.id.eq(id));
   }
 
   @Override
@@ -62,15 +62,15 @@ public class Route extends Entity {
     query
         .set(VU.route.origin, originIcao)
         .set(VU.route.destination, destinationIcao)
-        .set(VU.route.etopsRequirement, String.valueOf(etopsRequirement))
-        .set(VU.route.distance, String.valueOf(distance))
-        .where(VU.route.id.eq(String.valueOf(id)));
+        .set(VU.route.etopsRequirement, etopsRequirement)
+        .set(VU.route.distance, distance)
+        .where(VU.route.id.eq(id));
   }
 
   @Override
   public void formInsert(Insert query) {
     query.attributes(VU.route.origin, VU.route.destination, VU.route.etopsRequirement, VU.route.distance)
-        .values(originIcao, destinationIcao, String.valueOf(etopsRequirement), String.valueOf(distance));
+        .values(originIcao, destinationIcao, etopsRequirement, distance);
   }
 
   @Override

@@ -27,7 +27,7 @@ public class Insert extends DMLQuery {
       origInsert = insert;
     }
 
-    public Insert values(String... args) {
+    public Insert values(Object... args) {
 
       if (args.length != attrs.size()) {
         throw new IllegalArgumentException(
@@ -45,7 +45,7 @@ public class Insert extends DMLQuery {
 
   private final Table intoTable;
   private List<Attribute> attributes;
-  private List<String> values;
+  private List<Object> values;
 
   private Insert(Table table) {
     intoTable = table;
@@ -64,7 +64,7 @@ public class Insert extends DMLQuery {
     return new AttributeList(Arrays.asList(attrs), this);
   }
 
-  public Insert values(String... args) {
+  public Insert values(Object... args) {
 
     if (attributes != null && !attributes.isEmpty() && args.length != attributes.size()) {
       throw new IllegalArgumentException(
@@ -81,7 +81,7 @@ public class Insert extends DMLQuery {
   public PreparedStatement prepare(Connection connection) throws SQLException {
     var statement = connection.prepareStatement(build());
     int counter = 1;
-    for (String param : values) {
+    for (Object param : values) {
       Util.addToStatement(counter++, statement, param);
     }
     return statement;
@@ -106,7 +106,7 @@ public class Insert extends DMLQuery {
       sb.append(" VALUES ");
       sb.append("(");
       sb.append(
-        String.join(",", values.stream().map(str -> "?").collect(Collectors.toList()))
+          values.stream().map(str -> "?").collect(Collectors.joining(","))
       );
       // sb.append(String.join(",", values));
       sb.append(")");
@@ -122,8 +122,8 @@ public class Insert extends DMLQuery {
 
     var parametrized = build();
 
-    for (String param : quoteVals(values)) {
-      parametrized = parametrized.replaceFirst("\\?", param);
+    for (Object param : values) {
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param));
     }
 
     return parametrized;

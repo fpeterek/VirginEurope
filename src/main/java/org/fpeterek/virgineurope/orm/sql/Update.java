@@ -16,7 +16,7 @@ public class Update extends DMLQuery {
 
   private final Table updateTable;
   // Java doesn't have a Pair class in it's standard library so I'm forced to use a Kotlin Pair
-  private List<Pair<String, String>> setValues = new ArrayList<>();
+  private final List<Pair<String, Object>> setValues = new ArrayList<>();
   private BooleanExpr cond = null;
 
   private Update(Table t) {
@@ -27,7 +27,7 @@ public class Update extends DMLQuery {
     return new Update(t);
   }
 
-  public Update set(Attribute attr, String value) {
+  public Update set(Attribute attr, Object value) {
     setValues.add(new Pair<>(attr.name, value));
     return this;
   }
@@ -51,7 +51,7 @@ public class Update extends DMLQuery {
     }
 
     if (cond == null) { return statement; }
-    for (String param : cond.parameters) {
+    for (Object param : cond.parameters) {
       Util.addToStatement(counter++, statement, param);
     }
     return statement;
@@ -85,19 +85,15 @@ public class Update extends DMLQuery {
     var parametrized = build();
 
     for (var param : setValues) {
-      parametrized = parametrized.replaceFirst("\\?", quote(param.getSecond()));
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param.getSecond()));
     }
 
     if (cond == null) { return parametrized; }
 
     for (var param : cond.parameters) {
-      parametrized = parametrized.replaceFirst("\\?", quote(param));
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param));
     }
     return parametrized;
-  }
-
-  private static String quote(String param) {
-    return "'" + param + "'";
   }
 
 }

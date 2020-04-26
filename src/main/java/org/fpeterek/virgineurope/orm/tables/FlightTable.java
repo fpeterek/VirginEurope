@@ -4,6 +4,7 @@ import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.entities.Flight;
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,8 +47,8 @@ public class FlightTable extends Table {
   public Entity parseFrom(ResultSet rs, int offset) throws SQLException {
 
     String id = rs.getString(offset + 1);
-    DateTime departureTime = new DateTime(rs.getTime(offset + 2));
-    DateTime arrivalTime = new DateTime(rs.getTime(offset + 3));
+    LocalTime departureTime = new LocalTime(rs.getTime(offset + 2));
+    LocalTime arrivalTime = new LocalTime(rs.getTime(offset + 3));
     String modelDes = rs.getString(offset + 4);
     int routeId = rs.getInt(offset + 5);
 

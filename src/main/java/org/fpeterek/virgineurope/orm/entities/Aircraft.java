@@ -4,7 +4,7 @@ import org.fpeterek.virgineurope.orm.VU;
 import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Update;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 public class Aircraft extends Entity {
 
@@ -13,11 +13,11 @@ public class Aircraft extends Entity {
   int economySeats;
   int businessSeats;
   int firstSeats;
-  DateTime lastCheck;
+  LocalDate lastCheck;
   String modelDesignator;
   AircraftModel model;
 
-  public Aircraft(String id, String eng, int eSeats, int bSeats, int fSeats, DateTime check, String designator,
+  public Aircraft(String id, String eng, int eSeats, int bSeats, int fSeats, LocalDate check, String designator,
                   AircraftModel aircraftModel) {
 
     identifier = id;
@@ -40,11 +40,11 @@ public class Aircraft extends Entity {
   public void formUpdate(Update query) {
     query
         .set(VU.aircraft.engine, engine)
-        .set(VU.aircraft.lastCheck, lastCheck.toString("YYYY-MM-DD"))
-        .set(VU.aircraft.firstSeats, String.valueOf(firstSeats))
-        .set(VU.aircraft.businessSeats, String.valueOf(businessSeats))
+        .set(VU.aircraft.lastCheck, lastCheck)
+        .set(VU.aircraft.firstSeats, firstSeats)
+        .set(VU.aircraft.businessSeats, businessSeats)
         .set(VU.aircraft.modelDesignator, modelDesignator)
-        .set(VU.aircraft.economySeats, String.valueOf(economySeats))
+        .set(VU.aircraft.economySeats, economySeats)
         .where(VU.aircraft.identifier.eq(identifier));
 
   }
@@ -54,9 +54,8 @@ public class Aircraft extends Entity {
     query.attributes(VU.aircraft.identifier, VU.aircraft.engine, VU.aircraft.lastCheck,
             VU.aircraft.modelDesignator, VU.aircraft.economySeats, VU.aircraft.businessSeats,
             VU.aircraft.firstSeats)
-          .values(identifier, engine, lastCheck.toString("YYYY-MM-DD"),
-                  modelDesignator, String.valueOf(economySeats), String.valueOf(businessSeats),
-                  String.valueOf(firstSeats));
+          .values(identifier, engine, lastCheck, modelDesignator, economySeats,
+              businessSeats, firstSeats);
   }
 
   private static void checkSeatCount(int count) {
@@ -70,7 +69,7 @@ public class Aircraft extends Entity {
   public int getEconomySeats() { return economySeats; }
   public int getBusinessSeats() { return businessSeats; }
   public int getFirstSeats() { return firstSeats; }
-  public DateTime getLastCheck() { return lastCheck; }
+  public LocalDate getLastCheck() { return lastCheck; }
   public String getModelDesignator() { return modelDesignator; }
 
   public void setEconomySeats(int newVal) {
@@ -88,7 +87,7 @@ public class Aircraft extends Entity {
     firstSeats = newVal;
   }
 
-  public void setLastCheck(DateTime date) { lastCheck = date; }
+  public void setLastCheck(LocalDate date) { lastCheck = date; }
 
   @Override
   public void add(Entity entity) {

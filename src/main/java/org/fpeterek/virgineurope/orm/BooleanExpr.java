@@ -1,5 +1,7 @@
 package org.fpeterek.virgineurope.orm;
 
+import org.fpeterek.virgineurope.orm.sql.Util;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class BooleanExpr {
   public final String left;
   public final String right;
   public final String operator;
-  public final List<String> parameters = new ArrayList<>();
+  public final List<Object> parameters = new ArrayList<>();
 
   BooleanExpr(String l, String op, String r) {
     left = l;
@@ -16,7 +18,7 @@ public class BooleanExpr {
     operator = op;
   }
 
-  BooleanExpr(String l, String op, String r, boolean addToParams) {
+  BooleanExpr(String l, String op, Object r, boolean addToParams) {
     left = l;
     right = "?";
     operator = op;
@@ -57,15 +59,11 @@ public class BooleanExpr {
 
     var parametrized = toParametrizedString();
 
-    for (String param : parameters) {
-      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    for (Object param : parameters) {
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param));
     }
 
     return parametrized;
-  }
-
-  private String quote(String str) {
-    return String.format("'%s'", str);
   }
 
 }

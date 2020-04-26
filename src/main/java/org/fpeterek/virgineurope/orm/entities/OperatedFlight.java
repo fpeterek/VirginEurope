@@ -5,6 +5,8 @@ import org.fpeterek.virgineurope.orm.sql.Delete;
 import org.fpeterek.virgineurope.orm.sql.Insert;
 import org.fpeterek.virgineurope.orm.sql.Update;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,20 +14,20 @@ import java.util.List;
 public class OperatedFlight extends Entity {
 
   int id;
-  DateTime actualDeparture;
-  DateTime actualArrival;
+  LocalTime actualDeparture;
+  LocalTime actualArrival;
   String flightId;
   Flight flight;
   String aircraftId;
   Aircraft aircraft;
-  DateTime date;
+  LocalDate date;
 
   List<Crew> crew;
   List<FlightTicket> tickets;
   List<Pilot> pilots;
 
-  public OperatedFlight(int identifier, DateTime departure, DateTime arrival, String flightNo,
-                        Flight fl, String aircraftReg, Aircraft ac, DateTime flightDate,
+  public OperatedFlight(int identifier, LocalTime departure, LocalTime arrival, String flightNo,
+                        Flight fl, String aircraftReg, Aircraft ac, LocalDate flightDate,
                         List<Crew> crewOnFlight, List<FlightTicket> flightTickets,
                         List<Pilot> pilotsOnFlight) {
     id = identifier;
@@ -43,21 +45,21 @@ public class OperatedFlight extends Entity {
   }
 
   public int getId() { return id; }
-  public DateTime getActualDeparture() { return actualDeparture; }
-  public DateTime getActualArrival() { return actualArrival; }
+  public LocalTime getActualDeparture() { return actualDeparture; }
+  public LocalTime getActualArrival() { return actualArrival; }
   public String getFlightId() { return flightId; }
   public Flight getFlight() { return flight; }
   public String getAircraftId() { return aircraftId; }
   public Aircraft getAircraft() { return aircraft; }
-  public DateTime getDate() { return date; }
+  public LocalDate getDate() { return date; }
   public List<Crew> getCrew() { return crew; }
   public List<FlightTicket> getFlightTickets() { return tickets; }
   public List<Pilot> getPilots() { return pilots; }
 
-  public void setActualDeparture(DateTime time) { actualDeparture = time; }
-  public void setActualArrival(DateTime time) { actualArrival = time; }
+  public void setActualDeparture(LocalTime time) { actualDeparture = time; }
+  public void setActualArrival(LocalTime time) { actualArrival = time; }
   public void setAircraftId(String id) { aircraftId = id; }
-  public void setDate(DateTime newDate) { date = newDate; }
+  public void setDate(LocalDate newDate) { date = newDate; }
 
   private void addCrew(Crew crewMember) {
     if (crew == null) {
@@ -93,36 +95,36 @@ public class OperatedFlight extends Entity {
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.operatedFlight.id.eq(String.valueOf(id)));
+    query.where(VU.operatedFlight.id.eq(id));
   }
 
   @Override
   public void formUpdate(Update query) {
     query
         .set(VU.operatedFlight.aircraftIdentifier, aircraftId)
-        .set(VU.operatedFlight.actualArrival, formatTime(actualArrival))
-        .set(VU.operatedFlight.actualDeparture, formatTime(actualDeparture))
-        .set(VU.operatedFlight.date, formattedDate())
+        .set(VU.operatedFlight.actualArrival, actualArrival)
+        .set(VU.operatedFlight.actualDeparture, actualDeparture)
+        .set(VU.operatedFlight.date, date)
         .set(VU.operatedFlight.flightId, flightId)
 
-        .where(VU.operatedFlight.id.eq(String.valueOf(id)));
+        .where(VU.operatedFlight.id.eq(id));
   }
 
   private void insertNoTime(Insert query) {
     query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.date, VU.operatedFlight.flightId)
-        .values(aircraftId, formattedDate(), flightId);
+        .values(aircraftId, date, flightId);
   }
 
   private void insertNoArrival(Insert query) {
     query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.actualDeparture, VU.operatedFlight.date,
         VU.operatedFlight.flightId)
-        .values(aircraftId, formatTime(actualDeparture), formattedDate(), flightId);
+        .values(aircraftId, actualDeparture, date, flightId);
   }
 
   private void insertWithTime(Insert query) {
     query.attributes(VU.operatedFlight.aircraftIdentifier, VU.operatedFlight.actualArrival,
         VU.operatedFlight.actualDeparture, VU.operatedFlight.date, VU.operatedFlight.flightId)
-        .values(aircraftId, formatTime(actualArrival), formatTime(actualDeparture), formattedDate(), flightId);
+        .values(aircraftId, actualArrival, actualDeparture, date, flightId);
   }
 
   /* Time can be null, this helps us avoid problems with nulls */

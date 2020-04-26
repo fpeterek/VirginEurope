@@ -16,6 +16,8 @@ import org.fpeterek.virgineurope.orm.sql.custom.CancelFlightQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.FlightSearchQuery;
 import org.fpeterek.virgineurope.orm.sql.custom.PaxPerClassQuery;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.sql.SQLException;
@@ -228,7 +230,7 @@ public class Main {
     System.out.println("Function 5.1 - Creating operated flights\n\n");
 
     var of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWB", null,
-        DateTime.parse("2020-05-18", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+        new LocalDate(2020, 5, 18), null, null, null);
 
     System.out.println(DateTime.parse("2020-05-18", DateTimeFormat.forPattern("yyyy-MM-dd")));
 
@@ -243,7 +245,8 @@ public class Main {
     System.out.println("We will only fetch the newly inserted flight to avoid cluttering stdout.\n");
 
     var sel = Select.from(VU.operatedFlight).where(VU.operatedFlight.aircraftIdentifier.eq("OK-XWB").and(
-        VU.operatedFlight.date.eq("2020-05-18")).and(VU.operatedFlight.flightId.eq("VU0139")));
+        VU.operatedFlight.date.eq(new LocalDate(2020, 5, 18)))
+        .and(VU.operatedFlight.flightId.eq("VU0139")));
 
     System.out.println(sel.build() + "\n");
     System.out.println(sel.toFormattedString() + "\n");
@@ -256,10 +259,10 @@ public class Main {
     System.out.println("Function 5.3 - Editing operated flights\n\n");
 
     // Time doesn't matter here
-    fl.setDate(new DateTime(2020, 6, 20, 0, 0));
+    fl.setDate(new LocalDate(2020, 6, 20));
     // Dates don't matter here, only time does
-    fl.setActualDeparture(new DateTime(2000, 1, 1, 13, 20, 0));
-    fl.setActualArrival(new DateTime(2000, 1, 1, 14, 50, 30));
+    fl.setActualDeparture(new LocalTime(13, 20, 0));
+    fl.setActualArrival(new LocalTime(14, 50, 30));
 
     var update = Update.table(VU.operatedFlight).row(fl);
 
@@ -281,10 +284,10 @@ public class Main {
 
     System.out.println("Creating flights...");
     of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWC", null,
-        DateTime.parse("2020-06-21", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+        LocalDate.parse("2020-06-21", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
     db.execute(Insert.into(VU.operatedFlight).row(of));
     of = new OperatedFlight(0, null, null, "VU0139", null, "OK-XWD", null,
-        DateTime.parse("2020-06-22", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
+        LocalDate.parse("2020-06-22", DateTimeFormat.forPattern("yyyy-MM-dd")), null, null, null);
     db.execute(Insert.into(VU.operatedFlight).row(of));
 
     System.out.println("Adding passengers...");
@@ -361,7 +364,7 @@ public class Main {
 
     System.out.println("\n\nCrew can be assigned manually...\n");
     insert = Insert.into(VU.crewOnFlight).attributes(VU.crewOnFlight.crewId, VU.crewOnFlight.operatedId)
-        .values(String.valueOf(1), String.valueOf(fl.getId()));
+        .values(1, fl.getId());
 
     System.out.println(insert);
     inserted = db.execute(insert);
@@ -382,7 +385,7 @@ public class Main {
     System.out.println("Replacing FAs or pilots just means executing an update on either the pilot_on_flight or " +
         "crew_on_flight table.");
 
-    update = Update.table(VU.crewOnFlight).set(VU.crewOnFlight.crewId, String.valueOf(2))
+    update = Update.table(VU.crewOnFlight).set(VU.crewOnFlight.crewId, 2)
         .where(VU.crewOnFlight.crewId.eq(1).and(VU.crewOnFlight.operatedId.eq(fl.getId())));
     System.out.println("\nQuery: " + update + "\n");
     updated = db.execute(update);
@@ -437,7 +440,9 @@ public class Main {
 
     System.out.println("\n");
 
-    var update = Update.table(VU.flight).set(VU.flight.departureTime, "04:20:00")
+
+    var update = Update.table(VU.flight)
+        .set(VU.flight.departureTime, new LocalTime(4, 15, 0))
         .set(VU.flight.aircraftModelDesignator, "CONC")
         .set(VU.flight.id, "VU0666")
         .where(VU.flight.id.eq("VU1234"));
@@ -461,7 +466,7 @@ public class Main {
 
     var delete = Delete.from(VU.flight)
         .where(VU.flight.aircraftModelDesignator.eq("CONC")
-            .and(VU.flight.departureTime.eq("09:00:00")));
+            .and(VU.flight.departureTime.eq(new LocalTime(9, 0, 0))));
 
     System.out.println(delete.build());
     System.out.println("\n");
@@ -489,7 +494,7 @@ public class Main {
 
     var insert = Insert.into(VU.route)
             .attributes(VU.route.distance, VU.route.etopsRequirement, VU.route.origin, VU.route.destination)
-            .values("500", "0", "RKSI", "RJAA");
+            .values(500, 0, "RKSI", "RJAA");
 
     System.out.println("Query: " + insert + "\n");
 
@@ -506,8 +511,10 @@ public class Main {
     routes.stream().limit(3).forEach(System.out::println);
 
     System.out.println("\n\nFunction 4.3 - editing routes");
-    var update = Update.table(VU.route).set(VU.route.distance, "750").set(VU.route.etopsRequirement, "60")
-            .where(VU.route.origin.eq("RKSI"));
+    var update = Update.table(VU.route)
+        .set(VU.route.distance, 750)
+        .set(VU.route.etopsRequirement, 60)
+        .where(VU.route.origin.eq("RKSI"));
     System.out.println("\nQuery: " + update);
     var updated = db.execute(update);
     System.out.println("\nUpdated " + updated + " values\n");
@@ -522,7 +529,9 @@ public class Main {
     System.out.println("\nCreating flight on the newly created route...\n");
 
     var routeId = db.execute(Select.from(VU.route).where(VU.route.origin.eq("RKSI"))).getRoutes().get(0).getId();
-    insert = Insert.into(VU.flight).values("VU0999", "12:00:00", "13:00:00", "BCS3", String.valueOf(routeId));
+    insert = Insert.into(VU.flight)
+        .values("VU0999", new LocalTime(12, 0),
+            new LocalTime(12, 0), "BCS3", routeId);
 
     System.out.println("Query: " + insert);
     inserted = db.execute(insert);
@@ -612,7 +621,7 @@ public class Main {
             .attributes(VU.aircraftModel.designator, VU.aircraftModel.manufacturer, VU.aircraftModel.family,
                         VU.aircraftModel.fullType, VU.aircraftModel.etopsCertified, VU.aircraftModel.etopsRating,
                         VU.aircraftModel.rangeNmi, VU.aircraftModel.mtow)
-            .values("B748", "Boeing", "B747", "Boeing 747-8i", "NA", "0", "7730", "987000");
+            .values("B748", "Boeing", "B747", "Boeing 747-8i", "NA", 0, 7730, 987000);
 
     System.out.println("\nFunction 2.1 - inserting aircraft model into DB");
 
@@ -649,7 +658,8 @@ public class Main {
     System.out.println("\nFunction 2.4 - Adding aircraft to fleet");
 
     insert = Insert.into(VU.aircraft)
-            .values("OK-VSB", "Rolls Royce Trent-1000", "250", "70", "0", "2020-04-15", "A35K");
+            .values("OK-VSB", "Rolls Royce Trent-1000", 250, 70, 0,
+                new LocalDate(2020, 4, 15), "A35K");
     System.out.println("\nQuery: " + insert);
     res = db.execute(insert);
     System.out.println("\nInserted " + res + " values");
@@ -668,10 +678,10 @@ public class Main {
     System.out.println("\nFunction 2.6 - Updating aircraft\n");
     waitForInput();
     update = Update.table(VU.aircraft)
-            .set(VU.aircraft.businessSeats, "120")
-            .set(VU.aircraft.economySeats, "180")
-            .set(VU.aircraft.firstSeats, "9")
-            .set(VU.aircraft.lastCheck, "2020-05-17")
+            .set(VU.aircraft.businessSeats, 120)
+            .set(VU.aircraft.economySeats, 180)
+            .set(VU.aircraft.firstSeats, 9)
+            .set(VU.aircraft.lastCheck, new LocalDate(2020, 5, 17))
             .where(VU.aircraft.identifier.eq("OK-VSB"));
 
     System.out.println("\nQuery: " + update + "\n");
@@ -687,7 +697,7 @@ public class Main {
     System.out.println("To demonstrate, we will first assign the aircraft onto a flight...\n");
 
     update = Update.table(VU.operatedFlight).set(VU.operatedFlight.aircraftIdentifier, "OK-VSB")
-            .where(VU.operatedFlight.id.eq("25"));
+            .where(VU.operatedFlight.id.eq(25));
     db.execute(update);
 
     select = Select.from(VU.operatedFlight).where(VU.operatedFlight.aircraftIdentifier.eq("OK-VSB"));
@@ -703,13 +713,13 @@ public class Main {
 
     System.out.println("ID of aircraft assigned for flight 25 should now be 'null'\n");
 
-    select = Select.from(VU.operatedFlight).where(VU.operatedFlight.id.eq("25"));
+    select = Select.from(VU.operatedFlight).where(VU.operatedFlight.id.eq(25));
     db.execute(select).getOperatedFlights().forEach(System.out::println);
 
     waitForInput();
     System.out.println("Resetting DB to original state...");
     update = Update.table(VU.operatedFlight).set(VU.operatedFlight.aircraftIdentifier, "OK-XWB")
-            .where(VU.operatedFlight.id.eq("25"));
+            .where(VU.operatedFlight.id.eq(25));
     db.execute(update);
 
 
@@ -767,16 +777,16 @@ public class Main {
     System.out.println("\n\nInserting myself onto three flights...");
     insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
         VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
-            .values("vegetarian", "13A", "business",  "32", "1", String.valueOf(peterekId));
+            .values("vegetarian", "13A", "business",  32, 1, peterekId);
     System.out.println("\n\nQuery: " + insert);
     db.execute(insert);
     insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
         VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
-            .values("vegetarian", "10C", "business",  "32", "13", String.valueOf(peterekId));
+            .values("vegetarian", "10C", "business", 32, 13, peterekId);
     db.execute(insert);
     insert = Insert.into(VU.flightTicket).attributes(VU.flightTicket.meal, VU.flightTicket.seat, VU.flightTicket.travelClass,
         VU.flightTicket.baggageAllowance, VU.flightTicket.operatedId, VU.flightTicket.passengerId)
-            .values("vegetarian", "3A", "business",  "32", "17", String.valueOf(peterekId));
+            .values("vegetarian", "3A", "business",  32, 17, peterekId);
     db.execute(insert);
 
     System.out.println("\n\nFunction 1.2 - fetching info about myself");
@@ -796,13 +806,16 @@ public class Main {
     System.out.println("\n\nFunction 1.3 and 8.3 - Updating personal information and tickets");
     waitForInput();
 
-    var update = Update.table(VU.passenger).set(VU.passenger.preferredMeal, "vegan").set(VU.passenger.preferredSeat, "aisle");
-    System.out.println("\n\nQuery: " + insert);
+    peterek.setPreferredMeal("vegan");
+    peterek.setPreferredSeat(SeatType.Aisle);
+
+    var update = Update.table(VU.passenger).row(peterek);
+    System.out.println("\n\nQuery: " + update);
     var updated = db.execute(update);
     System.out.println("\nUpdated " + updated + " rows");
 
-    update = Update.table(VU.flightTicket).set(VU.flightTicket.baggageAllowance, "64")
-            .where(VU.flightTicket.passengerId.eq(String.valueOf(peterekId)));
+    update = Update.table(VU.flightTicket).set(VU.flightTicket.baggageAllowance, 64)
+            .where(VU.flightTicket.passengerId.eq(peterekId));
     System.out.println("\n\nQuery: " + insert);
     updated = db.execute(update);
     System.out.println("\nUpdated " + updated + " rows");
@@ -826,8 +839,8 @@ public class Main {
 
     var delete = Delete.from(VU.flightTicket)
             .where(
-                    VU.flightTicket.passengerId.eq(String.valueOf(peterekId)).and(
-                            VU.flightTicket.operatedId.eq("13"))
+                    VU.flightTicket.passengerId.eq(peterekId).and(
+                            VU.flightTicket.operatedId.eq(13))
             );
 
     System.out.println("\n\nQuery: " + delete);
@@ -848,7 +861,7 @@ public class Main {
     System.out.println("\nDeleted " + deleted + " rows");
 
     System.out.println("\n\nThere should now be two flights with a dummy...");
-    select = Select.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq("0"));
+    select = Select.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq(0));
     res = db.execute(select);
     flights = res.getFlightTickets();
     flights.forEach(System.out::println);
@@ -856,7 +869,7 @@ public class Main {
     waitForInput();
     System.out.println("Resetting database before moving onto another test...");
 
-    var del = Delete.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq("0"));
+    var del = Delete.from(VU.flightTicket).where(VU.flightTicket.passengerId.eq(0));
     db.execute(del);
 
   }

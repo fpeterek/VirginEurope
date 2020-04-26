@@ -1,6 +1,7 @@
 package org.fpeterek.virgineurope.orm.sql;
 
-import org.fpeterek.virgineurope.util.UtilKt;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -29,6 +30,16 @@ public class Util {
     return !isNullOrBlank(str) && (str.equals("true") || str.equals("false"));
   }
 
+  public static String format(Object o) {
+    if (o instanceof Integer) { return o.toString(); }
+    if (o instanceof LocalDate) {
+      o = ((LocalDate)o).toString("yyyy-MM-dd");
+    } else if (o instanceof LocalTime) {
+      o = ((LocalTime)o).toString("HH:mm:ss");
+    }
+    return String.format("'%s'", o);
+  }
+
   /* Postgres will raise an exception if I tried setString on a numeric value  */
   /* Also Java doesn't really offer a reasonable way to check whether a string */
   /* is a number and I refuse to use exceptions as control flow                */
@@ -47,6 +58,22 @@ public class Util {
       stmt.setBoolean(index, value.equals("true"));
     } else {
       stmt.setString(index, value);
+    }
+  }
+
+  static void addToStatement(int index, PreparedStatement stmt, Object value) throws SQLException {
+    if (value instanceof Integer) {
+      stmt.setInt(index, (java.lang.Integer)value);
+    } else if (value instanceof LocalDate) {
+      var str = ((LocalDate)value).toString("yyyy-MM-dd");
+      stmt.setDate(index, Date.valueOf(str));
+    } else if (value instanceof LocalTime) {
+      var str = ((LocalTime)value).toString("HH:mm:ss");
+      stmt.setTime(index, Time.valueOf(str));
+    } else if (value instanceof Boolean) {
+      stmt.setBoolean(index, (Boolean)value);
+    } else {
+      stmt.setString(index, value.toString());
     }
   }
 

@@ -4,6 +4,7 @@ import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.entities.Aircraft;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,7 +53,7 @@ public class AircraftTable extends Table {
     int ecoSeats = rs.getInt(offset + 3);
     int busSeats = rs.getInt(offset + 4);
     int firstSeats = rs.getInt(offset + 5);
-    DateTime lastCheck = new DateTime(rs.getDate(offset + 6));
+    LocalDate lastCheck = new LocalDate(rs.getDate(offset + 6));
     String designator = rs.getString(offset + 7);
 
     return new Aircraft(id, engine, ecoSeats, busSeats, firstSeats, lastCheck, designator, null);

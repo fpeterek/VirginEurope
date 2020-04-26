@@ -38,7 +38,7 @@ public class Delete extends DMLQuery {
 
     if (condition == null) { return statement; }
 
-    for (String param : condition.parameters) {
+    for (Object param : condition.parameters) {
       Util.addToStatement(counter++, statement, param);
     }
     return statement;
@@ -64,15 +64,11 @@ public class Delete extends DMLQuery {
 
     if (condition == null) { return parametrized; }
 
-    for (String param : condition.parameters) {
-      parametrized = parametrized.replaceFirst("\\?", quote(param));
+    for (Object param : condition.parameters) {
+      parametrized = parametrized.replaceFirst("\\?", Util.format(param));
     }
 
     return parametrized;
-  }
-
-  private static String quote(String arg) {
-    return "'" + arg + "'";
   }
 
 }

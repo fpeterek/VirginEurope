@@ -46,7 +46,7 @@ public class Pilot extends Entity {
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.pilot.id.eq(String.valueOf(id)));
+    query.where(VU.pilot.id.eq(id));
   }
 
   @Override
@@ -55,14 +55,14 @@ public class Pilot extends Entity {
         .set(VU.pilot.firstName, firstName)
         .set(VU.pilot.lastName, lastName)
         .set(VU.pilot.certification, certification)
-        .set(VU.pilot.isCaptain, String.valueOf(captain))
-        .where(VU.pilot.id.eq(String.valueOf(id)));
+        .set(VU.pilot.isCaptain, captain)
+        .where(VU.pilot.id.eq(id));
   }
 
   @Override
   public void formInsert(Insert query) {
     query.attributes(VU.pilot.firstName, VU.pilot.lastName, VU.pilot.certification, VU.pilot.isCaptain)
-        .values(firstName, lastName, certification, String.valueOf(captain));
+        .values(firstName, lastName, certification, captain);
   }
 
   @Override

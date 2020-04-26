@@ -47,7 +47,7 @@ public class Passenger extends Entity {
 
   @Override
   public void formDelete(Delete query) {
-    query.where(VU.passenger.id.eq(String.valueOf(id)));
+    query.where(VU.passenger.id.eq(id));
   }
 
   @Override
@@ -57,7 +57,7 @@ public class Passenger extends Entity {
         .set(VU.passenger.lastName, lastName)
         .set(VU.passenger.preferredMeal, preferredMeal)
         .set(VU.passenger.preferredSeat, preferredSeat.dbValue())
-        .where(VU.passenger.id.eq(String.valueOf(id)));
+        .where(VU.passenger.id.eq(id));
   }
 
   @Override

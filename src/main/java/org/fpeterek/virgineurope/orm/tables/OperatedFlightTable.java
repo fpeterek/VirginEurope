@@ -3,7 +3,8 @@ package org.fpeterek.virgineurope.orm.tables;
 import org.fpeterek.virgineurope.orm.Attribute;
 import org.fpeterek.virgineurope.orm.entities.Entity;
 import org.fpeterek.virgineurope.orm.entities.OperatedFlight;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,11 +51,11 @@ public class OperatedFlightTable extends Table {
     int id = rs.getInt(offset + 1);
     var dep = rs.getTime(offset + 2);
     var arr = rs.getTime(offset + 3);
-    DateTime departure = dep == null ? null : new DateTime(dep);
-    DateTime arrival = arr == null ? null : new DateTime(arr);
+    LocalTime departure = dep == null ? null : new LocalTime(dep);
+    LocalTime arrival = arr == null ? null : new LocalTime(arr);
     String flightNo = rs.getString(offset + 4);
     String aircraftReg = rs.getString(offset + 5);
-    DateTime date = new DateTime(rs.getDate(offset + 6));
+    LocalDate date = new LocalDate(rs.getDate(offset + 6));
 
     return new OperatedFlight(id, departure, arrival, flightNo, null, aircraftReg, null, date,
             new ArrayList<>(), new ArrayList<>(), new ArrayList<>());

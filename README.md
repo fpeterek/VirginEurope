@@ -24,6 +24,12 @@ java -jar build/libs/VirginEurope-1.0.jar
 or
 
 ```
+echo "" | java -jar build/libs/VirginEurope-1.0.jar  # Program will execute immediately and won't wait for user input 
+```
+
+or
+
+```
 ./gradlew run
 ```
 
