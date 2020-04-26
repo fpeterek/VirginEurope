@@ -5,14 +5,27 @@
 -                                     Filip Peterek, PET0342   -
 ----------------------------------------------------------------
 
-Testy ještě nejsou úplně dokončené, ale kód už snad nijak radikálně upravovat nebudu.
+Testy jsou dokončené, poznámky jsem vzal v potaz a vše jsem upravil
 
-Historie změn je případně dostupná na Githubu: https://github.com/fpeterek/VirginEurope
+Changelog:
+    - Místo SELECT * se nyní vyjmenují všechny atributy
+    - Updatované DB schéma - passenger_on_flight přejmenováno na flight_ticket,
+      v tabulce flight_ticket je nový primární klíč
+    - Dotazům UPDATE/INSERT/DELETE jde nově předat místo výčtu atributů také
+      nově přímo objekt
+      Insert.into(VU.flight).row(new Flight(...));
+    - Dokončené testy
+
+Historie změn je dostupná na Githubu: https://github.com/fpeterek/VirginEurope
 
 
 Program postupně projde všechny momentálně implementované testy. Občas se zastaví a čeká na stisk
 klávesy <Enter> (aby bylo možné manuálně zkontrolovat DB). Na konci resetuje všechny změny
-a zanechá DB ve stejném stavu, v jakém byla před spuštěním testu.
+a zanechá DB ve stejném stavu, v jakém byla před spuštěním testu. Pokud program spadne
+za běhu, případně je zabit, před resetováním DB (např. když dostane SIGKILL, SIGTERM, atd.,
+normálně nepadá), nemusí v příštím běhu proběhnout znovu. Na stdin je ale možné přesměrovat
+prázdný string, díky čemuž program nečeká na vstup od uživatele (pokud nechcete kontrolovat
+DB manuálně).
 
 
 -----------------------------------
@@ -54,6 +67,12 @@ Případně pomocí Gradle:
 
 ./gradlew run
 
+
+Pokud nechceme, aby program čekal na input, můžeme mu předat prázdný stdin
+
+echo "" | java -jar ./build/libs/VirginEurope-1.0.jar
+
+Program poté proletí všechny testy bez čekání.
 
 --------------------------------
 -                              -
