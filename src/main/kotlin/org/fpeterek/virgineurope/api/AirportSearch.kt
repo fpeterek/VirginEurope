@@ -37,9 +37,11 @@ object AirportSearch {
         searchByIata(query.toUpperCase()),
         searchByIcao(query.toUpperCase()),
         searchByName(query.toUpperCase()))
+        .asSequence()
         .flatten()
         .map { "\"${it.name} (${it.iata}, ${it.icao})\"" }
         .toSet()
+        .take(10)
         .joinToString(separator = ",", prefix = "[", postfix = "]")
 
     fun searchAirports(query: String) = combineSearches(query)
