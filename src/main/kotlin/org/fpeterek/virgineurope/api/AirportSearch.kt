@@ -2,24 +2,23 @@ package org.fpeterek.virgineurope.api
 
 import org.fpeterek.virgineurope.orm.VU
 import org.fpeterek.virgineurope.orm.entities.Airport
-import org.fpeterek.virgineurope.orm.sql.Select
 
 object AirportSearch {
 
     private fun likeSearchIcao(query: String): List<Airport> =
-        DB.execute(Select.from(VU.airport).where(VU.airport.icao.like("%$query%"))).airports
+        DB.execute(SELECT FROM VU.airport WHERE (VU.airport.icao LIKE "%$query%")).airports
 
     private fun eqSearchIcao(query: String): List<Airport> =
-        DB.execute(Select.from(VU.airport).where(VU.airport.icao.eq(query))).airports
+        DB.execute(SELECT FROM VU.airport WHERE (VU.airport.icao EQ query)).airports
 
     private fun likeSearchIata(query: String): List<Airport> =
-        DB.execute(Select.from(VU.airport).where(VU.airport.iata.like("%$query%"))).airports
+        DB.execute(SELECT FROM VU.airport WHERE (VU.airport.iata LIKE "%$query%")).airports
 
     private fun eqSearchIata(query: String): List<Airport> =
-        DB.execute(Select.from(VU.airport).where(VU.airport.iata.eq(query))).airports
+        DB.execute(SELECT FROM VU.airport WHERE (VU.airport.iata EQ query)).airports
 
     private fun searchByName(query: String): List<Airport> =
-        DB.execute(Select.from(VU.airport).where(VU.airport.name.ilike("%$query%"))).airports
+        DB.execute(SELECT FROM VU.airport WHERE (VU.airport.name ILIKE "%$query%")).airports
 
     private fun searchByIcao(query: String) = when {
         query.length < 4 -> likeSearchIcao(query)
