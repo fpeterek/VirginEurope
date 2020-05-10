@@ -10,6 +10,9 @@ import io.ktor.server.netty.*
 import org.fpeterek.virgineurope.orm.VU
 import org.fpeterek.virgineurope.orm.sql.Select
 
+private fun extractParameter(params: Parameters, key: String) =
+    (params[key] ?: "").removePrefix("'").removeSuffix("'")
+
 fun main() {
 
     val java = Select.from(VU.flight).join(VU.route).on(VU.flight.routeId.eq(VU.route.id)).where(VU.flight.id.eq("VU0139"))
@@ -23,12 +26,19 @@ fun main() {
                 call.respondText("My Example Api", ContentType.Text.Html)
             }
             get("/airports") {
-                val query = (this.context.parameters["q"] ?: "").removePrefix("'").removeSuffix("'")
+                val query = extractParameter(context.parameters, "q")
                 call.respondText(AirportSearch.searchAirports(query), ContentType.Application.Json)
             }
             post("/find-flights") {
                 val body = call.receiveText()
                 call.respondText(FlightSearch.search(body), ContentType.Application.Json)
+            }
+            get("book-flights") {
+                val fl1 = extractParameter(context.parameters, "fl1")
+                val fl2 = extractParameter(context.parameters, "fl2")
+                val pax = extractParameter(context.parameters, "pax")
+                val cls = extractParameter(context.parameters, "cls")
+                call.respondText(BookFlights.book(pax, cls, fl1, fl2))
             }
         }
     }.start(wait = true)

@@ -2,11 +2,17 @@ package org.fpeterek.virgineurope.api
 
 import org.fpeterek.virgineurope.orm.Attribute
 import org.fpeterek.virgineurope.orm.BooleanExpr
+import org.fpeterek.virgineurope.orm.entities.Entity
+import org.fpeterek.virgineurope.orm.sql.Insert
 import org.fpeterek.virgineurope.orm.sql.Select
 import org.fpeterek.virgineurope.orm.tables.Table
 
 object SELECT {
     infix fun FROM(table: Table): Select = Select.from(table)
+}
+
+object INSERT {
+    infix fun INTO(table: Table): Insert = Insert.into(table)
 }
 
 infix fun Attribute.EQ(other: Attribute): BooleanExpr = eq(other)
@@ -32,3 +38,5 @@ infix fun Select.CARTESIAN_JOIN(table: Table): Select.JoinObject = cartesianJoin
 infix fun Select.WHERE(cond: BooleanExpr): Select = where(cond)
 
 infix fun Select.JoinObject.ON(cond: BooleanExpr): Select = on(cond)
+
+infix fun Insert.ROW(entity: Entity): Insert = row(entity)
