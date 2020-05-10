@@ -112,13 +112,13 @@ object FlightSearch {
 
         """{
             |"single_segment": true,
-            |${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
+            |"flights": ${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
                 """
                 |{
                     |"date": "${it.date}",
-                    |"flight": ${it.flightId}, 
-                    |"id": "${it.id}", 
-                    |"price": "${adjustPrice(prices[it.flightId] ?: 0, query.cls)}"
+                    |"flight": "${it.flightId}", 
+                    |"id": ${it.id}, 
+                    |"price": ${adjustPrice(prices[it.flightId] ?: 0, query.cls)}
                 |}""".trimMargin()
             }}
         }""".trimMargin()
@@ -129,16 +129,16 @@ object FlightSearch {
             query: Query) =
         """{
             |"two_segment": true,
-            |${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
+            |"flights": ${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
             """
                 |{
-                    |"first": ${it.first.flightId}, 
-                    |"first_id": "${it.first.id}",
+                    |"first": "${it.first.flightId}", 
+                    |"first_id": ${it.first.id},
                     |"first_date": "${it.first.date}",
-                    |"second": ${it.second.flightId},
-                    |"second_id": "${it.second.id}",
+                    |"second": "${it.second.flightId}",
+                    |"second_id": ${it.second.id},
                     |"second_date": "${it.second.date}",
-                    |"price": "${calcPrice(it, prices, query.cls)}"
+                    |"price": ${calcPrice(it, prices, query.cls)}
                 |}""".trimMargin()
         }}
         }""".trimMargin()
