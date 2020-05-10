@@ -38,7 +38,12 @@ fun main() {
                 val fl2 = extractParameter(context.parameters, "fl2")
                 val pax = extractParameter(context.parameters, "pax")
                 val cls = extractParameter(context.parameters, "cls")
-                call.respondText(BookFlights.book(pax, cls, fl1, fl2))
+                call.respondText(BookFlights.book(pax, cls, fl1, fl2), ContentType.Application.Json)
+            }
+            get("/list-tickets") {
+                val pax = extractParameter(context.parameters, "pax")
+                val all = extractParameter(context.parameters, "all")
+                call.respondText(ListTickets.listTickets(pax, all), ContentType.Application.Json)
             }
         }
     }.start(wait = true)

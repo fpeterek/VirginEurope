@@ -40,3 +40,5 @@ infix fun Select.WHERE(cond: BooleanExpr): Select = where(cond)
 infix fun Select.JoinObject.ON(cond: BooleanExpr): Select = on(cond)
 
 infix fun Insert.ROW(entity: Entity): Insert = row(entity)
+
+infix fun Table.AS(alias: String): Table = `as`(alias)
