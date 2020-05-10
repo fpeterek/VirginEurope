@@ -132,11 +132,12 @@ object FlightSearch {
             |${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
             """
                 |{
-                    |"date": "${it.first.date}",
                     |"first": ${it.first.flightId}, 
                     |"first_id": "${it.first.id}",
+                    |"first_date": "${it.first.date}",
                     |"second": ${it.second.flightId},
-                    |"second_id": "${it.second.id}"
+                    |"second_id": "${it.second.id}",
+                    |"second_date": "${it.second.date}",
                     |"price": "${calcPrice(it, prices, query.cls)}"
                 |}""".trimMargin()
         }}
