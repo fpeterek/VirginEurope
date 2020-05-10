@@ -33,7 +33,7 @@ fun main() {
                 val body = call.receiveText()
                 call.respondText(FlightSearch.search(body), ContentType.Application.Json)
             }
-            get("book-flights") {
+            get("/book-flights") {
                 val fl1 = extractParameter(context.parameters, "fl1")
                 val fl2 = extractParameter(context.parameters, "fl2")
                 val pax = extractParameter(context.parameters, "pax")

@@ -21,7 +21,7 @@ object FlightSearch {
 
                 val orig = obj["orig"] ?: ""
                 val dest = obj["dest"] ?: ""
-                val date = LocalDate.parse(obj["date"] ?: "", DateTimeFormat.forPattern("dd/MM/yyyy"))
+                val date = LocalDate.parse(obj["date"] ?: "", DateTimeFormat.forPattern("MM/dd/yyyy"))
                 val cls = TravelClass.fromString(obj["cls"] ?: "")
 
                 return Query(orig, dest, date, cls)
