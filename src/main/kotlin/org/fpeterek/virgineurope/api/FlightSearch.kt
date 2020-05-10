@@ -39,8 +39,11 @@ object FlightSearch {
 
     private fun searchSegment(segment: List<String>, date: LocalDate) =
         DB.execute(
-            SELECT FROM VU.operatedFlight WHERE (composeCondition(segment) AND (VU.operatedFlight.date GTE date))
-        ).operatedFlights.sortedBy { it.date }.take(10)
+            SELECT FROM VU.operatedFlight JOIN VU.flight ON
+                    (VU.flight.id EQ VU.operatedFlight.flightId) JOIN VU.route ON
+                    (VU.route.id EQ VU.flight.routeId) WHERE
+                    ((VU.operatedFlight.date GTE date) AND composeCondition(segment))
+        ).operatedFlights.sortedBy { it.date }.take(15)
 
     private fun findFlightNumbers(query: Query) =
         DB.execute(FlightSearchQuery(query.orig, query.dest)) as FlightSearchQuery
@@ -49,41 +52,119 @@ object FlightSearch {
     private fun priceFlight(fl: Flight) = if (fl.route.distance / 10 < 100) {
         100
     } else {
-        (fl.route.distance / 10) / 10 * 10 // Round the number at least
+        (fl.route.distance / 10) / 10 * 10 // Round the number
     }
 
-    private fun priceFlights(flightNumbers: List<String>): Map<String, Int> {
+    private fun priceFlights(flights: List<Flight>): Map<String, Int> {
 
         val map = mutableMapOf<String, Int>()
 
-        val query = SELECT FROM VU.flight JOIN VU.route ON (VU.flight.routeId EQ VU.route.id) WHERE composeCondition(flightNumbers)
-
-        DB.execute(query).flights.forEach {
+        flights.forEach {
             map[it.flightId] = priceFlight(it)
         }
 
         return map
     }
 
-    private fun zipFlights(first: List<OperatedFlight>, second: List<OperatedFlight>) = first.zip(second)
+    private fun fetchFlightInfo(flightNumbers: List<String>): Pair<List<Flight>, Map<String, Int>> {
 
+        val query = SELECT FROM VU.flight JOIN VU.route ON
+                (VU.flight.routeId EQ VU.route.id) JOIN (VU.operatedFlight) ON
+                (VU.operatedFlight.flightId EQ VU.flight.id) WHERE composeCondition(flightNumbers)
+
+        val res = DB.execute(query)
+
+        return res.flights to priceFlights(res.flights)
+    }
+
+    // Find a flight that either departs on a different day, or on the same day but only
+    // after the first flight has arrived
+    private fun findFirstSuitable(flight: OperatedFlight, second: List<OperatedFlight>) =
+        second.find {
+            (it.date > flight.date) ||
+                    (it.date == flight.date && it.flight.departureTime > flight.flight.arrivalTime)
+        }
+
+    private fun zipFlights(first: List<OperatedFlight>, second: List<OperatedFlight>) =
+        first.map { it to findFirstSuitable(it, second) }
+            .filter { it.second != null }
+            .map { it.first to it.second!! }
+            .take(10)
+
+
+    // Decrease price of two segment flights so our airline can compete with airlines
+    // flying direct flights between two destinations
+    // Round price and subtract one to make the price look more appealing
+    private fun adjustPrice(price: Int, cls: TravelClass, transfer: Boolean = false) = when (cls) {
+        TravelClass.Economy  -> (price * 1 * if (transfer) 0.8 else 1.0).toInt() / 10 * 10 - 1
+        TravelClass.Business -> (price * 3 * if (transfer) 0.8 else 1.0).toInt() / 10 * 10 - 1
+        TravelClass.First    -> (price * 6 * if (transfer) 0.8 else 1.0).toInt() / 10 * 10 - 1
+    }
+
+    private fun calcPrice(flightPair: Pair<OperatedFlight, OperatedFlight>, prices: Map<String, Int>, cls: TravelClass)
+        = adjustPrice(
+        (prices[flightPair.first.flightId] ?: 0) + (prices[flightPair.second.flightId] ?: 0),
+            cls, transfer = true
+        )
+
+    private fun formatSingleSegment(
+        flights: List<OperatedFlight>, prices: Map<String, Int>, query: Query) =
+
+        """{
+            |"single_segment": true,
+            |${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
+                """
+                |{
+                    |"date": "${it.date}",
+                    |"flight": ${it.flightId}, 
+                    |"id": "${it.id}", 
+                    |"price": "${adjustPrice(prices[it.flightId] ?: 0, query.cls)}"
+                |}""".trimMargin()
+            }}
+        }""".trimMargin()
+
+    private fun formatTwoSegment(
+            flights: List<Pair<OperatedFlight, OperatedFlight>>,
+            prices: Map<String, Int>,
+            query: Query) =
+        """{
+            |"two_segment": true,
+            |${flights.joinToString(separator = ", ", prefix = "[", postfix = "]") {
+            """
+                |{
+                    |"date": "${it.first.date}",
+                    |"first": ${it.first.flightId}, 
+                    |"first_id": "${it.first.id}",
+                    |"second": ${it.second.flightId},
+                    |"second_id": "${it.second.id}"
+                    |"price": "${calcPrice(it, prices, query.cls)}"
+                |}""".trimMargin()
+        }}
+        }""".trimMargin()
 
     private fun searchFlights(json: String): String {
 
         val query = Query.fromYaml(json)
         val flNumbers = findFlightNumbers(query)
-        val prices = priceFlights(flNumbers.firstFlights.toList() + flNumbers.secondFlights.toList())
+        val allFlights = flNumbers.firstFlights.toList() + flNumbers.secondFlights.toString()
+        val (flightInfo, prices) = fetchFlightInfo(allFlights)
 
-        if (flNumbers.isSingleSegment) {
-            searchSegment(flNumbers.firstFlights, query.date)
+        val seg1 = searchSegment(flNumbers.firstFlights, query.date)
+
+        return if (flNumbers.isSingleSegment) {
+            formatSingleSegment(seg1, prices, query)
+        } else {
+            val seg2 = searchSegment(flNumbers.secondFlights, query.date)
+            val zip = zipFlights(seg1, seg2)
+            formatTwoSegment(zip, prices, query)
         }
-
-        return ""
     }
 
     fun search(json: String) = try {
         searchFlights(json)
     } catch (e: Exception) {
+        println(e)
+        e.printStackTrace()
         """{"error":"invalid_query"}"""
     }
 
