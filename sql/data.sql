@@ -1482,3 +1482,305 @@ INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, pa
 
 INSERT INTO flight_ticket (meal, seat, class, baggage_allowance, operated_id, passenger_id)
     VALUES  ('vegetarian', '21B', 'economy', 18, 36, 10);
+
+
+
+-- Extra airports
+
+INSERT INTO airport(icao, iata, name) VALUES ('KDFW', 'DFW', 'Dallas/Fort Worth International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('YSSY', 'SYD', 'Sydney (Kingsford Smith) Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('KMIA', 'MIA', 'Miami International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('KATL', 'ATL', 'Hartsfield–Jackson Atlanta International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('KEWR', 'EWR', 'Newark Liberty International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('KSEA', 'SEA', 'Seattle–Tacoma International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('RJTT', 'HND', 'Tokyo Haneda Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('RKSI', 'ICN', 'Incheon International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('RJAA', 'NRT', 'Narita International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('OTHH', 'DOH', 'Hamad International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('VHHH', 'HKG', 'Hong Kong International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('ZBAA', 'PEK', 'Beijing Capital International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('WMKK', 'KUL', 'Kuala Lumpur International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LKPD', 'PED', 'Pardubice Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LKMT', 'OSR', 'Leoš Janáček Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('UUEE', 'SVO', 'Sheremetyevo International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('EDDM', 'MUC', 'Munich Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('OMAA', 'AUH', 'Abu Dhabi International Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('EHAM', 'AMS', 'Amsterdam Airport Schiphol');
+INSERT INTO airport(icao, iata, name) VALUES ('LFPG', 'CDG', 'Paris Charles de Gaulle Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LFPO', 'TLS', 'Toulouse–Blagnac Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LEBL', 'BCN', 'Barcelona – El Prat Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LEMD', 'MAD', 'Madrid - Barajas Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('GCLP', 'LPA', 'Gran Canaria Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('LEPA', 'PMI', 'Palma de Mallorca Airport');
+INSERT INTO airport(icao, iata, name) VALUES ('RCTP', 'TPE', 'Taiwan Taoyuan International Airport');
+
+-- Extra flights
+
+-- LAX
+
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0023', 'OK-XWB', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0024', 'OK-XWB', '2020-08-27');
+
+-- DXB
+
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0141', 'OK-XWD', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0142', 'OK-XWD', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0139', 'OK-BMR', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0140', 'OK-BMR', '2020-08-25');
+
+-- SIN
+
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0019', 'OK-XWB', '2020-08-28');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0020', 'OK-XWB', '2020-08-28');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0021', 'OK-XWF', '2020-08-28');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0022', 'OK-XWF', '2020-08-28');
+
+-- JFK
+
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-17');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-18');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-19');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-20');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-21');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-22');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-23');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-24');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-25');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-26');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-27');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-28');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-28');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0001', 'OK-CCD', '2020-08-29');
+INSERT INTO operated_flight (flight_id, aircraft_identifier, date)
+    VALUES ('VU0002', 'OK-CCD', '2020-08-29');
+
