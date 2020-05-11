@@ -26,6 +26,14 @@ object FlightSearch {
 
                 return Query(orig, dest, date, cls)
             }
+
+            fun fromStrings(orig: String, dest: String, date: String, cls: String) = Query(
+                    orig,
+                    dest,
+                    LocalDate.parse(date, DateTimeFormat.forPattern("MM/dd/yyyy")),
+                    TravelClass.fromString(cls)
+            )
+
         }
 
     }
@@ -143,9 +151,9 @@ object FlightSearch {
         }}
         }""".trimMargin()
 
-    private fun searchFlights(json: String): String {
+    private fun searchFlights(orig: String, dest: String, date: String, cls: String): String {
 
-        val query = Query.fromYaml(json)
+        val query = Query.fromStrings(orig, dest, date, cls)
         val flNumbers = findFlightNumbers(query)
         val allFlights = flNumbers.firstFlights.toList() + flNumbers.secondFlights.toString()
         val (flightInfo, prices) = fetchFlightInfo(allFlights)
@@ -161,8 +169,8 @@ object FlightSearch {
         }
     }
 
-    fun search(json: String) = try {
-        searchFlights(json)
+    fun search(orig: String, dest: String, date: String, cls: String) = try {
+        searchFlights(orig, dest, date, cls)
     } catch (e: Exception) {
         println(e)
         e.printStackTrace()

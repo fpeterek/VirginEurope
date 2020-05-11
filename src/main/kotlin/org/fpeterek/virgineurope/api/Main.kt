@@ -29,9 +29,12 @@ fun main() {
                 val query = extractParameter(context.parameters, "q")
                 call.respondText(AirportSearch.searchAirports(query), ContentType.Application.Json)
             }
-            post("/find-flights") {
-                val body = call.receiveText()
-                call.respondText(FlightSearch.search(body), ContentType.Application.Json)
+            get("/find-flights") {
+                val orig = extractParameter(context.parameters, "orig")
+                val dest = extractParameter(context.parameters, "dest")
+                val date = extractParameter(context.parameters, "date")
+                val cls = extractParameter(context.parameters, "cls")
+                call.respondText(FlightSearch.search(orig, dest, date, cls), ContentType.Application.Json)
             }
             get("/book-flights") {
                 val fl1 = extractParameter(context.parameters, "fl1")
