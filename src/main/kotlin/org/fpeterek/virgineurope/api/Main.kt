@@ -45,6 +45,10 @@ fun main() {
                 val all = extractParameter(context.parameters, "all")
                 call.respondText(ListTickets.listTickets(pax, all), ContentType.Application.Json)
             }
+            delete("/delete-ticket") {
+                val ticketId = extractParameter(context.parameters, "id")
+                call.respondText(DeleteTicket.delete(ticketId), ContentType.Application.Json)
+            }
         }
     }.start(wait = true)
 }

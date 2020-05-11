@@ -3,6 +3,7 @@ package org.fpeterek.virgineurope.api
 import org.fpeterek.virgineurope.orm.Attribute
 import org.fpeterek.virgineurope.orm.BooleanExpr
 import org.fpeterek.virgineurope.orm.entities.Entity
+import org.fpeterek.virgineurope.orm.sql.Delete
 import org.fpeterek.virgineurope.orm.sql.Insert
 import org.fpeterek.virgineurope.orm.sql.Select
 import org.fpeterek.virgineurope.orm.tables.Table
@@ -13,6 +14,10 @@ object SELECT {
 
 object INSERT {
     infix fun INTO(table: Table): Insert = Insert.into(table)
+}
+
+object DELETE {
+    infix fun FROM(table: Table): Delete = Delete.from(table)
 }
 
 infix fun Attribute.EQ(other: Attribute): BooleanExpr = eq(other)
@@ -42,3 +47,5 @@ infix fun Select.JoinObject.ON(cond: BooleanExpr): Select = on(cond)
 infix fun Insert.ROW(entity: Entity): Insert = row(entity)
 
 infix fun Table.AS(alias: String): Table = `as`(alias)
+
+infix fun Delete.WHERE(cond: BooleanExpr): Delete = where(cond)
